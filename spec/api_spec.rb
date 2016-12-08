@@ -1,5 +1,6 @@
 require '3scale/api'
 
+
 RSpec.describe ThreeScale::API do
   context '#new' do
     subject!(:client) { described_class.new(endpoint: 'http://foo.3scale.net', provider_key: 'bar') }
