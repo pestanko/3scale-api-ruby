@@ -60,6 +60,16 @@ RSpec.describe ThreeScale::API::Client do
     end
   end
 
+
+  context '#list_applications_for_account' do
+    it do
+      expect(http_client).to receive(:get)
+        .with('/admin/api/accounts/42/applications.xml')
+        .and_return('applications' =>  [])
+      expect(client.list_applications_for_account(42)).to eq([])
+    end
+  end
+
   context '#show_application' do
     it do
       expect(http_client).to receive(:get)

@@ -159,7 +159,8 @@ module ThreeScale
       # @return [Array<Hash>] List of services
       def service_plans_list
         response = http_client.get('/admin/api/service_plans')
-        extract(collection: 'plans', entity: 'plan', from: response)
+        puts response
+        extract(collection: 'plans', entity: 'service_plan', from: response)
       end
 
       # @api public
@@ -229,6 +230,12 @@ module ThreeScale
       def list_applications(service_id: nil)
         params = service_id ? { service_id: service_id } : nil
         response = http_client.get('/admin/api/applications', params: params)
+        extract(collection: 'applications', entity: 'application', from: response)
+      end
+
+
+      def list_applications_for_account(account_id)
+        response = http_client.get("/admin/api/accounts/#{account_id}/applications.xml")
         extract(collection: 'applications', entity: 'application', from: response)
       end
 

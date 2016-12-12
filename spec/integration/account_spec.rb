@@ -1,4 +1,5 @@
 require 'securerandom'
+require '3scale/api'
 
 RSpec.describe 'Account API', type: :integration do
   let(:endpoint) { ENV.fetch('ENDPOINT') }
@@ -21,6 +22,22 @@ RSpec.describe 'Account API', type: :integration do
     it 'creates an account' do
       expect(signup).to include('org_name' => name)
       expect(signup['billing_address']).to include('company' => name, 'city' => 'Barcelona', 'country' => 'Spain')
+    end
+
+    context '#account_list' do
+      it do
+        expect(client.account_list.length).to be >= 1
+      end
+    end
+
+    context '#account_show' do
+      let(:account_id) { signup.fetch('id') }
+      subject(:show) do
+        client.account_show(account_id)
+      end
+      it do
+        expect(show).to include('id' => account_id)
+      end
     end
 
     context '#create_application' do
