@@ -96,6 +96,14 @@ module ThreeScale
 
       # @api public
       # @return [Array<Hash>]
+      def account_find(attr)
+
+        response = http_client.get('/admin/api/accounts/find', params: attr)
+        extract(entity: 'account', from: response)
+      end
+
+      # @api public
+      # @return [Array<Hash>]
       def account_list
         response = http_client.get('/admin/api/accounts')
         extract(collection: 'accounts', entity: 'account', from: response)
