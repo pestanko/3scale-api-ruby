@@ -243,7 +243,7 @@ module ThreeScale
 
 
       def list_applications_for_account(account_id)
-        response = http_client.get("/admin/api/accounts/#{account_id}/applications.xml")
+        response = http_client.get("/admin/api/accounts/#{account_id}/applications")
         extract(collection: 'applications', entity: 'application', from: response)
       end
 
@@ -260,8 +260,8 @@ module ThreeScale
       # @param [Fixnum] id Application ID
       # @param [String] user_key Application User Key
       # @param [String] application_id Application App ID
-      def find_application(id: nil, user_key: nil, application_id: nil)
-        params = { application_id: id, user_key: user_key, app_id: application_id }.reject { |_, value| value.nil? }
+      def find_application(id: nil, user_key: nil, application_id: nil, service_id: nil)
+        params = { service_id: service_id,  application_id: id, user_key: user_key, app_id: application_id }.reject { |_, value| value.nil? }
         response = http_client.get('/admin/api/applications/find', params: params)
         extract(entity: 'application', from: response)
       end
