@@ -52,13 +52,12 @@ module ThreeScale
         end
 
         def keys_list(account_id, application_id)
-          response = http_client.get('/admin/api/applications', params: params)
+          response = http_client.get("/admin/api/accounts/#{account_id}/applications/#{application_id}/keys")
           extract(collection: 'keys', entity: 'key', from: response)
         end
 
         def key_delete(account_id, application_id, key)
-          body = { account_id: account_id, application_id: application_id, key: key }
-          response = http_client.delete("/admin/api/accounts/#{account_id}/applications/#{application_id}/keys", body: body)
+          http_client.delete("/admin/api/accounts/#{account_id}/applications/#{application_id}/keys/#{key}", body: body)
           true
         end
 

@@ -4,7 +4,8 @@ require '3scale/api/http_client'
 module ThreeScale
   module API
     class Client
-      attr_reader :http_client
+      attr_reader :http_client,
+                  :applications
 
       # @param [ThreeScale::API::HttpClient] http_client
 
@@ -168,7 +169,13 @@ module ThreeScale
       # @return [Array<Hash>] List of services
       def service_plans_list
         response = http_client.get('/admin/api/service_plans')
-        puts response
+        extract(collection: 'plans', entity: 'service_plan', from: response)
+      end
+
+      # @api public
+      # @return [Array<Hash>] List of services
+      def service_plans_list_for_service(service_id)
+        response = http_client.get("/admin/api/services/#{id}/service_plans")
         extract(collection: 'plans', entity: 'service_plan', from: response)
       end
 
