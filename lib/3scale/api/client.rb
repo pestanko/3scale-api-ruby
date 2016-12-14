@@ -1,4 +1,5 @@
 require '3scale/api/managers'
+require '3scale/api/http_client'
 
 module ThreeScale
   module API
@@ -9,6 +10,7 @@ module ThreeScale
 
       def initialize(http_client)
         @http_client = http_client
+        @applications = ThreeScale::API::Managers::Applications.new(http_client)
       end
 
       ####################################
@@ -97,7 +99,6 @@ module ThreeScale
       # @api public
       # @return [Array<Hash>]
       def account_find(attr)
-
         response = http_client.get('/admin/api/accounts/find', params: attr)
         extract(entity: 'account', from: response)
       end
@@ -280,6 +281,17 @@ module ThreeScale
         response = http_client.post("/admin/api/accounts/#{account_id}/applications", body: body)
         extract(entity: 'application', from: response)
       end
+
+      # @api public
+      def create_application_key(account_id, application_id, key)
+        @applications.key_create(account_id, application_id, key)
+      end
+
+      # @api public
+      def list_applications_keys(account_id, application_id)
+        @applications.keys_list(account_id, application_id)
+      end
+
 
       ####################################
       #          Application plans       #

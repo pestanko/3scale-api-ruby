@@ -86,6 +86,32 @@ module ThreeScale
           response = http_client.put("/admin/api/accounts/#{id}/pending")
           extract(entity: 'account', from: response)
         end
+
+
+        def users_list(account_id)
+          response = http_client.get("/admin/api/accounts/#{account_id}/users")
+          extract(collection: 'users', entity: 'user', from: response)
+        end
+
+
+        def user_create(account_id, attrs)
+          body = {
+              user: attrs
+          }
+          response = http_client.post("/admin/api/accounts/#{account_id}/users", body: body)
+          extract(entity: 'user', from: response)
+        end
+
+        def user_read(account_id, user_id)
+          response = http_client.get("/admin/api/accounts/#{account_id}/users/#{user_id}")
+          extract(entity: 'user', from: response)
+        end
+
+        def user_delete(account_id, user_id)
+          http_client.delete("/admin/api/accounts/#{account_id}/users/#{user_id}")
+          true
+        end
+
       end
     end
   end
