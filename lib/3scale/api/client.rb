@@ -175,7 +175,7 @@ module ThreeScale
       # @api public
       # @return [Array<Hash>] List of services
       def service_plans_list_for_service(service_id)
-        response = http_client.get("/admin/api/services/#{id}/service_plans")
+        response = http_client.get("/admin/api/services/#{service_id}/service_plans")
         extract(collection: 'plans', entity: 'service_plan', from: response)
       end
 
@@ -213,6 +213,11 @@ module ThreeScale
       def create_service(attr)
         response = http_client.post('/admin/api/services', body: { service: attr })
         extract(entity: 'service', from: response)
+      end
+
+      def delete_service(id)
+        http_client.delete("/admin/api/services/#{id}")
+        true
       end
 
       ####################################
