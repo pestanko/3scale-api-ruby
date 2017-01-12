@@ -26,7 +26,7 @@ module ThreeScale
         @acc = ThreeScale::API::Managers::Accounts.new(http_client)
         @ser_plan = ThreeScale::API::Managers::ServicePlans.new(http_client)
         @services = ThreeScale::API::Managers::Services.new(http_client)
-        @proxy = ThreeScale::API::Managers::ServiceProxy.new(http_client)
+        @proxy = ThreeScale::API::Managers::Proxy.new(http_client)
         @app_plan = ThreeScale::API::Managers::ApplicationPlans.new(http_client)
         @metrics = ThreeScale::API::Managers::Metrics.new(http_client)
         @mappings = ThreeScale::API::Managers::Mappings.new(http_client)
@@ -39,17 +39,28 @@ module ThreeScale
       ####################################
 
       # @api public
+      # Returns the list of all available account plans.
       # @return [Hash]
       def account_plan_list
         @acc_plan.list
       end
 
       # @api public
-      # @param [String] name
-      # @param [String] system_name
+      # Creates an account plan.
+      # @param [String] name Name of the account plan.
+      # @param [String] system_name System Name of the object to be created. System names cannot be modified after
+      #                             creation, they are used as the key to identify the objects.
       # @return [Hash]
       def account_plan_create(name, system_name)
         @acc_plan.create(name, system_name)
+      end
+
+      # @api public
+      # Returns the account plan by ID.
+      # @param [Fixnum] id ID of the account plan.
+      # @return [Hash] Account plan hash
+      def account_plan_read(id)
+        @acc_plan.read(id)
       end
 
       # @api public
@@ -96,7 +107,7 @@ module ThreeScale
       # @option attributes [String] :service_plan_id Service Plan ID
       # @option attributes [String] :application_plan_id Application Plan ID
       def sign_up(attributes = {}, name:, username:, **rest)
-        @acc.sign_up(attributes, name, username, rest)
+        @acc.sign_up(attributes, name: name, username: username, **rest)
       end
 
       # @api public

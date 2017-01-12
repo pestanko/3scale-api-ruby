@@ -7,7 +7,7 @@ module ThreeScale
         # @return [Hash]
         def list
           response = http_client.get('/admin/api/account_plans')
-          extract(collection: 'plans', entity: 'plan', from: response)
+          extract(collection: 'plans', entity: 'account_plan', from: response)
         end
 
         # @api public
@@ -15,15 +15,16 @@ module ThreeScale
         # @param [String] system_name
         # @return [Hash]
         def create(name, system_name)
-          body = {service: {name: name, system_name: system_name}}
+          body = { name: name, system_name: system_name }
           response = http_client.post('/admin/api/account_plans', body: body)
-          extract(entity: 'plan', from: response)
+          extract(entity: 'account_plan', from: response)
         end
 
         # @api public
-        # @param [Fixnum] id Id of the application plan
-        # @return [Hash] Application plan hash
-        def show(id)
+        # Returns the account plan by ID.
+        # @param [Fixnum] id ID of the account plan.
+        # @return [Hash] Account plan hash
+        def read(id)
           response = http_client.get("/admin/api/account_plans/#{id}")
           extract(entity: 'plan', from: response)
         end
