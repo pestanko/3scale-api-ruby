@@ -55,8 +55,15 @@ module ThreeScale
         case response
         when Net::HTTPUnprocessableEntity, Net::HTTPSuccess then parser.decode(response.body)
         when Net::HTTPForbidden then forbidden!(response)
+        when Net::HTTPNotFound then not_found!(response)
         else "Can't handle #{response.inspect}"
         end
+      end
+
+      class NotFoundError < StandardError; end
+
+      def not_found!(response)
+        raise NotFoundError, response
       end
 
       class ForbiddenError < StandardError; end

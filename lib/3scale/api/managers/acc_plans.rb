@@ -26,7 +26,7 @@ module ThreeScale
         # @return [Hash] Account plan hash
         def read(id)
           response = http_client.get("/admin/api/account_plans/#{id}")
-          extract(entity: 'plan', from: response)
+          extract(entity: 'account_plan', from: response)
         end
 
         # @api public
@@ -34,9 +34,8 @@ module ThreeScale
         # @param [Object] attr Attributes that should be updated
         # @option attr [Hash] name Name of the plan
         def update(id, attr)
-          body = { plan: attr}
-          response = http_client.put("/admin/api/account_plans/#{id}", body: body)
-          extract(entity: 'plan', from: response)
+          response = http_client.put("/admin/api/account_plans/#{id}", body: attr)
+          extract(entity: 'account_plan', from: response)
         end
 
         # @api public
@@ -52,7 +51,7 @@ module ThreeScale
         # @return [Hash]Application plan hash
         def set_default(id)
           response = http_client.put("/admin/api/account_plans/#{id}/default")
-          extract(entity: 'plan', from: response)
+          extract(entity: 'account_plan', from: response)
         end
 
       end
