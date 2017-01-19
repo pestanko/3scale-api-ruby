@@ -4,8 +4,6 @@ require '3scale/api'
 RSpec.describe 'Account Plan API', type: :integration do
   let(:endpoint) { ENV.fetch('ENDPOINT') }
   let(:provider_key) { ENV.fetch('PROVIDER_KEY') }
-  let(:service_id) { ENV.fetch('SERVICE_ID').to_i }
-  let(:application_plan_id) { ENV.fetch('APPLICATION_PLAN_ID').to_i }
   let(:name) { SecureRandom.uuid }
   let(:rnd_num) { SecureRandom.random_number(1000000000) * 1.0 }
   let(:client) { ThreeScale::API.new(endpoint: endpoint, provider_key: provider_key) }

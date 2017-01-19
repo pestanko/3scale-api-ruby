@@ -4,7 +4,8 @@ require '3scale/api/http_client'
 module ThreeScale
   module API
     class Client
-      attr_reader :http_client,
+      attr_reader :acc_feature,
+                  :http_client,
                   :applications,
                   :acc_plan,
                   :acc,
@@ -21,6 +22,7 @@ module ThreeScale
 
       def initialize(http_client)
         @http_client = http_client
+        @acc_feature = ThreeScale::API::Managers::AccountFeatures.new(http_client)
         @applications = ThreeScale::API::Managers::Applications.new(http_client)
         @acc_plan = ThreeScale::API::Managers::AccountPlans.new(http_client)
         @acc = ThreeScale::API::Managers::Accounts.new(http_client)
@@ -35,7 +37,54 @@ module ThreeScale
       end
 
       ####################################
-      #         Account plans            #
+      #         Account features         #
+      ####################################
+
+      # @api public
+      # Create an account feature. The features of the account are globally scoped.
+      # Creating a feature does not associate the feature with an account plan.
+      # @param [String] name Name of the feature.
+      # @param [String] system_name System Name of the object to be created. System names cannot be modified after
+      #                             creation, they are used as the key to identify the objects.
+      # @return [Hash] of created feature
+      def account_feature_create(name, system_name)
+        @acc_feature.create(name, system_name)
+      end
+
+      # @api public
+      # Returns an account feature.
+      # @param [String] id ID of the feature.
+      # @return [Hash] of feature
+      def account_feature_read(id)
+        @acc_feature.read(id)
+      end
+
+      # @api public
+      # Updates an account feature.
+      # @param [String] id ID of the feature.
+      # @param [String] attr attributes to be updated
+      # @return [Hash] of updated feature
+      def account_feature_update(id, attr)
+        @acc_feature.update(id, attr)
+      end
+
+      # @api public
+      # Deletes an account feature.
+      # @param [String] id ID of the feature.
+      # @return [bool] if features was deleted
+      def account_feature_delete(id)
+        @acc_feature.delete(id)
+      end
+
+      # @api public
+      # Returns the list of the features available to accounts. Account features are globally scoped.
+      # @return [Hash] of features
+      def account_feature_list
+        @acc_feature.list
+      end
+
+      ####################################
+      #          Account plans           #
       ####################################
 
       # @api public
