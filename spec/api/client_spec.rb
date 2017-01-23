@@ -140,9 +140,9 @@ RSpec.describe ThreeScale::API::Client do
                                            'billing_address_country' => 'Spain',
                                            billing_address_city: 'Barcelona' })
         .and_return('account' => { 'id' => 42 })
-      expect(client.signup(name: 'foo', username: 'foobar', password: 'pass',
-                           billing_address_city: 'Barcelona', email: 'foo@example.com',
-                           'billing_address_country' => 'Spain'))
+      expect(client.sign_up(name: 'foo', username: 'foobar', password: 'pass',
+                            billing_address_city: 'Barcelona', email: 'foo@example.com',
+                            'billing_address_country' => 'Spain'))
         .to eq('id' => 42)
     end
   end

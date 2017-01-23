@@ -13,15 +13,15 @@ RSpec.describe 'Account API', type: :integration do
     let(:name) { SecureRandom.hex(14) }
     let(:email) { "#{name}@example.com" }
 
-    subject(:signup) do
-      client.signup(name: name, username: name,
-                    billing_address_city: 'Barcelona',
-                    'billing_address_country' => 'Spain')
+    subject(:sign_up) do
+      client.sign_up(name: name, username: name,
+                     billing_address_city: 'Barcelona',
+                     'billing_address_country' => 'Spain')
     end
 
     it 'creates an account' do
-      expect(signup).to include('org_name' => name)
-      expect(signup['billing_address']).to include('company' => name, 'city' => 'Barcelona', 'country' => 'Spain')
+      expect(sign_up).to include('org_name' => name)
+      expect(sign_up['billing_address']).to include('company' => name, 'city' => 'Barcelona', 'country' => 'Spain')
     end
 
     context '#account_list' do
@@ -31,7 +31,7 @@ RSpec.describe 'Account API', type: :integration do
     end
 
     context '#account_show' do
-      let(:account_id) { signup.fetch('id') }
+      let(:account_id) { sign_up.fetch('id') }
       subject(:show) do
         client.account_show(account_id)
       end
@@ -41,7 +41,7 @@ RSpec.describe 'Account API', type: :integration do
     end
 
     context '#create_application' do
-      let(:account_id) { signup.fetch('id') }
+      let(:account_id) { sign_up.fetch('id') }
       subject(:create) do
         client.create_application(account_id,
                                   plan_id: application_plan_id,

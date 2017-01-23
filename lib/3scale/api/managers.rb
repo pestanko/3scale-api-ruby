@@ -4,6 +4,7 @@ module ThreeScale
   module API
 
     module Managers
+      autoload :AccountFeatures, '3scale/api/managers/acc_feature'
       autoload :Services, '3scale/api/managers/services'
       autoload :Applications, '3scale/api/managers/applications'
       autoload :AccountPlans, '3scale/api/managers/acc_plans'

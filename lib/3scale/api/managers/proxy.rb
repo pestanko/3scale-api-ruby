@@ -1,7 +1,7 @@
 module ThreeScale
   module API
     module Managers
-      class ServiceProxy < DefaultManager
+      class Proxy < DefaultManager
         # @api public
         # @return [Hash]
         # @param [Fixnum] service_id Service ID
