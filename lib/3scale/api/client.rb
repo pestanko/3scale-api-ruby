@@ -9,7 +9,7 @@ module ThreeScale
                   :applications,
                   :acc_plan,
                   :acc,
-                  :ser_plan,
+                  :service_plan,
                   :services,
                   :proxy,
                   :app_plan,
@@ -26,7 +26,7 @@ module ThreeScale
         @applications = ThreeScale::API::Managers::Applications.new(http_client)
         @acc_plan = ThreeScale::API::Managers::AccountPlans.new(http_client)
         @acc = ThreeScale::API::Managers::Accounts.new(http_client)
-        @ser_plan = ThreeScale::API::Managers::ServicePlans.new(http_client)
+        @service_plan = ThreeScale::API::Managers::ServicePlans.new(http_client)
         @services = ThreeScale::API::Managers::Services.new(http_client)
         @proxy = ThreeScale::API::Managers::Proxy.new(http_client)
         @app_plan = ThreeScale::API::Managers::ApplicationPlans.new(http_client)
@@ -225,20 +225,20 @@ module ThreeScale
       # @api public
       # @return [Array<Hash>] List of services
       def service_plans_list
-        @ser_plan.list
+        @service_plan.list
       end
 
       # @api public
       # @return [Array<Hash>] List of services
       def service_plans_list_for_service(service_id)
-        @ser_plan.list_for_service(service_id)
+        @service_plan.list_for_service(service_id)
       end
 
       # @api public
       # @param [Fixnum] service_id Service Id
       # @param [Fixnum] plan_id Service plan Id
       def service_plans_set_default(service_id, plan_id)
-        @ser_plan.set_default(service_id, plan_id)
+        @service_plan.set_default(service_id, plan_id)
       end
 
       ####################################

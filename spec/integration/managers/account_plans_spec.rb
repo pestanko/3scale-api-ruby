@@ -9,11 +9,8 @@ RSpec.describe 'Account Plan API', type: :integration do
   let(:rnd_num) { SecureRandom.random_number(1000000000) * 1.0 }
   let(:client) { ThreeScale::API.new(endpoint: endpoint, provider_key: provider_key) }
 
-  subject(:account_plan) { client.account_plan_create(name, name) }
-
   before(:each) do
     @account_plan = client.account_plan_create(name, name) # placeholder until we have direct access to DB
-    puts @account_plan
   end
 
   after(:each) do
