@@ -266,6 +266,8 @@ module ThreeScale
         @services.create(attr)
       end
 
+      # @api public
+      # @param [Fixnum] id Service Id
       def delete_service(id)
         @services.delete(id)
       end
@@ -296,7 +298,7 @@ module ThreeScale
       # @return [Array<Hash>]
       # @param [Fixnum] service_id Service ID
       def list_applications(service_id: nil)
-        @applications.list(service_id)
+        @applications.list(service_id: service_id)
       end
 
 
@@ -318,7 +320,8 @@ module ThreeScale
       # @param [String] user_key Application User Key
       # @param [String] application_id Application App ID
       def find_application(id: nil, user_key: nil, application_id: nil, service_id: nil)
-        @applications.find(id, user_key, application_id, service_id)
+        @applications.find(id: id, user_key: user_key, application_id: application_id, service_id: service_id)
+
       end
 
       # @api public
@@ -331,7 +334,7 @@ module ThreeScale
       # @option attributes [String] :application_id Application App ID
       # @option attributes [String] :application_key Application App Key(s)
       def create_application(account_id, attributes = {}, plan_id:, **rest)
-        @applications.create(account_id, attributes, plan_id, rest)
+        @applications.create(account_id, attributes: attributes, plan_id: plan_id, **rest)
       end
 
       # @api public

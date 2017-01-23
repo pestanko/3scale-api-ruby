@@ -1,6 +1,7 @@
 require 'securerandom'
 require '3scale/api'
 
+
 RSpec.describe 'Account Plan API', type: :integration do
   let(:endpoint) { ENV.fetch('ENDPOINT') }
   let(:provider_key) { ENV.fetch('PROVIDER_KEY') }
@@ -12,13 +13,14 @@ RSpec.describe 'Account Plan API', type: :integration do
 
   before(:each) do
     @account_plan = client.account_plan_create(name, name) # placeholder until we have direct access to DB
+    puts @account_plan
   end
 
   after(:each) do
     begin
       client.account_plan_delete(@account_plan['id']) # placeholder until we have direct access to DB
-    rescue ThreeScale::API::HttpClient::NotFoundError
-    rescue ThreeScale::API::HttpClient::ForbiddenError
+      rescue ThreeScale::API::HttpClient::NotFoundError
+      rescue ThreeScale::API::HttpClient::ForbiddenError
     end
   end
 

@@ -20,7 +20,7 @@ module ThreeScale
         # @return [Hash]
         # @param [Fixnum] id Application ID
         def show(id)
-          find_application(id: id)
+          find(id: id)
         end
 
         # @api public
