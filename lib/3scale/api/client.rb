@@ -155,8 +155,8 @@ module ThreeScale
       # @option attributes [String] :account_plan_id Account Plan ID
       # @option attributes [String] :service_plan_id Service Plan ID
       # @option attributes [String] :application_plan_id Application Plan ID
-      def sign_up(attributes: {}, name:, username:, **rest)
-        @acc.sign_up(aattributes, name: name, username: username, **rest)
+      def sign_up(attributes = {}, name:, username:, **rest)
+        @acc.sign_up(attributes, name: name, username: username, **rest)
       end
 
       # @api public
