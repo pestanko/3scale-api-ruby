@@ -23,11 +23,7 @@ RSpec.describe 'Service API', type: :integration do
 
     it { is_expected.to include('name' => name) }
 
-    context 'with invalid name' do
-      let(:name) { '' }
 
-      it { is_expected.to include('errors' => { 'name' => ["can't be blank"] }) }
-    end
   end
 
   context '#show_proxy' do
