@@ -14,15 +14,16 @@ RSpec.describe 'Service API', type: :integration do
   end
 
   after(:each) do
-    if @service == nil
-      return
-    end
-    begin
 
-      client.account_plan_delete(@service['id']) # placeholder until we have direct access to DB
-    rescue ThreeScale::API::HttpClient::NotFoundError
-    rescue ThreeScale::API::HttpClient::ForbiddenError
+    if @service != nil
+      begin
+        client.services.delete(@service['id']) # placeholder until we have direct access to DB
+      rescue ThreeScale::API::HttpClient::NotFoundError
+      rescue ThreeScale::API::HttpClient::ForbiddenError
+
+      end
     end
+
   end
 
   context '#service_crud' do
@@ -41,6 +42,7 @@ RSpec.describe 'Service API', type: :integration do
     it 'delete service' do
       client.services.delete(@service['id'])
       expect(client.services.list.any? { |serv| serv['name'] == @service['name'] }).to be(false)
+      @service = nil
     end
 
   end

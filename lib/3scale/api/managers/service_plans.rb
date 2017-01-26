@@ -22,9 +22,48 @@ module ThreeScale
         # @param [Fixnum] plan_id Service plan Id
         def set_default(service_id, plan_id)
           response = http_client.put("/admin/api/services/#{service_id}/service_plans/#{plan_id}/default")
-          extract(entity: 'plan', from: response)
+          extract(entity: 'service_plan', from: response)
         end
 
+        # @api public
+        # Gets default service plan
+        # @param [Fixnum] service_id
+        # @return [Hash] Default service plan hash
+        def get_default(service_id)
+          self.list_for_service(service_id).each do |plan|
+            if plan['default']
+              return plan
+            end
+          end
+          nil
+        end
+
+        def create(service_id, name)
+          response = http_client.post("/admin/api/services/#{service_id}/service_plans",
+                                      body: {
+                                            name: name
+                                      })
+          extract(entity: 'service_plan', from: response)
+        end
+
+        def show(service_id, service_plan_id)
+          response = http_client.get("/admin/api/services/#{service_id}/service_plans/#{service_plan_id}")
+          extract(entity: 'service_plan', from: response)
+        end
+
+        def get_by_name(service_id, plan_name)
+          self.list_for_service(service_id).each do |plan|
+            if plan['name'] == plan_name
+              return plan
+            end
+          end
+          nil
+        end
+
+        def delete(service_id, service_plan_id)
+          http_client.delete("/admin/api/services/#{service_id}/service_plans/#{service_plan_id}")
+          true
+        end
       end
     end
   end
