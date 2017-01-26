@@ -64,7 +64,7 @@ RSpec.describe ThreeScale::API::Client do
   context '#list_applications_for_account' do
     it do
       expect(http_client).to receive(:get)
-        .with('/admin/api/accounts/42/applications.xml')
+        .with('/admin/api/accounts/42/applications')
         .and_return('applications' =>  [])
       expect(client.list_applications_for_account(42)).to eq([])
     end
@@ -109,7 +109,7 @@ RSpec.describe ThreeScale::API::Client do
                 name: 'foo',
                 description: 'foo description',
                 plan_id: 21,
-                'user_key' => 'foobar',
+                user_key: 'foobar',
                 applicaton_key: 'hex'
               })
         .and_return('application' => { 'id' => 42 })

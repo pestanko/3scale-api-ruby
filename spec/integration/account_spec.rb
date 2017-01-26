@@ -1,5 +1,6 @@
 require 'securerandom'
 require '3scale/api'
+require 'pp'
 
 
 RSpec.describe 'Account API', type: :integration do
@@ -15,14 +16,12 @@ RSpec.describe 'Account API', type: :integration do
     let(:email) { "#{name}@example.com" }
 
     subject(:sign_up) do
-      client.sign_up(name: name, username: name,
-                     billing_address_city: 'Barcelona',
-                     'billing_address_country' => 'Spain')
+      client.sign_up(name: name, username: name)
     end
+
 
     it 'creates an account' do
       expect(sign_up).to include('org_name' => name)
-      expect(sign_up['billing_address']).to include('company' => name, 'city' => 'Barcelona', 'country' => 'Spain')
     end
 
     context '#account_list' do
@@ -50,6 +49,7 @@ RSpec.describe 'Account API', type: :integration do
                                   application_id: name,
                                   application_key: name)
       end
+
       it 'creates an application' do
         expect(create).to include('user_key' => name, 'service_id' => service_id)
       end
@@ -75,11 +75,6 @@ RSpec.describe 'Account API', type: :integration do
 
         it 'finds by user_key' do
           find = client.find_application(user_key: user_key)
-          expect(find).to include('id' => application_id, 'user_key' => user_key)
-        end
-
-        pending 'finds by application_id' do
-          find = client.find_application(application_id: user_key)
           expect(find).to include('id' => application_id, 'user_key' => user_key)
         end
       end
