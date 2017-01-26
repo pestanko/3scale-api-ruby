@@ -43,7 +43,7 @@ module ThreeScale
         # @option attributes [String] :user_key Application User Key
         # @option attributes [String] :application_id Application App ID
         # @option attributes [String] :application_key Application App Key(s)
-        def create(account_id, attributes = {}, plan_id:, **rest)
+        def create(account_id, attributes: {}, plan_id:, **rest)
           body = {plan_id: plan_id}.merge(attributes).merge(rest)
           response = http_client.post("/admin/api/accounts/#{account_id}/applications", body: body)
           extract(entity: 'application', from: response)

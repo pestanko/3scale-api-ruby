@@ -29,6 +29,10 @@ module ThreeScale
           extract(entity: 'service', from: response)
         end
 
+        # @api public
+        # Deletes service
+        # @param [Fixnum] id Service id
+        # @return true
         def delete(id)
           http_client.delete("/admin/api/services/#{id}")
           true
