@@ -1,11 +1,11 @@
 require 'securerandom'
 require '3scale/api'
 
-
 RSpec.describe 'Account Plan API', type: :integration do
   let(:endpoint) { ENV.fetch('ENDPOINT') }
   let(:provider_key) { ENV.fetch('PROVIDER_KEY') }
   let(:name) { SecureRandom.uuid }
+  let(:rnd_string) { SecureRandom.hex(14) }
   let(:rnd_num) { SecureRandom.random_number(1000000000) * 1.0 }
   let(:client) { ThreeScale::API.new(endpoint: endpoint, provider_key: provider_key) }
 
@@ -16,8 +16,7 @@ RSpec.describe 'Account Plan API', type: :integration do
   after(:each) do
     begin
       client.account_plan_delete(@account_plan['id']) # placeholder until we have direct access to DB
-      rescue ThreeScale::API::HttpClient::NotFoundError
-      rescue ThreeScale::API::HttpClient::ForbiddenError
+    rescue ThreeScale::API::HttpClient::NotFoundError
     end
   end
 
@@ -76,6 +75,19 @@ RSpec.describe 'Account Plan API', type: :integration do
                                                                    'cancellation_period' => rnd_num,
                                                                    'id' => @account_plan['id']
                                                                )
+    end
+
+    it 'can\'t update system name to already exists one' do
+      plan = client.account_plan_create(rnd_string, rnd_string)
+      expect(client.account_plan_update(@account_plan['id'], 'system_name' => rnd_string))
+          .to include('errors' => {'system_name' => ["has already been taken"]})
+      client.account_plan_delete(plan['id'])
+    end
+
+    it 'delete account plan' do
+      client.account_plan_delete(@account_plan['id'])
+      expect { client.account_plan_read(@account_plan['id']) }.to raise_error(ThreeScale::API::HttpClient::NotFoundError)
+      expect(client.account_plan_list.any? { |plan| plan['name'] == @account_plan['name'] }).to be(false)
     end
   end
 end
