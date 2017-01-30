@@ -407,6 +407,31 @@ module ThreeScale
         @metrics.create(service_id, attributes)
       end
 
+      # @api public
+      # Returns the metric by ID.
+      # @param [Fixnum] service_id Service ID
+      # @param [Fixnum] id Id of metric
+      # @return [Hash] Metric hash
+      def read_metric(service_id, id)
+        @metrics.read(service_id, id)
+      end
+
+      # @api public
+      # @param [Fixnum] service_id Service ID
+      # @param [Fixnum] id Id of metric
+      # @param [Hash] attributes Metric Attributes
+      # @return [Hash] Metric hash
+      def update_metric(service_id, id, attributes)
+        @metrics.update(service_id, id, attributes)
+      end
+
+      # @api public
+      # @param [Fixnum] service_id Service ID
+      # @param [Fixnum] id Id of metric
+      # @return [Boolean]
+      def delete_metric(service_id, id)
+        @metrics.delete(service_id, id)
+      end
 
       ####################################
       #             Mappings             #
