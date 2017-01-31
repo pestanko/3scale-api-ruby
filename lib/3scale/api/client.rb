@@ -353,6 +353,13 @@ module ThreeScale
       ####################################
 
       # @api public
+      # Returns the list of all application plans across services
+      # @return [Array<Hash>]
+      def list_all_application_plans
+        @app_plan.list_all
+      end
+
+      # @api public
       # @return [Array<Hash>]
       # @param [Fixnum] service_id Service ID
       def list_service_application_plans(service_id)
@@ -366,6 +373,24 @@ module ThreeScale
       # @option attributes [String] :name Application Plan Name
       def create_application_plan(service_id, attributes)
         @app_plan.create(service_id, attributes)
+      end
+
+      # @api public
+      # Returns the application plan by ID.
+      # @param [Fixnum] id ID of the application plan.
+      # @return [Hash] Application plan hash
+      def read_application_plan(service_id, id)
+        @app_plan.read(service_id, id)
+      end
+
+      # @api public
+      # @return [Hash]
+      # @param [Fixnum] service_id Service ID
+      # @param [Fixnum] id Application plan ID
+      # @param [Hash] attributes Metric Attributes
+      # @option attributes [String] :name Application Plan Name
+      def update_application_plan(service_id, id, attributes)
+        @app_plan.update(service_id, id, attributes)
       end
 
       # @api public

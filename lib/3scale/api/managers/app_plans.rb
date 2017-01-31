@@ -4,6 +4,14 @@ module ThreeScale
       class ApplicationPlans < DefaultManager
 
         # @api public
+        # Returns the list of all application plans across services
+        # @return [Array<Hash>]
+        def list_all
+          response = http_client.get("/admin/api/application_plans")
+          extract(collection: 'plans', entity: 'application_plan', from: response)
+        end
+
+        # @api public
         # @return [Array<Hash>]
         # @param [Fixnum] service_id Service ID
         def list(service_id)
@@ -20,6 +28,27 @@ module ThreeScale
           body = {application_plan: attributes}
           response = http_client.post("/admin/api/services/#{service_id}/application_plans",
                                       body: body)
+          extract(entity: 'application_plan', from: response)
+        end
+
+        # @api public
+        # Returns the application plan by ID.
+        # @param [Fixnum] id ID of the application plan.
+        # @return [Hash] Application plan hash
+        def read(service_id, id)
+          response = http_client.get("/admin/api/services/#{service_id}/application_plans/#{id}")
+          extract(entity: 'application_plan', from: response)
+        end
+
+        # @api public
+        # @return [Hash]
+        # @param [Fixnum] service_id Service ID
+        # @param [Fixnum] id Application plan ID
+        # @param [Hash] attributes Metric Attributes
+        # @option attributes [String] :name Application Plan Name
+        def update(service_id, id, attributes)
+          body = {application_plan: attributes}
+          response = http_client.put("/admin/api/services/#{service_id}/application_plans/#{id}", body: body)
           extract(entity: 'application_plan', from: response)
         end
 
