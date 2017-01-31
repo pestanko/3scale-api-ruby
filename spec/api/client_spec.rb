@@ -112,11 +112,13 @@ RSpec.describe ThreeScale::API::Client do
                 user_key: 'foobar',
                 applicaton_key: 'hex'
               })
-        .and_return('application' => { 'id' => 42 })
+        .and_return('application' => {id: 42 })
       expect(client.create_application(42,
-                                       plan_id: 21, name: 'foo', description: 'foo description',
-                                       'user_key' => 'foobar',
-                                       applicaton_key: 'hex')).to eq('id' => 42)
+                                       plan_id: 21,
+                                       name: 'foo',
+                                       description: 'foo description',
+                                       user_key: 'foobar',
+                                       applicaton_key: 'hex')).to eq(id: 42)
     end
   end
 
@@ -202,7 +204,7 @@ RSpec.describe ThreeScale::API::Client do
     end
   end
 
-  context '#crete_method' do
+  context '#create_method' do
     it do
       expect(http_client).to receive(:post)
         .with('/admin/api/services/42/metrics/21/methods', body: { metric: {} })

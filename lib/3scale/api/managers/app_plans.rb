@@ -12,6 +12,16 @@ module ThreeScale
         end
 
         # @api public
+        # Gets Application plan
+        # @return [Array<Hash>]
+        # @param [Fixnum] service_id Service ID
+        # @param [Fixnum] plan_id Application plan ID
+        def read(service_id, plan_id)
+          response = http_client.get("/admin/api/services/#{service_id}/application_plans/#{plan_id}")
+          extract(entity: 'application_plan', from: response)
+        end
+
+        # @api public
         # @return [Hash]
         # @param [Fixnum] service_id Service ID
         # @param [Hash] attributes Metric Attributes
@@ -44,7 +54,6 @@ module ThreeScale
           response = http_client.put("/admin/api/accounts/#{account_id}/applications/#{application_id}/customize_plan")
           extract(entity: 'application_plan', from: response)
         end
-
 
       end
     end
