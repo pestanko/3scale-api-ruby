@@ -23,6 +23,11 @@ module ThreeScale
           extract(collection: 'methods', entity: 'method', from: response)
         end
 
+        def show(service_id, metric_id, method_id)
+          response = http_client.get("/admin/api/services/#{service_id}/metrics/#{metric_id}/methods/#{method_id}")
+          extract(entity: 'method', from: response)
+        end
+
       end
     end
   end

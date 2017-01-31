@@ -52,7 +52,7 @@ module ThreeScale
         # @option attributes [Fixnum] :delta Increase the metric by delta.
         # @option attributes [Fixnum] :metric_id Metric ID
         def update(service_id, id, attributes)
-          response = http_client.patch("/admin/api/services/#{service_id}/mapping_rules/#{id}",
+          response = http_client.patch("/admin/api/services/#{service_id}/proxy/mapping_rules/#{id}",
                                        body: { mapping_rule: attributes })
           extract(entity: 'mapping_rule', from: response)
         end

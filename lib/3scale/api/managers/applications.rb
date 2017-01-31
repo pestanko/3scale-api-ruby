@@ -61,7 +61,7 @@ module ThreeScale
         end
 
         def key_delete(account_id, application_id, key)
-          http_client.delete("/admin/api/accounts/#{account_id}/applications/#{application_id}/keys/#{key}", body: body)
+          http_client.delete("/admin/api/accounts/#{account_id}/applications/#{application_id}/keys/#{key}")
           true
         end
 
