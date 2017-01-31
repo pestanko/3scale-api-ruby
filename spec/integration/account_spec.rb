@@ -1,7 +1,5 @@
 require 'securerandom'
 require '3scale/api'
-require 'pp'
-
 
 RSpec.describe 'Account API', type: :integration do
   let(:endpoint) { ENV.fetch('ENDPOINT') }

@@ -10,7 +10,7 @@ module ThreeScale
         #                             creation, they are used as the key to identify the objects.
         # @return [Hash] of created feature
         def create(name, system_name)
-          body = { nam: name, system_name: system_name }
+          body = { name: name, system_name: system_name }
           response = http_client.post('/admin/api/features', body: body)
           extract(entity: 'feature', from: response)
         end
