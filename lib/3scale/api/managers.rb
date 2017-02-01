@@ -8,6 +8,7 @@ module ThreeScale
       autoload :Services, '3scale/api/managers/services'
       autoload :Applications, '3scale/api/managers/applications'
       autoload :AccountPlans, '3scale/api/managers/acc_plans'
+      autoload :AccountPlanFeatures, '3scale/api/managers/acc_plan_features'
       autoload :Accounts, '3scale/api/managers/accounts'
       autoload :ApplicationPlans, '3scale/api/managers/app_plans'
       autoload :ApplicationPlanLimits, '3scale/api/managers/app_plan_limits'

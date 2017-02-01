@@ -4,19 +4,20 @@ require '3scale/api/http_client'
 module ThreeScale
   module API
     class Client
-      attr_reader :acc_feature,
+      attr_reader :acc,
+                  :acc_feature,
+                  :acc_plan,
+                  :acc_plan_feature,
+                  :app_plan,
+                  :app_plan_limits,
                   :http_client,
                   :applications,
-                  :acc_plan,
-                  :acc,
                   :service_plan,
                   :services,
                   :proxy,
-                  :app_plan,
                   :metrics,
                   :mappings,
-                  :methods,
-                  :app_plan_limits
+                  :methods
 
       # @param [ThreeScale::API::HttpClient] http_client
 
@@ -25,6 +26,7 @@ module ThreeScale
         @acc_feature = ThreeScale::API::Managers::AccountFeatures.new(http_client)
         @applications = ThreeScale::API::Managers::Applications.new(http_client)
         @acc_plan = ThreeScale::API::Managers::AccountPlans.new(http_client)
+        @acc_plan_feature = ThreeScale::API::Managers::AccountPlanFeatures.new(http_client)
         @acc = ThreeScale::API::Managers::Accounts.new(http_client)
         @service_plan = ThreeScale::API::Managers::ServicePlans.new(http_client)
         @services = ThreeScale::API::Managers::Services.new(http_client)
@@ -139,6 +141,36 @@ module ThreeScale
       # @return [Hash]Application plan hash
       def account_plan_default(id)
         @acc_plan.set_default(id)
+      end
+
+      ####################################
+      #      Accounts plan features      #
+      ####################################
+
+      # @api public
+      # Associate an account feature to an account plan.
+      # @param [String] acc_plan_id ID of the account plan.
+      # @param [String] acc_feature_id ID of the feature.
+      # @return [Hash] of created account plan feature
+      def account_plan_feature_create(acc_plan_id, acc_feature_id)
+        @acc_plan_feature.create(acc_plan_id, acc_feature_id)
+      end
+
+      # @api public
+      # Returns the list of the features associated to an account plan.
+      # @param [String] acc_plan_id ID of the account plan.
+      # @return [Hash] of account plan feature
+      def account_plan_feature_list(acc_plan_id)
+        @acc_plan_feature.list(acc_plan_id)
+      end
+
+      # @api public
+      # Deletes the association of an account feature to an account plan.
+      # @param [String] acc_plan_id ID of the account plan.
+      # @param [String] acc_feature_id ID of the feature.
+      # @return [bool]
+      def account_plan_feature_delete(acc_plan_id, acc_feature_id)
+        @acc_plan_feature.delete(acc_plan_id, acc_feature_id)
       end
 
       ####################################
