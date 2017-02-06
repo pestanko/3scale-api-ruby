@@ -1,7 +1,7 @@
 require 'securerandom'
 require '3scale/api'
 
-RSpec.describe 'Application plan API', type: :integration do
+RSpec.describe 'Application plans API', type: :integration do
   let(:endpoint) { ENV.fetch('ENDPOINT') }
   let(:provider_key) { ENV.fetch('PROVIDER_KEY') }
   let(:service_id)   { ENV.fetch('SERVICE_ID').to_i }

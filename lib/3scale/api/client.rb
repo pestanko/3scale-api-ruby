@@ -632,6 +632,15 @@ module ThreeScale
         @app_plan_limits.create(application_plan_id, metric_id, attributes)
       end
 
+      # @api public
+      # @return [Hash]
+      # @param [Fixnum] application_plan_id Application Plan ID
+      # @param [Fixnum] metric_id Metric ID
+      # @param [Fixnum] id Limit ID
+      def read_application_plan_limit(application_plan_id, metric_id, id)
+        @app_plan_limits.read(application_plan_id, metric_id, id)
+      end
+
       # @param [Fixnum] application_plan_id Application Plan ID
       # @param [Fixnum] metric_id Metric ID
       # @param [Fixnum] limit_id Usage Limit ID
