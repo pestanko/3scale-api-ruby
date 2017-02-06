@@ -49,6 +49,11 @@ module ThreeScale
           extract(entity: 'application', from: response)
         end
 
+        def update(account_id, id, attributes)
+          response = http_client.put("/admin/api/accounts/#{account_id}/applications/#{id}",  body: attributes )
+          extract(entity: 'application', from: response)
+        end
+
         def key_create(account_id, application_id, key)
           body = {account_id: account_id, application_id: application_id, key: key}
           response = http_client.post("/admin/api/accounts/#{account_id}/applications/#{application_id}/keys", body: body)
@@ -63,6 +68,54 @@ module ThreeScale
         def key_delete(account_id, application_id, key)
           http_client.delete("/admin/api/accounts/#{account_id}/applications/#{application_id}/keys/#{key}")
           true
+        end
+
+        def referrer_filter_list(account_id, application_id)
+          response = http_client.get("/admin/api/accounts/#{account_id}/applications/#{application_id}/referrer_filters")
+          extract(collection: 'referrer_filters', entity: 'referrer_filter', from: response)
+        end
+
+        def referrer_filter_create(account_id, application_id, key)
+          body = {account_id: account_id, application_id: application_id, referrer_filter: key}
+          response = http_client.post(
+              "/admin/api/accounts/#{account_id}/applications/#{application_id}/referrer_filters", body: body)
+          extract(entity: 'referrer_filter', from: response)
+        end
+
+        def referrer_filter_delete(account_id, application_id, id)
+          http_client.delete("/admin/api/accounts/#{account_id}/applications/#{application_id}/referrer_filters/#{id}")
+          true
+        end
+
+        def change_plan(account_id, id, plan_id)
+          response = http_client.put("/admin/api/accounts/#{account_id}/applications/#{id}/change_plan",
+                                     body: {plan_id: plan_id})
+          extract(entity: 'application_plan', from: response)
+        end
+
+        def create_plan_customization(account_id, id)
+          response = http_client.put("/admin/api/accounts/#{account_id}/applications/#{id}/customize_plan")
+          extract(entity: 'application_plan', from: response)
+        end
+
+        def delete_plan_customization(account_id, id)
+          response = http_client.put("/admin/api/accounts/#{account_id}/applications/#{id}/decustomize_plan")
+          extract(entity: 'application_plan', from: response)
+        end
+
+        def accept(account_id, id)
+          response = http_client.put("/admin/api/accounts/#{account_id}/applications/#{id}/accept")
+          extract(entity: 'application', from: response)
+        end
+
+        def suspend(account_id, id)
+          response = http_client.put("/admin/api/accounts/#{account_id}/applications/#{id}/suspend")
+          extract(entity: 'application', from: response)
+        end
+
+        def resume(account_id, id)
+          response = http_client.put("/admin/api/accounts/#{account_id}/applications/#{id}/resume")
+          extract(entity: 'application', from: response)
         end
 
       end

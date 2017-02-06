@@ -26,7 +26,7 @@ module ThreeScale
         # @param [Fixnum] service_id Service ID
         # @param [Fixnum] id Id of metric
         # @return [Hash] Metric hash
-        def show(service_id, id)
+        def read(service_id, id)
           response = http_client.get("/admin/api/services/#{service_id}/metrics/#{id}")
           extract(entity: 'metric', from: response)
         end
