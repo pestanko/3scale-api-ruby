@@ -318,7 +318,7 @@ module ThreeScale
       # @api public
       # @return [Hash]
       # @param [Fixnum] service_id Service ID
-      def show_proxy(service_id)
+      def read_proxy(service_id)
         @proxy.read(service_id)
       end
 
