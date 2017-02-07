@@ -27,7 +27,7 @@ RSpec.describe 'Service API', type: :integration do
   end
 
   context '#show_proxy' do
-    it { expect(client.show_proxy(service_id).keys.size).to be >= 1 }
+    it { expect(client.read_proxy(service_id).keys.size).to be >= 1 }
   end
 
   context '#update_proxy' do
