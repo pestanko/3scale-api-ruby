@@ -13,14 +13,28 @@ RSpec.describe 'Account API', type: :integration do
     let(:name) { SecureRandom.hex(14) }
     let(:email) { "#{name}@example.com" }
 
+
+
     context 'account plan' do
       subject(:acc_plan) do
         client.account_plan_create(name, name)
       end
 
+      after(:each) do
+        begin
+          client.account_plan_delete(acc_plan['id']) # placeholder until we have direct access to DB
+        end
+      end
+
       context 'sign up' do
         subject(:sign_up) do
           client.sign_up(name: name, username: name, account_plan_id: acc_plan['id'])
+        end
+
+        after(:each) do
+          begin
+            client.account_delete(sign_up['id']) # placeholder until we have direct access to DB
+          end
         end
 
         it 'creates an account' do

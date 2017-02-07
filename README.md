@@ -56,7 +56,9 @@ PROVIDER_KEY=           # Provider key
 SERVICE_ID=             # Echo service Id
 METRIC_ID=              # Metric Id
 APPLICATION_PLAN_ID=    # Application plan ID
+ACCOUNT_ID =            # Account id
 ```
+
 
 ## Contributing
 

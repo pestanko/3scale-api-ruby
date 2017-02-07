@@ -21,8 +21,11 @@ RSpec.describe 'Service API', type: :integration do
     let(:name) { SecureRandom.uuid }
     subject(:response) { client.create_service('name' => name) }
 
-    it { is_expected.to include('name' => name) }
+    after(:each) do
+      client.delete_service(response['id'])
+    end
 
+    it { is_expected.to include('name' => name) }
 
   end
 
