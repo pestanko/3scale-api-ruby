@@ -44,7 +44,7 @@ RSpec.describe 'Metrics API', type: :integration do
     it 'update metric' do
       expect(@metric).to include('friendly_name' => name, 'unit' => unit)
 
-      newValue = 'updated value'
+      newValue = SecureRandom.uuid
       expect(client.update_metric(service_id, @metric['id'], friendly_name: newValue, unit: newValue)
       ).to include('friendly_name' => newValue, 'unit' => newValue)
     end

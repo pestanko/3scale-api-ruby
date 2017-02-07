@@ -12,7 +12,7 @@ RSpec.describe ThreeScale::API::Managers::Metrics do
   context '#show' do
     it do
       expect(http_client).to receive(:get).with('/admin/api/services/42/metrics/43').and_return('metric' => {})
-      expect(client.show(42, 43)).to eq({})
+      expect(client.read(42, 43)).to eq({})
     end
   end
 

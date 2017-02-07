@@ -24,6 +24,17 @@ module ThreeScale
           extract(entity: 'limit', from: response)
         end
 
+        # @api public
+        # @return [Hash]
+        # @param [Fixnum] application_plan_id Application Plan ID
+        # @param [Fixnum] metric_id Metric ID
+        # @param [Fixnum] id Limit ID
+        def read(application_plan_id, metric_id, id)
+          response = http_client.get(
+              "/admin/api/application_plans/#{application_plan_id}/metrics/#{metric_id}/limits/#{id}")
+          extract(entity: 'limit', from: response)
+        end
+
         # @param [Fixnum] application_plan_id Application Plan ID
         # @param [Fixnum] metric_id Metric ID
         # @param [Fixnum] limit_id Usage Limit ID

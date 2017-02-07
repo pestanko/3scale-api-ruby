@@ -370,6 +370,11 @@ module ThreeScale
       end
 
       # @api public
+      def update_application(account_id, id, attributes)
+        @applications.update(account_id, id, attributes)
+      end
+
+      # @api public
       def create_application_key(account_id, application_id, key)
         @applications.key_create(account_id, application_id, key)
       end
@@ -377,6 +382,46 @@ module ThreeScale
       # @api public
       def list_applications_keys(account_id, application_id)
         @applications.keys_list(account_id, application_id)
+      end
+
+      # @api public
+      def delete_application_key(account_id, application_id, key)
+        @applications.key_delete(account_id, application_id, key)
+      end
+
+      # @api public
+      def list_application_referrer_filter(account_id, application_id)
+        @applications.referrer_filter_list(account_id, application_id)
+      end
+
+      # @api public
+      def create_application_referrer_filter(account_id, application_id, key)
+        @applications.referrer_filter_create(account_id, application_id, key)
+      end
+
+      # @api public
+      def delete_application_referrer_filter(account_id, application_id, id)
+        @applications.referrer_filter_delete(account_id, application_id, id)
+      end
+
+      def change_application_plan(account_id, application_id, plan_id)
+        @applications.change_plan(account_id, application_id, plan_id)
+      end
+
+      def create_application_plan_customization(account_id, application_id)
+        @applications.create_plan_customization(account_id, application_id)
+      end
+
+      def delete_application_plan_customization(account_id, application_id)
+        @applications.delete_plan_customization(account_id, application_id)
+      end
+
+      def suspend_application(account_id, id)
+        @applications.suspend(account_id, id)
+      end
+
+      def resume_application(account_id, id)
+        @applications.resume(account_id, id)
       end
 
 
@@ -585,6 +630,15 @@ module ThreeScale
       # @option attributes [String] :value Usage Limit value
       def create_application_plan_limit(application_plan_id, metric_id, attributes)
         @app_plan_limits.create(application_plan_id, metric_id, attributes)
+      end
+
+      # @api public
+      # @return [Hash]
+      # @param [Fixnum] application_plan_id Application Plan ID
+      # @param [Fixnum] metric_id Metric ID
+      # @param [Fixnum] id Limit ID
+      def read_application_plan_limit(application_plan_id, metric_id, id)
+        @app_plan_limits.read(application_plan_id, metric_id, id)
       end
 
       # @param [Fixnum] application_plan_id Application Plan ID
