@@ -381,6 +381,10 @@ module ThreeScale
         @applications.update(account_id, id, attributes)
       end
 
+      def delete_application(account_id, id)
+        @applications.delete(account_id, id)
+      end
+
       # @api public
       def create_application_key(account_id, application_id, key)
         @applications.key_create(account_id, application_id, key)
@@ -479,6 +483,7 @@ module ThreeScale
 
       # @api public
       # @param [Fixnum] service_id
+      # @param [Fixnum] id
       # @return [Boolean]
       def delete_application_plan(service_id, id)
         @app_plan.delete(service_id, id)

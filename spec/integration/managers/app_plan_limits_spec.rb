@@ -16,6 +16,8 @@ RSpec.describe 'Application plan limits API', type: :integration do
   after(:each) do
     begin
       client.delete_application_plan_limit(plan['id'], metric['id'], limit['id'])
+      client.delete_application_plan(service_id, plan['id'])
+      client.delete_metric(service_id, metric['id'])
     rescue ThreeScale::API::HttpClient::NotFoundError
     rescue ThreeScale::API::HttpClient::ForbiddenError
     end

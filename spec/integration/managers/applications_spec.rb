@@ -11,12 +11,16 @@ RSpec.describe 'Applications API', type: :integration do
 
   subject(:client) { ThreeScale::API.new(endpoint: endpoint, provider_key: provider_key) }
 
-  subject(:application) do
+  let!(:application) do
     client.create_application(account_id,
                               plan_id: application_plan_id,
                               user_key: name,
                               application_id: name,
                               application_key: name)
+  end
+
+  after(:each) do
+    client.delete_application(account_id, application['id'])
   end
 
   it 'creates an application' do
@@ -70,40 +74,45 @@ RSpec.describe 'Applications API', type: :integration do
     let(:planName){ SecureRandom.uuid }
     let(:service){ client.create_service(name: serviceName, backend_version: 2) }
     let(:app_plan){ client.create_application_plan(service['id'], name: planName) }
-    let(:app){ client.create_application(account_id,
-                                         plan_id: app_plan['id'],
-                                         user_key: planName,
-                                         application_id: planName,
-                                         application_key: planName)}
-    let(:keyValue){ 'testKey' }
-    let!(:key) { client.create_application_key(account_id, app['id'], keyValue) }
+    let(:keyValue){ SecureRandom.uuid }
+    let!(:key) { client.create_application_key(account_id, application['id'], keyValue) }
 
     after(:each) do
       begin
-        client.delete_application_key(account_id, app['id'], keyValue)
+        client.delete_application_key(account_id, application['id'], keyValue)
+        client.delete_application_plan(service['id'], app_plan['id'])
+        client.delete_service(service['id'])
       rescue ThreeScale::API::HttpClient::NotFoundError
       rescue ThreeScale::API::HttpClient::ForbiddenError
       end
     end
 
     it 'create' do
-      expect(client.list_applications_keys(account_id, app['id']).any? { |key| key['value'] == keyValue }).to be(true)
+      expect(client.list_applications_keys(account_id, application['id']).any? { |key| key['value'] == keyValue }).to be(true)
     end
 
     it 'list' do
-      expect(client.list_applications_keys(account_id, app['id']).any? { |key| key['value'] == keyValue }).to be(true)
+      expect(client.list_applications_keys(account_id, application['id']).any? { |key| key['value'] == keyValue }).to be(true)
     end
 
     it 'delete'do
-      expect(client.list_applications_keys(account_id, app['id']).any? { |key| key['value'] == keyValue }).to be(true)
-      client.delete_application_key(account_id, app['id'], keyValue)
-      expect(client.list_applications_keys(account_id, app['id']).any? { |key| key['value'] == keyValue }).to be(false)
+      expect(client.list_applications_keys(account_id, application['id']).any? { |key| key['value'] == keyValue }).to be(true)
+      client.delete_application_key(account_id, application['id'], keyValue)
+      expect(client.list_applications_keys(account_id, application['id']).any? { |key| key['value'] == keyValue }).to be(false)
     end
   end
 
   context '#application_plan' do
     let(:planName){ SecureRandom.uuid }
-    let(:app_plan){ client.create_application_plan(service_id, name: planName) }
+    let!(:app_plan){ client.create_application_plan(service_id, name: planName) }
+
+    after(:each) do
+      begin
+        client.delete_application_plan(service_id, app_plan['id'])
+      rescue ThreeScale::API::HttpClient::NotFoundError
+      rescue ThreeScale::API::HttpClient::ForbiddenError
+      end
+    end
 
     it 'change' do
       expect(application).to include('plan_id' => application_plan_id)

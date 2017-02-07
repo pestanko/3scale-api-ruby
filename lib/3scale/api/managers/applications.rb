@@ -54,6 +54,11 @@ module ThreeScale
           extract(entity: 'application', from: response)
         end
 
+        def delete(account_id, id)
+          http_client.delete("/admin/api/accounts/#{account_id}/applications/#{id}")
+          true
+        end
+
         def key_create(account_id, application_id, key)
           body = {account_id: account_id, application_id: application_id, key: key}
           response = http_client.post("/admin/api/accounts/#{account_id}/applications/#{application_id}/keys", body: body)
