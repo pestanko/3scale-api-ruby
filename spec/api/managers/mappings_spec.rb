@@ -12,7 +12,7 @@ RSpec.describe ThreeScale::API::Managers::Mappings do
   context '#show' do
     it do
       expect(http_client).to receive(:get).with('/admin/api/services/42/proxy/mapping_rules/43').and_return('mapping_rule' => {})
-      expect(client.show(42, 43)).to eq({})
+      expect(client.read(42, 43)).to eq({})
     end
   end
 

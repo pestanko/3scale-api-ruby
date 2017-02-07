@@ -5,7 +5,7 @@ module ThreeScale
         # @api public
         # @return [Hash]
         # @param [Fixnum] service_id Service ID
-        def show(service_id)
+        def read(service_id)
           response = http_client.get("/admin/api/services/#{service_id}/proxy")
           extract(entity: 'proxy', from: response)
         end

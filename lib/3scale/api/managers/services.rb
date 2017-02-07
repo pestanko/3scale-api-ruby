@@ -4,7 +4,6 @@ module ThreeScale
   module API
     module Managers
       class Services < DefaultManager
-
         # @api public
         # @return [Hash]
         # @param [Hash] attr Service Attributes
@@ -24,7 +23,7 @@ module ThreeScale
         # @api public
         # @return [Hash]
         # @param [Fixnum] id Service ID
-        def show(id)
+        def read(id)
           response = http_client.get("/admin/api/services/#{id}")
           extract(entity: 'service', from: response)
         end
@@ -37,8 +36,6 @@ module ThreeScale
           http_client.delete("/admin/api/services/#{id}")
           true
         end
-
-
       end
     end
   end

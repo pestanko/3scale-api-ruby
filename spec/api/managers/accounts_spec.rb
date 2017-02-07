@@ -29,7 +29,7 @@ RSpec.describe ThreeScale::API::Managers::Accounts do
 
   context '#list' do
     it do
-      expect(http_client).to receive(:get).with('/admin/api/accounts').and_return('accounts' => [])
+      expect(http_client).to receive(:get).with('/admin/api/accounts', params: nil).and_return('accounts' => [])
       expect(client.list).to eq([])
     end
   end
@@ -37,7 +37,7 @@ RSpec.describe ThreeScale::API::Managers::Accounts do
   context '#show' do
     it do
       expect(http_client).to receive(:get).with('/admin/api/accounts/42').and_return('account' => {})
-      expect(client.show(42)).to eq({})
+      expect(client.read(42)).to eq({})
     end
   end
 
@@ -51,7 +51,7 @@ RSpec.describe ThreeScale::API::Managers::Accounts do
   context '#update' do
     it do
       expect(http_client).to receive(:put)
-                                 .with('/admin/api/accounts/42', body: { account: {} })
+                                 .with('/admin/api/accounts/42', body: { })
                                  .and_return('account' => { id: 42 })
       expect(client.update(42, {})).to eq({ id: 42 })
     end

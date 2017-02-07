@@ -14,7 +14,7 @@ module ThreeScale
         # @return [Array<Hash>]
         # @param [Fixnum] service_id Service ID
         # @param [Fixnum] id Mapping Rule ID
-        def show(service_id, id)
+        def read(service_id, id)
           response = http_client.get("/admin/api/services/#{service_id}/proxy/mapping_rules/#{id}")
           extract(entity: 'mapping_rule', from: response)
         end

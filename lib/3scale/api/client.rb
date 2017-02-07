@@ -118,7 +118,7 @@ module ThreeScale
       # @param [Fixnum] id Id of the application plan
       # @return [Hash] Application plan hash
       def account_plan_show(id)
-        @acc_plan.show(id)
+        @acc_plan.read(id)
       end
 
       # @api public
@@ -205,15 +205,22 @@ module ThreeScale
 
       # @api public
       # @return [Array<Hash>]
-      def account_list
-        @acc.list
+      def account_list(attr = nil)
+        @acc.list(attr)
+      end
+
+      # @api public
+      # @return [Hash]
+      # @param [Fixnum] id Account id
+      def account_read(id)
+        @acc.read(id)
       end
 
       # @api public
       # @return [Hash]
       # @param [Fixnum] id Account id
       def account_show(id)
-        @acc.show(id)
+        @acc.read(id)
       end
 
       # @api public
@@ -281,7 +288,7 @@ module ThreeScale
       # @return [Hash]
       # @param [Fixnum] id Service ID
       def show_service(id)
-        @services.show(id)
+        @services.read(id)
       end
 
       # @api public
@@ -312,7 +319,7 @@ module ThreeScale
       # @return [Hash]
       # @param [Fixnum] service_id Service ID
       def show_proxy(service_id)
-        @proxy.show(service_id)
+        @proxy.read(service_id)
       end
 
       # @api public
@@ -551,7 +558,7 @@ module ThreeScale
       # @param [Fixnum] service_id Service ID
       # @param [Fixnum] id Mapping Rule ID
       def show_mapping_rule(service_id, id)
-        @mappings.show(service_id, id)
+        @mappings.read(service_id, id)
       end
 
       # @api public

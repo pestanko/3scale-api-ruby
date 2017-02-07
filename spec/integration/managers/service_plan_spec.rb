@@ -32,7 +32,7 @@ RSpec.describe 'Service Plan API', type: :integration do
     end
 
     it 'read an service plan' do
-      expect(client.service_plan.show(service_id, @service_plan['id'])).to include('name' => @service_plan['name'])
+      expect(client.service_plan.read(service_id, @service_plan['id'])).to include('name' => @service_plan['name'])
     end
 
     it 'deletes service plan' do

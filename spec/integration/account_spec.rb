@@ -35,11 +35,11 @@ RSpec.describe 'Account API', type: :integration do
 
         context '#account_show' do
           let(:account_id) { sign_up.fetch('id') }
-          subject(:show) do
+          subject(:read) do
             client.account_show(account_id)
           end
           it do
-            expect(show).to include('id' => account_id)
+            expect(read).to include('id' => account_id)
           end
         end
 
@@ -60,10 +60,10 @@ RSpec.describe 'Account API', type: :integration do
           context '#show_application' do
             let(:application_id) { create.fetch('id') }
 
-            subject(:show) { client.show_application(application_id) }
+            subject(:read) { client.show_application(application_id) }
 
             it do
-              expect(show).to include('id' => application_id, 'service_id' => service_id)
+              expect(read).to include('id' => application_id, 'service_id' => service_id)
             end
           end
 

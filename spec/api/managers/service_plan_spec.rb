@@ -12,7 +12,7 @@ RSpec.describe ThreeScale::API::Managers::ServicePlans do
   context '#read' do
     it do
       expect(http_client).to receive(:get).with('/admin/api/services/42/service_plans/43').and_return('service_plan' => {})
-      expect(client.show(42, 43)).to eq({})
+      expect(client.read(42, 43)).to eq({})
     end
   end
 
