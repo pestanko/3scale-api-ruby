@@ -20,7 +20,7 @@ module ThreeScale
         # @option attributes [String] :value Usage Limit value
         def create(application_plan_id, metric_id, attributes)
           response = http_client.post("/admin/api/application_plans/#{application_plan_id}/metrics/#{metric_id}/limits",
-                                      body: { usage_limit: attributes })
+                                      body: attributes)
           extract(entity: 'limit', from: response)
         end
 

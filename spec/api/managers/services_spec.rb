@@ -26,7 +26,7 @@ RSpec.describe ThreeScale::API::Managers::Services do
   context '#create' do
     it do
       expect(http_client).to receive(:post)
-                                 .with('/admin/api/services', body: { service: {} })
+                                 .with('/admin/api/services', body: { })
                                  .and_return('service' => {})
       expect(client.create({})).to eq({})
     end

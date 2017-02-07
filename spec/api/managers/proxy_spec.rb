@@ -20,7 +20,7 @@ RSpec.describe ThreeScale::API::Managers::Proxy do
     it do
       expect(http_client).to receive(:patch)
                                  .with('/admin/api/services/42/proxy',
-                                       body: { proxy: {} })
+                                       body: { })
                                  .and_return('proxy' => {})
       expect(client.update(42, {})).to eq({})
     end

@@ -9,7 +9,7 @@ module ThreeScale
         # @param [Hash] attr Service Attributes
         # @option attributes [String] :name Service Name
         def create(attr)
-          response = http_client.post('/admin/api/services', body: { service: attr })
+          response = http_client.post('/admin/api/services', body: attr)
           extract(entity: 'service', from: response)
         end
 

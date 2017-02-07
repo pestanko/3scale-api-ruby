@@ -27,7 +27,7 @@ RSpec.describe ThreeScale::API::Managers::Mappings do
     it do
       expect(http_client).to receive(:post)
                                  .with('/admin/api/services/42/proxy/mapping_rules',
-                                       body: { mapping_rule: {} })
+                                       body: {})
                                  .and_return('mapping_rule' => {})
       expect(client.create(42, {})).to eq({})
     end

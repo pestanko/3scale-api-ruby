@@ -10,7 +10,7 @@ module ThreeScale
         # @option attributes [String] :name Method Name
         def create(service_id, metric_id, attributes)
           response = http_client.post("/admin/api/services/#{service_id}/metrics/#{metric_id}/methods",
-                                      body: { metric: attributes })
+                                      body: attributes)
           extract(entity: 'method', from: response)
         end
 

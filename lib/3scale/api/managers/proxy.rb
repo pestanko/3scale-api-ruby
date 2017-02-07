@@ -15,7 +15,7 @@ module ThreeScale
         # @param [Fixnum] service_id Service ID
         def update(service_id, attributes)
           response = http_client.patch("/admin/api/services/#{service_id}/proxy",
-                                       body: { proxy: attributes })
+                                       body: attributes)
           extract(entity: 'proxy', from: response)
         end
       end

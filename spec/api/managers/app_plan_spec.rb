@@ -27,11 +27,11 @@ RSpec.describe ThreeScale::API::Managers::ApplicationPlans do
   context '#create' do
     it do
       expect(http_client).to receive(:post)
-                                 .with('/admin/api/services/42/application_plans', body: { application_plan:  {
+                                 .with('/admin/api/services/42/application_plans', body: {
                                      name: 'test-plan',
-                                 } })
-                                 .and_return('application_plan' => {})
-      expect(client.create(42,{name: 'test-plan'})).to eq({})
+                                  })
+                                 .and_return('application_plan' => { name: 'test-plan'})
+      expect(client.create(42,{name: 'test-plan'})).to eq({name: 'test-plan'})
     end
   end
 

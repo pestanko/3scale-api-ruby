@@ -29,7 +29,7 @@ module ThreeScale
         # @option attributes [Fixnum] :metric_id Metric ID
         def create(service_id, attributes)
           response = http_client.post("/admin/api/services/#{service_id}/proxy/mapping_rules",
-                                      body: { mapping_rule: attributes })
+                                      body: attributes)
           extract(entity: 'mapping_rule', from: response)
         end
 
