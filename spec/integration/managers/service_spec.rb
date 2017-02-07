@@ -36,7 +36,7 @@ RSpec.describe 'Service API', type: :integration do
     end
 
     it 'read a service' do
-      expect(client.services.show(@service['id'])).to include('name' => @service['name'])
+      expect(client.services.read(@service['id'])).to include('name' => @service['name'])
     end
 
     it 'delete service' do

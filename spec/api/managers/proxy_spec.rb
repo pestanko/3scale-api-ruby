@@ -12,7 +12,7 @@ RSpec.describe ThreeScale::API::Managers::Proxy do
   context '#show' do
     it do
       expect(http_client).to receive(:get).with('/admin/api/services/42/proxy').and_return('proxy' => {})
-      expect(client.show(42)).to eq({})
+      expect(client.read(42)).to eq({})
     end
   end
 

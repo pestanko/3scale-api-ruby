@@ -2,7 +2,6 @@ module ThreeScale
   module API
     module Managers
       class ServicePlans < DefaultManager
-
         # @api public
         # @return [Array<Hash>] List of services
         def list
@@ -46,7 +45,7 @@ module ThreeScale
           extract(entity: 'service_plan', from: response)
         end
 
-        def show(service_id, service_plan_id)
+        def read(service_id, service_plan_id)
           response = http_client.get("/admin/api/services/#{service_id}/service_plans/#{service_plan_id}")
           extract(entity: 'service_plan', from: response)
         end

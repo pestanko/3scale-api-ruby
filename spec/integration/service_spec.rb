@@ -50,7 +50,12 @@ RSpec.describe 'Service API', type: :integration do
 
     it { expect(create).to include('http_method' => 'PUT') }
 
-    after { client.delete_mapping_rule(service_id, create.fetch('id')) }
+    after {
+      begin
+        client.delete_mapping_rule(service_id, create.fetch('id'))
+      rescue ThreeScale::API::HttpClient::NotFoundError
+      end
+    }
 
     context '#list_mapping_rules' do
       before { create }
@@ -66,7 +71,7 @@ RSpec.describe 'Service API', type: :integration do
     end
 
     context '#show_mapping_rule' do
-      subject(:show) { client.show_mapping_rule(service_id, create.fetch('id')) }
+      subject(:read) { client.show_mapping_rule(service_id, create.fetch('id')) }
       it { is_expected.to include('http_method' => 'PUT', 'pattern' => '/', 'metric_id' => metric_id, 'delta' => 2) }
     end
   end

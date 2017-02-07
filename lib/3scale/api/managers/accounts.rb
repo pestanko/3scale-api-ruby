@@ -2,8 +2,6 @@ module ThreeScale
   module API
     module Managers
       class Accounts < DefaultManager
-
-
         # @api public
         # @return [Hash] an Account
         # @param [String] name Account Name
@@ -29,16 +27,18 @@ module ThreeScale
         end
 
         # @api public
+        # Returns the list of buyer accounts (the accounts that consume your API). Filters by state
+        # are available and the results can be paginated.
         # @return [Array<Hash>]
-        def list
-          response = http_client.get('/admin/api/accounts')
+        def list(attr = nil)
+          response = http_client.get('/admin/api/accounts', params: attr)
           extract(collection: 'accounts', entity: 'account', from: response)
         end
 
         # @api public
         # @return [Hash]
         # @param [Fixnum] id Account id
-        def show(id)
+        def read(id)
           response = http_client.get("/admin/api/accounts/#{id}")
           extract(entity: 'account', from: response)
         end
@@ -65,8 +65,7 @@ module ThreeScale
         # @param [Hash] attr Attributes to be updated
         # @options attr [String] org_name  Organization name
         def update(id, attr)
-          body = {account: attr}
-          response = http_client.put("/admin/api/accounts/#{id}", body: body)
+          response = http_client.put("/admin/api/accounts/#{id}", body: attr)
           extract(entity: 'account', from: response)
         end
 
@@ -74,7 +73,7 @@ module ThreeScale
         # @param [Fixnum] id
         # @param [Fixnum] plan_id
         def set_plan(id, plan_id)
-          body = {account: {plan_id: plan_id}}
+          body = { plan_id: plan_id }
           response = http_client.put("/admin/api/accounts/#{id}/change_plan", body: body)
           extract(entity: 'account', from: response)
         end
@@ -90,7 +89,7 @@ module ThreeScale
         end
 
         def pending(id)
-          response = http_client.put("/admin/api/accounts/#{id}/pending")
+          response = http_client.put("/admin/api/accounts/#{id}/make_pending")
           extract(entity: 'account', from: response)
         end
 
