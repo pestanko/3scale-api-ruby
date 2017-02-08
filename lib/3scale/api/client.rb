@@ -187,6 +187,20 @@ module ThreeScale
       # @option attributes [String] :account_plan_id Account Plan ID
       # @option attributes [String] :service_plan_id Service Plan ID
       # @option attributes [String] :application_plan_id Application Plan ID
+      def signup(attributes = {}, name:, username:, **rest)
+        sign_up(attributes, name: name, username: username, **rest)
+      end
+
+      # @api public
+      # @return [Hash] an Account
+      # @param [String] name Account Name
+      # @param [String] username User Username
+      # @param [Hash] attributes User and Account Attributes
+      # @option attributes [String] :email User Email
+      # @option attributes [String] :password User Password
+      # @option attributes [String] :account_plan_id Account Plan ID
+      # @option attributes [String] :service_plan_id Service Plan ID
+      # @option attributes [String] :application_plan_id Application Plan ID
       def sign_up(attributes = {}, name:, username:, **rest)
         @acc.sign_up(attributes, name: name, username: username, **rest)
       end
@@ -318,6 +332,13 @@ module ThreeScale
       # @api public
       # @return [Hash]
       # @param [Fixnum] service_id Service ID
+      def show_proxy(service_id)
+        read_proxy(service_id)
+      end
+
+      # @api public
+      # @return [Hash]
+      # @param [Fixnum] service_id Service ID
       def read_proxy(service_id)
         @proxy.read(service_id)
       end
@@ -372,7 +393,7 @@ module ThreeScale
       # @option attributes [String] :user_key Application User Key
       # @option attributes [String] :application_id Application App ID
       # @option attributes [String] :application_key Application App Key(s)
-      def create_application(account_id, attributes: {}, plan_id:, **rest)
+      def create_application(account_id, attributes= {}, plan_id:, **rest)
         @applications.create(account_id, attributes: attributes, plan_id: plan_id, **rest)
       end
 
