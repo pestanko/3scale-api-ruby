@@ -13,7 +13,8 @@ module ThreeScale
         @provider_key = provider_key.freeze
         @http = Net::HTTP.new(admin_domain, @endpoint.port)
         @http.use_ssl = @endpoint.is_a?(URI::HTTPS)
-        if ENV['THREESCALE_NO_SSL'] == nil
+
+        if ENV['THREESCALE_NO_SSL'] != nil
           @http.verify_mode = OpenSSL::SSL::VERIFY_NONE
         end
 
