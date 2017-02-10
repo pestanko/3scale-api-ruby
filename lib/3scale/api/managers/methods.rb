@@ -23,9 +23,14 @@ module ThreeScale
           extract(collection: 'methods', entity: 'method', from: response)
         end
 
-        def read(service_id, metric_id, method_id)
-          response = http_client.get("/admin/api/services/#{service_id}/metrics/#{metric_id}/methods/#{method_id}")
+        def read(service_id, metric_id, id)
+          response = http_client.get("/admin/api/services/#{service_id}/metrics/#{metric_id}/methods/#{id}")
           extract(entity: 'method', from: response)
+        end
+
+        def delete(service_id, metric_id, id)
+          http_client.delete("/admin/api/services/#{service_id}/metrics/#{metric_id}/methods/#{id}")
+          true
         end
 
       end

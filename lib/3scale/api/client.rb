@@ -643,6 +643,14 @@ module ThreeScale
         @methods.list(service_id, metric_id)
       end
 
+      def read_method(service_id, metric_id, id)
+        @methods.read(service_id, metric_id, id)
+      end
+
+      def delete_method(service_id, metric_id, id)
+        @methods.delete(service_id, metric_id, id)
+      end
+
       ####################################
       #    Application plan limits       #
       ####################################
