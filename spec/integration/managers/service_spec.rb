@@ -8,41 +8,35 @@ RSpec.describe 'Service API', type: :integration do
   let(:name) { SecureRandom.uuid }
   let(:rnd_num) { SecureRandom.random_number(1000000000) * 1.0 }
   let(:client) { ThreeScale::API.new(endpoint: endpoint, provider_key: provider_key) }
-
-  before(:each) do
-    @service = client.services.create({ name: name, system_name: name }) # placeholder until we have direct access to DB
-  end
+  let!(:service) { client.services.create({ name: name, system_name: name }) }
 
   after(:each) do
-
-    if @service != nil
-      begin
-        client.services.delete(@service['id']) # placeholder until we have direct access to DB
+    begin
+      client.services.delete(service['id'])
       rescue ThreeScale::API::HttpClient::NotFoundError
-      rescue ThreeScale::API::HttpClient::ForbiddenError
-
-      end
     end
-
   end
 
   context '#service_crud' do
     it 'creates a service' do
-      expect(@service).to include('name' => name)
+      expect(service).to include('name' => name)
     end
 
     it 'list an services' do
-      expect(client.services.list.any? { |serv| serv['name'] == @service['name'] }).to be(true)
+      expect(client.services.list.any? { |serv| serv['name'] == service['name'] }).to be(true)
     end
 
     it 'read a service' do
-      expect(client.services.read(@service['id'])).to include('name' => @service['name'])
+      expect(client.services.read(service['id'])).to include('name' => service['name'])
     end
 
     it 'delete service' do
-      client.services.delete(@service['id'])
-      expect(client.services.list.any? { |serv| serv['name'] == @service['name'] }).to be(false)
-      @service = nil
+      client.services.delete(service['id'])
+      expect(client.services.list.any? { |serv| serv['name'] == service['name'] }).to be(false)
+    end
+
+    it 'update service' do
+      expect(client.services.update(service['id'], name: 'testName')).to include('name' => 'testName')
     end
 
   end

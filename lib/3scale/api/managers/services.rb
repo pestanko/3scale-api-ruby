@@ -29,6 +29,16 @@ module ThreeScale
         end
 
         # @api public
+        # @return [Hash]
+        # @param [Fixnum] id Service ID
+        # @param [Hash] attr Service Attributes
+        # @option attributes [String] :name Service Name
+        def update(id, attr)
+          response = http_client.put("/admin/api/services/#{id}", body: attr)
+          extract(entity: 'service', from: response)
+        end
+
+        # @api public
         # Deletes service
         # @param [Fixnum] id Service id
         # @return true
