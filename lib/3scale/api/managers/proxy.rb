@@ -27,7 +27,8 @@ module ThreeScale
         # @param [Fixnum] config_id Configuration id
         # @param [String] to_env Target environment
         def promote(service_id, from_env, config_id, to_env)
-          response = http_client.post("/admin/api/services/#{service_id}/proxy/configs/#{from_env}/#{config_id}/promote", params: {to: to_env})
+          response = http_client.post("/admin/api/services/#{service_id}/proxy/configs/#{from_env}/#{config_id}/promote",
+                                      params: {to: to_env}, body: {})
           extract(entity: 'proxy_config', from: response)
         end
 
