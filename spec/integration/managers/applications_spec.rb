@@ -27,6 +27,10 @@ RSpec.describe 'Applications API', type: :integration do
     expect(application).to include('user_key' => name, 'service_id' => service_id)
   end
 
+  it 'read an application' do
+    expect(client.read_application(account_id, application['id'])).to include('user_key' => name, 'service_id' => service_id, 'id' => application['id'])
+  end
+
   it 'find all applications' do
     expect(client.list_applications.length).to be >= 1
   end
