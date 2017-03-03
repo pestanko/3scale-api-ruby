@@ -404,6 +404,10 @@ module ThreeScale
         @applications.create(account_id, attributes: attributes, plan_id: plan_id, **rest)
       end
 
+      def read_application(account_id, id)
+        @applications.read(account_id, id)
+      end
+
       # @api public
       # @param [Fixnum] account_id Account id
       # @param [Fixnum] id Application id

@@ -49,6 +49,11 @@ module ThreeScale
           extract(entity: 'application', from: response)
         end
 
+        def read(account_id, id)
+          response = http_client.get("/admin/api/accounts/#{account_id}/applications/#{id}")
+          extract(entity: 'application', from: response)
+        end
+
         def update(account_id, id, attributes)
           response = http_client.put("/admin/api/accounts/#{account_id}/applications/#{id}",  body: attributes )
           extract(entity: 'application', from: response)
