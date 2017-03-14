@@ -30,7 +30,7 @@ RSpec.describe ThreeScale::API::Managers::Proxy do
     it do
       expect(http_client).to receive(:post)
           .with('/admin/api/services/42/proxy/configs/sandbox/5/promote',
-          params: { to: 'production'})
+          params: { to: 'production'}, body: {})
           .and_return('proxy_config' => {})
       expect(client.promote(42, 'sandbox', 5, 'production')).to eq({})
     end

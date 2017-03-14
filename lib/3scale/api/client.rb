@@ -17,7 +17,8 @@ module ThreeScale
                   :proxy,
                   :metrics,
                   :mappings,
-                  :methods
+                  :methods,
+                  :active_docs
 
       # @param [ThreeScale::API::HttpClient] http_client
 
@@ -36,6 +37,7 @@ module ThreeScale
         @mappings = ThreeScale::API::Managers::Mappings.new(http_client)
         @methods = ThreeScale::API::Managers::Methods.new(http_client)
         @app_plan_limits = ThreeScale::API::Managers::ApplicationPlanLimits.new(http_client)
+        @active_docs = ThreeScale::API::Managers::ActiveDocs.new(http_client)
       end
 
       ####################################

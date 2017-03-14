@@ -18,6 +18,7 @@ module ThreeScale
       autoload :Metrics, '3scale/api/managers/metrics'
       autoload :Proxy, '3scale/api/managers/proxy'
       autoload :ServicePlans, '3scale/api/managers/service_plans'
+      autoload :ActiveDocs, '3scale/api/managers/active_docs'
     end
   end
 end
