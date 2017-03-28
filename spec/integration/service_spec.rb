@@ -62,8 +62,8 @@ RSpec.describe 'Service API', type: :integration do
 
     context '#list_mapping_rules' do
       before { create }
-      subject(:list) { client.list_mapping_rules(service_id) }
-      it { expect(list.size).to be >= 1 }
+      subject(:list_all) { client.list_mapping_rules(service_id) }
+      it { expect(list_all.size).to be >= 1 }
       it { is_expected.to include(create) }
     end
 

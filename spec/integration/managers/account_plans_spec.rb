@@ -10,7 +10,7 @@ RSpec.describe 'Account Plan API', type: :integration do
   let(:client) { ThreeScale::API.new(endpoint: endpoint, provider_key: provider_key) }
 
   before(:each) do
-    @account_plan = client.account_plan_create(name, name) # placeholder until we have direct access to DB
+    @account_plan = client.account_plan_create(name: name, system_name: name) # placeholder until we have direct access to DB
   end
 
   after(:each) do
@@ -21,9 +21,10 @@ RSpec.describe 'Account Plan API', type: :integration do
   end
 
   context '#account_plans_crud' do
+
     it 'creates an account plan' do
       expect(@account_plan).to include('name' => name)
-      expect(client.account_plan_create(name, name)).to include('errors' => {'system_name' => ["has already been taken"]})
+      expect(client.account_plan_create(name: name, system_name: name)).to include('errors' => {'system_name' => ["has already been taken"]})
       expect(client.account_plan_delete(@account_plan['id'])).to be(true)
       expect { client.account_plan_delete(@account_plan['id']) }.to raise_error(ThreeScale::API::HttpClient::NotFoundError)
     end
@@ -78,7 +79,7 @@ RSpec.describe 'Account Plan API', type: :integration do
     end
 
     it 'can\'t update system name to already exists one' do
-      plan = client.account_plan_create(rnd_string, rnd_string)
+      plan = client.account_plan_create(name: rnd_string, system_name: rnd_string)
       expect(client.account_plan_update(@account_plan['id'], 'system_name' => rnd_string))
           .to include('errors' => {'system_name' => ["has already been taken"]})
       client.account_plan_delete(plan['id'])

@@ -64,22 +64,6 @@ module ThreeScale
           true
         end
 
-        def key_create(account_id, application_id, key)
-          body = {account_id: account_id, application_id: application_id, key: key}
-          response = http_client.post("/admin/api/accounts/#{account_id}/applications/#{application_id}/keys", body: body)
-          extract(entity: 'key', from: response)
-        end
-
-        def keys_list(account_id, application_id)
-          response = http_client.get("/admin/api/accounts/#{account_id}/applications/#{application_id}/keys")
-          extract(collection: 'keys', entity: 'key', from: response)
-        end
-
-        def key_delete(account_id, application_id, key)
-          http_client.delete("/admin/api/accounts/#{account_id}/applications/#{application_id}/keys/#{key}")
-          true
-        end
-
         def referrer_filter_list(account_id, application_id)
           response = http_client.get("/admin/api/accounts/#{account_id}/applications/#{application_id}/referrer_filters")
           extract(collection: 'referrer_filters', entity: 'referrer_filter', from: response)

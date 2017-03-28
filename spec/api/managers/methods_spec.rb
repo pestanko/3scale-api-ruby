@@ -19,7 +19,7 @@ RSpec.describe ThreeScale::API::Managers::Methods do
   context '#list' do
     it do
       expect(http_client).to receive(:get).with('/admin/api/services/42/metrics/43/methods').and_return('methods' => [])
-      expect(client.list(42, 43)).to eq([])
+      expect(client.list_all(42, 43)).to eq([])
     end
   end
 

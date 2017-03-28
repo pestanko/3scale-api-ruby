@@ -20,14 +20,14 @@ RSpec.describe ThreeScale::API::Managers::ServicePlans do
   context '#list' do
     it do
       expect(http_client).to receive(:get).with('/admin/api/service_plans').and_return('plans' => [])
-      expect(client.list).to eq([])
+      expect(client.list_all).to eq([])
     end
   end
 
   context '#list_for_service' do
     it do
       expect(http_client).to receive(:get).with('/admin/api/services/42/service_plans').and_return('plans' => [])
-      expect(client.list_for_service(42)).to eq([])
+      expect(client.list(42)).to eq([])
     end
   end
 

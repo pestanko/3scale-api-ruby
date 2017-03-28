@@ -12,7 +12,7 @@ RSpec.describe 'Account API', type: :integration do
   let(:email) { "#{name}@example.com" }
 
   before(:each) do
-    @acc_plan = client.account_plan_create(name, name)
+    @acc_plan = client.account_plan_create(name: name, system_name: name)
     @account = client.sign_up(name: name, username: name, account_plan_id: @acc_plan['id'])
   end
 
@@ -66,7 +66,7 @@ RSpec.describe 'Account API', type: :integration do
     end
 
     it 'change a plan' do
-      new_plan = client.account_plan_create(rnd_string, rnd_string)
+      new_plan = client.account_plan_create(name: rnd_string, system_name: rnd_string)
 
       expect(client.account_change_plan(@account['id'], new_plan['id'])['account_plan']).to include('id' => new_plan['id'])
       expect(client.account_delete(@account['id'])).to be(true)

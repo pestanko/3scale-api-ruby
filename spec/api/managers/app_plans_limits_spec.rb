@@ -12,7 +12,7 @@ RSpec.describe ThreeScale::API::Managers::ApplicationPlanLimits do
   context '#list' do
     it do
       expect(http_client).to receive(:get).with('/admin/api/application_plans/42/limits').and_return('limits' => [])
-      expect(client.list(42)).to eq([])
+      expect(client.list_all(42)).to eq([])
     end
   end
 

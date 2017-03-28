@@ -21,7 +21,7 @@ RSpec.describe ThreeScale::API::Managers::Applications do
   context '#list' do
     it do
       expect(http_client).to receive(:get).with('/admin/api/applications', params: nil).and_return('applications' => [])
-      expect(client.list).to eq([])
+      expect(client.list_all).to eq([])
     end
   end
 

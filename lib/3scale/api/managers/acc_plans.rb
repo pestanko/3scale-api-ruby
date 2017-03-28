@@ -11,12 +11,10 @@ module ThreeScale
         end
 
         # @api public
-        # @param [String] name
-        # @param [String] system_name
+        # @param [Hash] attrs
         # @return [Hash]
-        def create(name, system_name)
-          body = { name: name, system_name: system_name }
-          response = http_client.post('/admin/api/account_plans', body: body)
+        def create(attrs)
+          response = http_client.post('/admin/api/account_plans', body: attrs)
           extract(entity: 'account_plan', from: response)
         end
 

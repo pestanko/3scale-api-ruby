@@ -8,8 +8,10 @@ module ThreeScale
                   :acc_feature,
                   :acc_plan,
                   :acc_plan_feature,
+                  :acc_user,
                   :app_plan,
                   :app_plan_limits,
+                  :app_key,
                   :http_client,
                   :applications,
                   :service_plan,
@@ -28,11 +30,13 @@ module ThreeScale
         @applications = ThreeScale::API::Managers::Applications.new(http_client)
         @acc_plan = ThreeScale::API::Managers::AccountPlans.new(http_client)
         @acc_plan_feature = ThreeScale::API::Managers::AccountPlanFeatures.new(http_client)
+        @acc_user = ThreeScale::API::Managers::AccountUsers.new(http_client)
         @acc = ThreeScale::API::Managers::Accounts.new(http_client)
         @service_plan = ThreeScale::API::Managers::ServicePlans.new(http_client)
         @services = ThreeScale::API::Managers::Services.new(http_client)
         @proxy = ThreeScale::API::Managers::Proxy.new(http_client)
         @app_plan = ThreeScale::API::Managers::ApplicationPlans.new(http_client)
+        @app_key = ThreeScale::API::Managers::ApplicationKeys.new(http_client)
         @metrics = ThreeScale::API::Managers::Metrics.new(http_client)
         @mappings = ThreeScale::API::Managers::Mappings.new(http_client)
         @methods = ThreeScale::API::Managers::Methods.new(http_client)
@@ -100,12 +104,10 @@ module ThreeScale
 
       # @api public
       # Creates an account plan.
-      # @param [String] name Name of the account plan.
-      # @param [String] system_name System Name of the object to be created. System names cannot be modified after
-      #                             creation, they are used as the key to identify the objects.
+      # @param [Hash] attrs
       # @return [Hash]
-      def account_plan_create(name, system_name)
-        @acc_plan.create(name, system_name)
+      def account_plan_create(attrs)
+        @acc_plan.create(attrs)
       end
 
       # @api public
@@ -287,13 +289,13 @@ module ThreeScale
       # @api public
       # @return [Array<Hash>] List of services
       def service_plans_list
-        @service_plan.list
+        @service_plan.list_all
       end
 
       # @api public
       # @return [Array<Hash>] List of services
       def service_plans_list_for_service(service_id)
-        @service_plan.list_for_service(service_id)
+        @service_plan.list(service_id)
       end
 
       # @api public
@@ -430,14 +432,14 @@ module ThreeScale
       # @param [Fixnum] application_id Application id
       # @param [String] key Application key
       def create_application_key(account_id, application_id, key)
-        @applications.key_create(account_id, application_id, key)
+        @app_key.create(account_id, application_id, key)
       end
 
       # @api public
       # @param [Fixnum] account_id Account id
       # @param [Fixnum] application_id Application id
       def list_applications_keys(account_id, application_id)
-        @applications.keys_list(account_id, application_id)
+        @app_key.list(account_id, application_id)
       end
 
       # @api public
@@ -445,7 +447,7 @@ module ThreeScale
       # @param [Fixnum] application_id Application id
       # @param [String] key Application key
       def delete_application_key(account_id, application_id, key)
-        @applications.key_delete(account_id, application_id, key)
+        @app_key.delete(account_id, application_id, key)
       end
 
       # @api public

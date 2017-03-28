@@ -27,8 +27,8 @@ RSpec.describe 'Service Plan API', type: :integration do
 
   context '#service_plans_crud' do
     it 'list an service plans' do
-      expect(client.service_plan.list.any? { |plan| plan['name'] == @service_plan['name'] }).to be(true)
-      expect(client.service_plan.list_for_service(service_id).any? { |plan| plan['name'] == @service_plan['name'] }).to be(true)
+      expect(client.service_plan.list_all.any? { |plan| plan['name'] == @service_plan['name'] }).to be(true)
+      expect(client.service_plan.list(service_id).any? { |plan| plan['name'] == @service_plan['name'] }).to be(true)
     end
 
     it 'read an service plan' do
@@ -37,7 +37,7 @@ RSpec.describe 'Service Plan API', type: :integration do
 
     it 'deletes service plan' do
       client.service_plan.delete(service_id, @service_plan['id'])
-      expect(client.service_plan.list.any? { |plan| plan['name'] == @service_plan['name'] }).to be(false)
+      expect(client.service_plan.list_all.any? { |plan| plan['name'] == @service_plan['name'] }).to be(false)
     end
 
     it 'sets service plan as default' do

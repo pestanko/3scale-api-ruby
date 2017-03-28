@@ -30,7 +30,7 @@ RSpec.describe ThreeScale::API::Managers::Accounts do
   context '#list' do
     it do
       expect(http_client).to receive(:get).with('/admin/api/accounts', params: nil).and_return('accounts' => [])
-      expect(client.list).to eq([])
+      expect(client.list_all).to eq([])
     end
   end
 

@@ -8,12 +8,12 @@ RSpec.describe 'Service API', type: :integration do
   let(:name) { SecureRandom.uuid }
   let(:rnd_num) { SecureRandom.random_number(1000000000) * 1.0 }
   let(:client) { ThreeScale::API.new(endpoint: endpoint, provider_key: provider_key) }
-  let!(:service) { client.services.create({ name: name, system_name: name }) }
+  let!(:service) { client.services.create({name: name, system_name: name}) }
 
   after(:each) do
     begin
       client.services.delete(service['id'])
-      rescue ThreeScale::API::HttpClient::NotFoundError
+    rescue ThreeScale::API::HttpClient::NotFoundError
     end
   end
 
@@ -38,6 +38,5 @@ RSpec.describe 'Service API', type: :integration do
     it 'update service' do
       expect(client.services.update(service['id'], name: 'testName')).to include('name' => 'testName')
     end
-
   end
 end

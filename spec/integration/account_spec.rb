@@ -17,7 +17,7 @@ RSpec.describe 'Account API', type: :integration do
 
     context 'account plan' do
       subject(:acc_plan) do
-        client.account_plan_create(name, name)
+        client.account_plan_create(name: name, system_name: name)
       end
 
       after(:each) do

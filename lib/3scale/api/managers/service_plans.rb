@@ -4,14 +4,14 @@ module ThreeScale
       class ServicePlans < DefaultManager
         # @api public
         # @return [Array<Hash>] List of services
-        def list
+        def list_all
           response = http_client.get('/admin/api/service_plans')
           extract(collection: 'plans', entity: 'service_plan', from: response)
         end
 
         # @api public
         # @return [Array<Hash>] List of services
-        def list_for_service(service_id)
+        def list(service_id)
           response = http_client.get("/admin/api/services/#{service_id}/service_plans")
           extract(collection: 'plans', entity: 'service_plan', from: response)
         end
@@ -29,7 +29,7 @@ module ThreeScale
         # @param [Fixnum] service_id
         # @return [Hash] Default service plan hash
         def get_default(service_id)
-          self.list_for_service(service_id).each do |plan|
+          self.list(service_id).each do |plan|
             if plan['default']
               return plan
             end
@@ -63,7 +63,7 @@ module ThreeScale
         # @param [Fixnum] service_id
         # @param [String] plan_name
         def get_by_name(service_id, plan_name)
-          self.list_for_service(service_id).each do |plan|
+          self.list(service_id).each do |plan|
             if plan['name'] == plan_name
               return plan
             end

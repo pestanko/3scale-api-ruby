@@ -20,7 +20,7 @@ RSpec.describe ThreeScale::API::Managers::AccountFeatures do
   context '#list' do
     it do
       expect(http_client).to receive(:get).with('/admin/api/features').and_return('features' => [])
-      expect(client.list).to eq([])
+      expect(client.list_all).to eq([])
     end
   end
 
