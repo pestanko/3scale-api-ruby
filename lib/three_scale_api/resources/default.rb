@@ -2,6 +2,7 @@
 
 require 'three_scale_api/tools'
 require 'three_scale_api/resources/default'
+require 'three_scale_api/logging_support'
 
 module ThreeScaleApi
   # Main module containing implementation of the resources and it's managers
@@ -9,6 +10,8 @@ module ThreeScaleApi
     # Default resource wrapper for any entity received by REST API
     # All other resources inherits from Default resource
     class DefaultResource
+      include LoggingSupport
+
       attr_accessor :http_client,
                     :manager,
                     :api,

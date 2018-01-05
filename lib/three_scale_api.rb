@@ -2,6 +2,8 @@
 
 require 'three_scale_api/http_client'
 require 'three_scale_api/tools'
+require 'three_scale_api/logging_support'
+
 require 'three_scale_api/clients/service'
 require 'three_scale_api/clients/account'
 require 'three_scale_api/clients/plans'
@@ -26,17 +28,10 @@ module ThreeScaleApi
     # @param [String] log_level Log level ['debug', 'info', 'warning', 'error']
     # @param [Bool] verify_ssl Default value is true
     def initialize(endpoint:, provider_key:, log_level: 'info', verify_ssl: true)
+      LoggingSupport.set_level(log_level)
       @http_client = HttpClient.new(endpoint: endpoint,
                                     provider_key: provider_key,
-                                    verify_ssl: verify_ssl,
-                                    log_level: log_level)
-      @services_manager = nil
-      @accounts_manager = nil
-      @providers_manager = nil
-      @webhooks_manager = nil
-      @account_plans_manager = nil
-      @active_docs_manager = nil
-      @settings_manager = nil
+                                    verify_ssl: verify_ssl)
     end
 
     # @api public

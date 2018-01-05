@@ -12,7 +12,7 @@ module ThreeScaleApi
       #
       # @return [Array<DefaultPlan>] List of DefaultPlans
       def list_all(path = nil)
-        @log.info("List all #{resource_name}s")
+        log.info("List all #{resource_name}s")
         response = @http_client.get(path)
         log_result resource_list(response)
       end
@@ -23,7 +23,7 @@ module ThreeScaleApi
       # @param [Fixnum] id Plan ID
       # @return [DefaultPlanResource] DefaultPlan plan instance
       def set_default(id)
-        @log.debug("Set default #{resource_name}: #{id}")
+        log.debug("Set default #{resource_name}: #{id}")
         response = @http_client.put("#{base_path}/#{id}/default")
         log_result resource_instance(response)
       end
@@ -33,7 +33,7 @@ module ThreeScaleApi
       #
       # @return [DefaultPlanResource] Default plan plan instance
       def get_default
-        @log.info("Get default #{resource_name}:")
+        log.info("Get default #{resource_name}:")
         result = nil
         _list.each do |plan|
           result = plan if plan['default']

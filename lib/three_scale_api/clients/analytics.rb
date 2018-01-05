@@ -1,24 +1,18 @@
 # frozen_string_literal: true
 
 require 'three_scale_api/tools'
+require 'three_scale_api/logging_support'
 
 module ThreeScaleApi
   # Main module containing implementation of the resources and it's managers
   module Clients
     class AnalyticsClient
+      include LoggingSupport
       # Gets manager name for logging purposes
       #
       # @return [String] Manager name
       def manager_name
         self.class.name.split('::').last
-      end
-
-      # @api public
-      # Returns logger
-      #
-      # @return [Logger] returns logger
-      def log
-        @log ||= @http_client.logger_factory.get_instance(name: manager_name)
       end
 
       attr_accessor :http_client

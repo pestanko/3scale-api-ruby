@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'three_scale_api/tools'
+require 'three_scale_api/logging_support'
 require 'three_scale_api/resources/default'
 
 module ThreeScaleApi
@@ -9,6 +10,7 @@ module ThreeScaleApi
     # Default resource manager wrapper for default entity received by REST API
     # All other managers inherits from Default manager
     class DefaultClient
+      include LoggingSupport
       attr_accessor :http_client, :entity_name, :collection_name
 
       # @api public
@@ -241,19 +243,11 @@ module ThreeScaleApi
       def log_result(result)
         if result.is_a?(Array)
           log.info(" #{resource_name}s: #{result.length}")
-          result.each_with_index { |res, index| @log.info("\tItem #{index}: #{res}") }
+          result.each_with_index { |res, index| log.info("\tItem #{index}: #{res}") }
         else
           log.debug(" --> Result: #{result}")
         end
         result
-      end
-
-      # @api public
-      # Returns logger
-      #
-      # @return [Logger] returns logger
-      def log
-        @log ||= @http_client.logger_factory.get_instance(name: manager_name)
       end
     end
 

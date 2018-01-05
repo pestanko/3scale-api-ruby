@@ -16,7 +16,7 @@ module ThreeScaleApi
       end
 
       def fetch(id)
-        @log.info("Fetch #{resource_name}: #{id}")
+        log.info("Fetch #{resource_name}: #{id}")
         res = _list.find { |doc| doc['id'] == id }
         log_result res
       end
