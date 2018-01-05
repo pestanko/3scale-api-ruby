@@ -3,19 +3,19 @@
 require 'json'
 require 'uri'
 require 'net/http'
-require 'three_scale_api/tools'
 require 'openssl'
+require 'three_scale_api/logging_support'
 
 module ThreeScaleApi
   # Http Client
   class HttpClient
+    include ThreeScaleApi::LoggingSupport
+
     attr_reader :endpoint,
                 :admin_domain,
                 :provider_key,
                 :headers,
-                :format,
-                :log,
-                :logger_factory
+                :format
 
     # @api public
     # Initializes HttpClient
@@ -24,19 +24,13 @@ module ThreeScaleApi
     # @param [String] provider_key Provider key
     # @param [String] format Which format
     # @param [Boolean] verify_ssl Verify ssl certificate (default is 'true')
-    # @param [String] log_level Log level ['debug', 'info', 'warning', 'error']
-    #     There is special log_level that is called 'trace', for inspecting NET::HTTP communication
     def initialize(endpoint:,
                    provider_key:,
                    format: :json,
-                   verify_ssl: true,
-                   log_level: 'debug')
+                   verify_ssl: true)
       @endpoint = URI(endpoint)
-      @log_level = log_level
       @admin_domain = @endpoint.host
       @provider_key = provider_key
-      @logger_factory = ThreeScaleApi::Tools::LoggingFactory.new(log_level: log_level)
-      @log = @logger_factory.get_instance(name: 'HttpClient')
       @format = format
       @verify_ssl = verify_ssl
       @headers = create_headers
@@ -57,7 +51,7 @@ module ThreeScaleApi
     # @param [String] path Relative request path to endpoint
     # @param [Hash] params Optional parameters for the request
     def get(path, params: nil)
-      @log.debug("[GET] #{path}")
+      log.debug("[GET] #{path}")
       parse http.get(format_path_n_query(path, params), headers)
     end
 
@@ -68,7 +62,7 @@ module ThreeScaleApi
     # @param [Hash] body Request's body
     # @param [Hash] params Optional parameters for the request
     def patch(path, body:, params: nil)
-      @log.debug("[PATCH] #{path}: #{body}")
+      log.debug("[PATCH] #{path}: #{body}")
       parse http.patch(format_path_n_query(path, params), serialize(body), headers)
     end
 
@@ -79,7 +73,7 @@ module ThreeScaleApi
     # @param [Hash] body Request's body
     # @param [Hash] params Optional parameters for the request
     def post(path, body:, params: nil)
-      @log.debug("[POST] #{path}: #{body}")
+      log.debug("[POST] #{path}: #{body}")
       parse http.post(format_path_n_query(path, params), serialize(body), headers)
     end
 
@@ -90,7 +84,7 @@ module ThreeScaleApi
     # @param [Hash] body Request's body
     # @param [Hash] params Optional parameters for the request
     def put(path, body: nil, params: nil)
-      @log.debug("[PUT] #{path}: #{body}")
+      log.debug("[PUT] #{path}: #{body}")
       parse http.put(format_path_n_query(path, params), serialize(body), headers)
     end
 
@@ -100,7 +94,7 @@ module ThreeScaleApi
     # @param [String] path Relative request path to endpoint
     # @param [Hash] params Optional parameters for the request
     def delete(path, params: nil)
-      @log.debug("[DELETE] #{path}")
+      log.debug("[DELETE] #{path}")
       parse http.delete(format_path_n_query(path, params), headers)
     end
 
@@ -166,10 +160,6 @@ module ThreeScaleApi
 
     protected
 
-    def trace_net_http?
-      @log_level == 'trace'
-    end
-
     # Creates headers
     #
     # @return [Hash] Generated headers
@@ -179,7 +169,6 @@ module ThreeScaleApi
         'Content-Type': "application/#{@format}",
         'Authorization': 'Basic ' + [":#{@provider_key}"].pack('m').delete("\r\n"),
       }
-      headers['Accept-Encoding'] = 'identity' if trace_net_http?
       headers.freeze
     end
 
@@ -188,7 +177,6 @@ module ThreeScaleApi
     # @return [Net::HTTP] Http client instance
     def initialize_http_client
       http_client = Net::HTTP.new(admin_domain, @endpoint.port)
-      http_client.set_debug_output($stdout) if trace_net_http?
       http_client.use_ssl = @endpoint.is_a?(URI::HTTPS)
       http_client.verify_mode = OpenSSL::SSL::VERIFY_NONE unless @verify_ssl
       http_client

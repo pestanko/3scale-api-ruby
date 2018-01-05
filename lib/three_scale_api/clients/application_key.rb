@@ -42,7 +42,7 @@ module ThreeScaleApi
       #
       # @param [String] key Application key
       def read(key)
-        @log.info("Read #{resource_name}: #{key}")
+        log.info("Read #{resource_name}: #{key}")
         res = _list.find { |k| key == k['value'] }
         log_result res
       end
@@ -52,7 +52,7 @@ module ThreeScaleApi
       #
       # @param [String] key Application key
       def delete(key)
-        @log.info("Delete #{resource_name}: #{key}")
+        log.info("Delete #{resource_name}: #{key}")
         @http_client.delete("#{base_path}/#{key}")
         true
       end
