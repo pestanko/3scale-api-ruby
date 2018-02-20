@@ -8,17 +8,14 @@ RSpec.describe 'Account user Resource', type: :integration do
   def create_res_instance(name = nil)
     @manager.create(username: name,
                     password: name,
-                    email: "#{name}@example.com")
+                    email:    "#{name}@example.com")
   end
 
   before(:all) do
-    @endpoint = ENV.fetch('ENDPOINT')
-    @provider_key = ENV.fetch('PROVIDER_KEY')
-    @acc_name = SecureRandom.uuid
-    @name = SecureRandom.uuid
+    @acc_name     = SecureRandom.uuid
     @acc_resource = create_account(name: @acc_name)
-    @manager = @acc_resource.users
-    @resource = create_res_instance(@name)
+    @manager      = @acc_resource.users
+    @resource     = create_res_instance(@name)
   end
 
   after(:all) do

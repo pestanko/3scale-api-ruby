@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'rspec'
+
 require 'three_scale_api'
 require 'securerandom'
 require_relative './spec_helper'

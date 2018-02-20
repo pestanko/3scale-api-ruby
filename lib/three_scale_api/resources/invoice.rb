@@ -9,17 +9,17 @@ module ThreeScaleApi
     class Invoice < DefaultResource
 
       # @api public
-      # Construct the metric resource
+      # Construct the invoice resource
       #
       # @param [ThreeScaleApi::HttpClient] client Instance of http client
-      # @param [ThreeScaleApi::Clients::InvoiceClient] manager Metrics manager
-      # @param [Hash] entity Entity Hash from API client of the metric
+      # @param [ThreeScaleApi::Clients::InvoiceClient] manager Invoices manager
+      # @param [Hash] entity Entity Hash from API client of the invoice
       def initialize(client, manager, entity)
         super(client, manager, entity)
       end
 
       def line_items
-        manager_instance(:InvoiceLineItems)
+        manager_instance(:InvoiceLineItem)
       end
 
       # @api public

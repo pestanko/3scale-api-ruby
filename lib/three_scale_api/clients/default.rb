@@ -73,13 +73,13 @@ module ThreeScaleApi
       # @return [Array<DefaultResource>] The list of the Resources
       # @param [Hash] params optional arguments
       def list(params: {})
-        log.info("List #{resource_name}s")
+        log.debug("List #{resource_name}s [#{base_path}]")
         log_result _list(params: params)
       end
 
       # Default delete function
       def delete(id, params: {})
-        log.info("Delete #{resource_name}: #{id}")
+        log.info("Delete #{resource_name}: #{id} [#{base_path}/#{id}]")
         @http_client.delete("#{base_path}/#{id}", params: params)
         true
       end
@@ -92,7 +92,7 @@ module ThreeScaleApi
       def fetch(id = nil)
         path = base_path
         path = "#{path}/#{id}" unless id.nil?
-        log.info("Fetched #{resource_name}: #{path}")
+        log.debug("Fetched #{resource_name}: #{path}")
         response = http_client.get(path)
         log_result resource_instance(response)
       end
@@ -121,7 +121,7 @@ module ThreeScaleApi
       # @param [Block] block Condition block
       # @return [DefaultResource] Resource instance
       def find(params: {}, &block)
-        log.info("Find #{resource_name}")
+        log.debug("Find #{resource_name}  [#{base_path}]")
         resources = _list(params: params)
         log_result resources.find(&block)
       end
@@ -133,7 +133,7 @@ module ThreeScaleApi
       # @param [Block] block System name
       # @return [Array<DefaultResource>] Array of Resources instance
       def select(params: {}, &block)
-        log.info("Select #{resource_name}")
+        log.debug("Select #{resource_name}")
         resources = _list(params: params)
         log_result resources.select(&block)
       end
@@ -144,7 +144,7 @@ module ThreeScaleApi
       # @param [Hash] attributes Attributes of the created object
       # @return [DefaultResource] Created resource
       def create(attributes)
-        log.info("Create #{resource_name}: #{attributes}")
+        log.info("Create [#{base_path}] #{resource_name}: #{attributes}")
         response = http_client.post(base_path, body: attributes)
         log_result resource_instance(response)
       end

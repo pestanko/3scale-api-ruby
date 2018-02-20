@@ -2,10 +2,12 @@
 
 require 'three_scale_api/clients/default'
 
+require 'three_scale_api/resources/invoice_line_item'
+
 module ThreeScaleApi
   module Clients
     # Metric resource manager wrapper for the metric entity received by REST API
-    class InvoiceLineItemsClient < DefaultClient
+    class InvoiceLineItemClient < DefaultClient
       attr_accessor :invoice
 
       # @api public
@@ -21,7 +23,7 @@ module ThreeScaleApi
       #
       # @return [String] Base URL for the REST call
       def base_path
-        super.concat "/invoices/#{invoice[:id]}/line_items"
+        "/api/invoices/#{invoice[:id]}/line_items"
       end
     end
   end
