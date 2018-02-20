@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'three_scale_api'
+require 'rspec/autorun'
 
 RSpec.describe 'ThreeScaleApi Client' do
   let(:endpoint) { 'https://test.3scale.com' }

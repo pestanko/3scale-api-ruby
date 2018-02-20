@@ -24,14 +24,16 @@ RSpec.shared_examples :crud_resource do
     it 'should delete resource' do
       res_name = random_gen_name
       resource = create_res_instance(res_name)
-      expect(resource).to res_include(base_attr => res_name)
+      res_id   = resource[:id]
+      expect(resource).to res_include(base_attr => res_name) unless base_attr == :id
       resource.delete
-      expect(@manager.list.any? { |r| r[base_attr] == res_name }).to be(false)
+      expect(@manager.list.any? { |r| r[res_id] == res_name }).to be(false)
     end
   end
 
   context 'List' do
     it 'should list resource' do
+      return if base_attr == :id
       res_name = @resource[base_attr]
       expect(@manager.list.any? { |res| res[base_attr] == res_name }).to be(true)
     end
@@ -39,6 +41,7 @@ RSpec.shared_examples :crud_resource do
 
   context 'Find' do
     it 'should find resource' do
+      return if base_attr == :id
       resource = @manager[@resource[base_attr]]
       expect(resource).to be_truthy
       expect(resource).to res_include('id' => @resource['id'])
