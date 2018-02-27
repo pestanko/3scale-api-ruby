@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'logger'
+
 module ThreeScaleApi
   # Basic tools module
   module Tools
@@ -15,22 +16,24 @@ module ThreeScaleApi
       response
     end
 
+    def self.unwrap(from, entity_name: nil)
+      case from
+      when Array then from.map { |e| entity_name ? e.fetch(entity_name) : e }
+      when Hash then  entity_name ? (from.fetch(entity_name) { from }) : from
+      when nil then nil # raise exception?
+      else raise "unknown #{from}"
+      end
+    end
+
     # @api public
     # Extracts Hash from response
     #
     # @param [String] collection Collection name
     # @param [String] entity Entity name
     # @param [object] from Response
-    def self.extract(collection: nil, entity:, from:)
+    def self.extract(collection: nil, entity: nil, from:)
       from = from.fetch(collection) if collection
-
-      response = case from
-                 when Array then from.map { |e| e.fetch(entity) }
-                 when Hash then from.fetch(entity) { from }
-                 when nil then nil # raise exception?
-                 else raise "unknown #{from}"
-                 end
-
+      response = unwrap(from, entity_name: entity)
       check_response(response)
     end
 

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'three_scale_api/resources/default'
+require 'three_scale_api/clients/policy'
 
 module ThreeScaleApi
   module Resources

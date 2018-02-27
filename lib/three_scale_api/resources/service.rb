@@ -50,6 +50,10 @@ module ThreeScaleApi
       def application_plans
         Clients::ApplicationPlanClient.new(self)
       end
+
+      def policies
+        Clients::PolicyClient.new(self)
+      end
     end
   end
 end
