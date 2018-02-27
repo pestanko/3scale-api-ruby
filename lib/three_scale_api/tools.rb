@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require 'logger'
+require 'json'
+
 module ThreeScaleApi
   # Basic tools module
   module Tools
@@ -22,6 +24,7 @@ module ThreeScaleApi
     # @param [String] entity Entity name
     # @param [object] from Response
     def self.extract(collection: nil, entity:, from:)
+      from = JSON.parse(from)
       from = from.fetch(collection) if collection
 
       response = case from

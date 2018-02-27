@@ -11,15 +11,17 @@ module ThreeScaleApi
     # All other managers inherits from Default manager
     class DefaultClient
       include LoggingSupport
-      attr_accessor :http_client, :entity_name, :collection_name
+      attr_accessor :client,
+                    :entity_name,
+                    :collection_name
 
       # @api public
       # Creates instance of the Default resource manager
       #
-      # @param [ThreeScaleApi::HttpClient] http_client Instance of http client
-      def initialize(http_client, entity_name: nil, collection_name: nil)
-        @http_client = http_client
-        @entity_name = entity_name
+      # @param [ThreeScaleApi::HttpClient] client Instance of http client
+      def initialize(client, entity_name: nil, collection_name: nil)
+        @client          = client
+        @entity_name     = entity_name
         @collection_name = collection_name || "#{entity_name}s"
       end
 
@@ -80,7 +82,8 @@ module ThreeScaleApi
       # Default delete function
       def delete(id, params: {})
         log.info("Delete #{resource_name}: #{id} [#{base_path}/#{id}]")
-        @http_client.delete("#{base_path}/#{id}", params: params)
+        path = "#{base_path}/#{id}.json"
+        client[path].delete(params: params)
         true
       end
 
@@ -90,10 +93,10 @@ module ThreeScaleApi
       # @param [Fixnum] id Id of the entity
       # @return [DefaultResource] Instance of the default resource
       def fetch(id = nil)
-        path = base_path
-        path = "#{path}/#{id}" unless id.nil?
+        path = "#{base_path}.json"
+        path = "#{base_path}/#{id}.json" unless id.nil?
         log.debug("Fetched #{resource_name}: #{path}")
-        response = http_client.get(path)
+        response = client[path].get
         log_result resource_instance(response)
       end
 
@@ -144,8 +147,9 @@ module ThreeScaleApi
       # @param [Hash] attributes Attributes of the created object
       # @return [DefaultResource] Created resource
       def create(attributes)
-        log.info("Create [#{base_path}] #{resource_name}: #{attributes}")
-        response = http_client.post(base_path, body: attributes)
+        path = "#{base_path}.json"
+        log.info("Create [#{path}] #{resource_name}: #{attributes}")
+        response = client[path].post(JSON.dump(attributes))
         log_result resource_instance(response)
       end
 
@@ -155,11 +159,11 @@ module ThreeScaleApi
       # @param [Hash, DefaultResource] attributes Attributes that will be updated
       # @return [DefaultResource] Updated resource
       def update(attributes, id: nil, method: :put)
-        id ||= attributes['id']
+        id   ||= attributes['id']
         path = base_path
-        path = "#{path}/#{id}" unless id.nil?
+        path = id.nil? ? "#{base_path}.json" : "#{path}/#{id}.json"
         log.info("Update [#{path}]: #{attributes}")
-        response = http_client.method(method).call(path, body: attributes)
+        response = client[path].method(method).call(JSON.dump(attributes))
         log_result resource_instance(response)
       end
 
@@ -168,7 +172,8 @@ module ThreeScaleApi
       # @return [Array<DefaultResource>] The list of the Resources
       # @param [Hash] params optional arguments
       def _list(params: {})
-        resource_list http_client.get(base_path, params: params)
+        path = "#{base_path}.json"
+        resource_list(client[path].get(params: params))
       end
 
       def resource_class
@@ -189,13 +194,13 @@ module ThreeScaleApi
       # @param [Hash] entity Entity received from REST call using API
       # @return [DefaultResource] Specific instance of the resource
       def instance(entity: nil, selector: nil)
-        inst = {}
+        inst     = {}
         res_inst = resource_class
 
         if res_inst.respond_to?(:new)
-          inst = res_inst.new(@http_client,
+          inst = res_inst.new(@client,
                               self,
-                              entity: entity,
+                              entity:    entity,
                               entity_id: selector)
         end
 
@@ -231,7 +236,7 @@ module ThreeScaleApi
       #
       # @return [String] Manager name
       def resource_name
-        manager = manager_name.dup
+        manager           = manager_name.dup
         manager['Client'] = ''
         manager
       end
@@ -260,7 +265,8 @@ module ThreeScaleApi
       # @param [String] state 'approve' or 'reject' or 'make_pending'
       def set_state(id, state = 'approve')
         log.info "Set state [#{id}]: #{state}"
-        response = http_client.put("#{base_path}/#{id}/#{state}")
+        path     = "#{base_path}/#{id}/#{state}.json"
+        response = client[path].put('')
         log_result resource_instance(response)
       end
     end

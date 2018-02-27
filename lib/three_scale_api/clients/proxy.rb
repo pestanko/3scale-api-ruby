@@ -11,9 +11,9 @@ module ThreeScaleApi
       # @api public
       # Creates instance of the Proxy resource manager
       #
-      # @param [ThreeScaleQE::TestClient] http_client Instance of http client
-      def initialize(http_client, service)
-        super(http_client, entity_name: 'proxy', collection_name: 'proxies')
+      # @param [ThreeScaleQE::TestClient] client Instance of http client
+      def initialize(client, service)
+        super(client, entity_name: 'proxy', collection_name: 'proxies')
         @service = service
       end
 
@@ -35,8 +35,8 @@ module ThreeScaleApi
       def promote(version: 1, from: 'sandbox', to: 'production')
         log.info "Promote #{resource_name} [#{version}] from \"#{from}\" to \"#{to}\""
 
-        path = "#{base_path}/configs/#{from}/#{version}/promote"
-        response = @http_client.post(path, params: { to: to }, body: {})
+        path = "#{base_path}/configs/#{from}/#{version}/promote.json"
+        response = client[path].post('', params: { to: to })
         log_result resource_instance(response)
       end
 
@@ -47,7 +47,7 @@ module ThreeScaleApi
       # @param [String] env Environment name
       def config_list(env: 'sandbox')
         log.info "Lists #{resource_name} Configs for \"#{env}\""
-        response = http_client.get("#{base_path}/configs/#{env}")
+        response = client["#{base_path}/configs/#{env}.json"].get
         log_result resource_instance(response)
       end
 
@@ -59,7 +59,7 @@ module ThreeScaleApi
       # @return [Proxy] Instance of the proxy resource
       def config_read(id: 1, env: 'sandbox')
         log.info("#{resource_name} config [#{id}] for \"#{env}\"")
-        response = http_client.get("#{base_path}/configs/#{env}/#{id}")
+        response = client["#{base_path}/configs/#{env}/#{id}.json"].get
         log_result resource_instance(response)
       end
 
@@ -70,7 +70,7 @@ module ThreeScaleApi
       # @return [Proxy] Instance of the proxy resource
       def latest(env: 'sandbox')
         log.info("Latest #{resource_name} config for: #{env}")
-        response = http_client.get("#{base_path}/configs/#{env}/latest")
+        response = client["#{base_path}/configs/#{env}/latest.json"].get
         log_result resource_instance(response)
       end
     end

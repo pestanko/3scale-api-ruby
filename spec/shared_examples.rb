@@ -12,8 +12,8 @@ RSpec.shared_examples :crud_resource do
 
   context 'Update' do
     it 'should update resource' do
-      param = update_params[:param]
-      value = update_params[:value]
+      param            = update_params[:param]
+      value            = update_params[:value]
       @resource[param] = value
       expect(@resource.update).to res_include(param => value)
       expect(@resource).to res_include(param => value)
@@ -51,19 +51,11 @@ RSpec.shared_examples :crud_resource do
   end
 
   context 'Read' do
-    it 'should not call http_client get' do
-      expect(@manager.http_client).not_to receive(:get)
-      @manager.read(@resource['id'])
-    end
 
-    it 'should fetch resource and call http_client get' do
-      entity_name = @manager.entity_name
-      expect(@manager.http_client).to receive(:get).and_return(
-        entity_name.to_s => { base_attr => @name }
-      )
-      res = @manager.read(@resource['id'])
-      expect(res.entity).to be_truthy
-      expect(res).to res_include(base_attr => @name)
+
+    it 'should not call http_client get' do
+      expect(@manager.client).not_to receive(:get)
+      @manager.read(@resource['id'])
     end
   end
 

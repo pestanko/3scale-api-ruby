@@ -12,7 +12,7 @@ module ThreeScaleApi
     class DefaultResource
       include LoggingSupport
 
-      attr_accessor :http_client,
+      attr_accessor :client,
                     :manager,
                     :api,
                     :entity_id
@@ -20,13 +20,13 @@ module ThreeScaleApi
       # @api public
       # Constructs the resource
       #
-      # @param [ThreeScaleApi::HttpClient] client Instance of http client
+      # @param [RestClient::Resource] client Instance of http client
       # @param [ThreeScaleApi::Clients::DefaultClient] manager Instance of test client
       # @param [Hash] entity Entity Hash from API client
       def initialize(client, manager, entity: nil, entity_id: nil)
-        @http_client = client
-        @entity = entity
-        @manager = manager
+        @client    = client
+        @entity    = entity
+        @manager   = manager
         @entity_id = entity_id
         @entity_id ||= entity['id'] if entity
       end
@@ -77,7 +77,7 @@ module ThreeScaleApi
       # @return [DefaultEntity] Entity
       def read
         return nil unless @manager.respond_to?(:fetch)
-        ent = @manager.fetch(@entity_id)
+        ent     = @manager.fetch(@entity_id)
         @entity = ent.entity
       end
 
@@ -96,7 +96,7 @@ module ThreeScaleApi
       # @return [DefaultClient] Instance of the specific manager
       def manager_instance(which, *args)
         manager = Clients.const_get "#{which}Client"
-        manager.new(@http_client, self, *args) if manager.respond_to?(:new)
+        manager.new(client, self, *args) if manager.respond_to?(:new)
       end
 
       # Respond to method missing

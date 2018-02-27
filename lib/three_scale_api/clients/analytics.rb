@@ -15,13 +15,13 @@ module ThreeScaleApi
         self.class.name.split('::').last
       end
 
-      attr_accessor :http_client
+      attr_accessor :client
       # @api public
       # Creates instance of the Default resource manager
       #
-      # @param [ThreeScaleApi::HttpClient] http_client Instance of http client
-      def initialize(http_client)
-        @http_client = http_client
+      # @param [ThreeScaleApi::HttpClient] client Instance of http client
+      def initialize(client)
+        @client = client
       end
 
       # List analytics by application for given metric
@@ -98,10 +98,10 @@ module ThreeScaleApi
           since: since,
           period: period,
         }.merge(kwargs)
-        full_path = "/stats/#{resource_type}/#{resource[:id]}/usage"
-        response  = http_client.get(full_path, params: params)
+        full_path = "/stats/#{resource_type}/#{resource[:id]}/usage.json"
+        response  = client[full_path].get(params: params)
         log.info "Response: #{response}"
-        response
+        JSON.parse response
       end
     end
   end

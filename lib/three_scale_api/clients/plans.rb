@@ -12,8 +12,9 @@ module ThreeScaleApi
       #
       # @return [Array<DefaultPlan>] List of DefaultPlans
       def list_all(path = nil)
+        path += ".json"
         log.info("List all #{resource_name}s")
-        response = @http_client.get(path)
+        response = client[path].get
         log_result resource_list(response)
       end
 
@@ -24,7 +25,8 @@ module ThreeScaleApi
       # @return [DefaultPlanResource] DefaultPlan plan instance
       def set_default(id)
         log.debug("Set default #{resource_name}: #{id}")
-        response = @http_client.put("#{base_path}/#{id}/default")
+        path = "#{base_path}/#{id}/default.json"
+        response = client[path].put({})
         log_result resource_instance(response)
       end
 

@@ -35,7 +35,7 @@ module ThreeScaleApi
       def list_all(service_id: nil)
         log.info("List all #{resource_name}s")
         params = service_id ? { service_id: service_id } : nil
-        response = http_client.get('/admin/api/applications', params: params)
+        response = client['/admin/api/applications.json'].get(params: params)
         log_result resource_list(response)
       end
 
@@ -67,7 +67,7 @@ module ThreeScaleApi
       def find_by_params(**params)
         params = params.reject { |_, value| value.nil? }
         log.info("Find #{resource_name} by #{params}")
-        response = http_client.get('/admin/api/applications/find', params: params)
+        response = client['/admin/api/applications/find.json'].get(params: params)
         log_result resource_instance(response)
       end
 

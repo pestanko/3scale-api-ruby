@@ -39,7 +39,8 @@ module ThreeScaleApi
       # @option attributes [String] :application_plan_id Application Plan ID
       def sign_up(attributes)
         log.info("Sign UP: #{attributes}")
-        response = http_client.post('/admin/api/signup', body: attributes)
+        path     = '/admin/api/signup.json'
+        response = client[path].post(JSON.dump(attributes))
         log_result resource_instance(response)
       end
 
@@ -58,8 +59,9 @@ module ThreeScaleApi
       # @param [Fixnum] plan_id Plan id
       def set_plan(id, plan_id)
         log.info("Set #{resource_name}  default (id: #{id}) ")
-        body = { plan_id: plan_id }
-        response = http_client.put("#{base_path}/#{id}/change_plan", body: body)
+        body     = JSON.dump({ plan_id: plan_id })
+        path     = "#{base_path}/#{id}/change_plan.json"
+        response = client[path].put(body)
         log_result resource_instance(response)
       end
 

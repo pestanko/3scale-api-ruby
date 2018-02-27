@@ -41,7 +41,7 @@ RSpec.describe 'Invoice Resource', type: :integration do
 
   context 'Read' do
     it 'should not call http_client get' do
-      expect(@manager.http_client).not_to receive(:get)
+      expect(@manager.client).not_to receive(:get)
       @manager.read(@resource['id'])
     end
   end

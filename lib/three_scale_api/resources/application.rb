@@ -26,7 +26,7 @@ module ThreeScaleApi
       #
       # @return [ThreeScaleApi::Resources::Service]
       def service
-        services = ThreeScaleApi::Clients::ServiceClient.new(http_client)
+        services = ThreeScaleApi::Clients::ServiceClient.new(client)
         services[entity['service_id']]
       end
 

@@ -60,7 +60,8 @@ module ThreeScaleApi
       # @return [WebHook] Webhook resource
       def read
         log.info('Read webhook')
-        response = http_client.patch(base_path, body: {})
+        path = "#{base_path}.json"
+        response = client[path].patch({})
         log_result resource_instance(response)
       end
     end
