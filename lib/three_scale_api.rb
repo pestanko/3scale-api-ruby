@@ -94,5 +94,13 @@ module ThreeScaleApi
     def invoices
       @invoices ||= Clients::InvoiceClient.new(@http_client)
     end
+
+    # @api public
+    # Gets tenants manager instance
+    #
+    # @return [ThreeScaleApi::Clients::TenantClient] Tenants manager instance
+    def tenants
+      @tenants ||= Clients::TenantClient.new(@http_client)
+    end
   end
 end
