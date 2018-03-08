@@ -7,6 +7,7 @@ require 'three_scale_api/clients/active_doc'
 require 'three_scale_api/clients/settings'
 require 'three_scale_api/clients/analytics'
 require 'three_scale_api/clients/invoice'
+require 'three_scale_api/clients/tenant'
 
 module ThreeScaleApi
   # Clients of resources

@@ -51,7 +51,7 @@ module ThreeScaleApi
     # @param [String] path Relative request path to endpoint
     # @param [Hash] params Optional parameters for the request
     def get(path, params: nil)
-      log.debug("[GET] #{path}")
+      log.debug("[GET] #{endpoint}#{path}")
       parse http.get(format_path_n_query(path, params), headers)
     end
 
@@ -62,7 +62,7 @@ module ThreeScaleApi
     # @param [Hash] body Request's body
     # @param [Hash] params Optional parameters for the request
     def patch(path, body:, params: nil)
-      log.debug("[PATCH] #{path}: #{body}")
+      log.debug("[PATCH] #{endpoint}#{path}: #{body}")
       parse http.patch(format_path_n_query(path, params), serialize(body), headers)
     end
 
@@ -73,7 +73,7 @@ module ThreeScaleApi
     # @param [Hash] body Request's body
     # @param [Hash] params Optional parameters for the request
     def post(path, body:, params: nil)
-      log.debug("[POST] #{path}: #{body}")
+      log.debug("[POST] #{endpoint}#{path}: #{body}")
       parse http.post(format_path_n_query(path, params), serialize(body), headers)
     end
 
@@ -84,7 +84,7 @@ module ThreeScaleApi
     # @param [Hash] body Request's body
     # @param [Hash] params Optional parameters for the request
     def put(path, body: nil, params: nil)
-      log.debug("[PUT] #{path}: #{body}")
+      log.debug("[PUT] #{endpoint}#{path}: #{body}")
       parse http.put(format_path_n_query(path, params), serialize(body), headers)
     end
 
@@ -94,7 +94,7 @@ module ThreeScaleApi
     # @param [String] path Relative request path to endpoint
     # @param [Hash] params Optional parameters for the request
     def delete(path, params: nil)
-      log.debug("[DELETE] #{path}")
+      log.debug("[DELETE] #{endpoint}#{path}")
       parse http.delete(format_path_n_query(path, params), headers)
     end
 
