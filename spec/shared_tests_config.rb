@@ -24,15 +24,15 @@ RSpec.shared_context 'Shared initialization', shared_context: :metadata do
   # Creates instance of the API Client
 
   before(:all) do
-    @endpoint = ENV.fetch('ENDPOINT')
+    @endpoint     = ENV.fetch('ENDPOINT')
     @provider_key = ENV.fetch('PROVIDER_KEY')
-    log_level = ENV.fetch('THREESCALE_LOG', 'info')
-    @name = SecureRandom.uuid
-    @client = ThreeScaleApi::Client.new(endpoint: @endpoint,
-                                        provider_key: @provider_key,
-                                        log_level: log_level)
-    @resource = nil
-    @manager = nil
+    log_level     = ENV.fetch('THREESCALE_LOG', 'info')
+    @name         = SecureRandom.uuid
+    @client       = ThreeScaleApi::Client.new(endpoint:     @endpoint,
+                                              provider_key: @provider_key,
+                                              log_level:    log_level)
+    @resource     = nil
+    @manager      = nil
   end
 
   RSpec::Matchers.define :res_include do |expected|
@@ -77,9 +77,9 @@ RSpec.shared_context 'Shared initialization', shared_context: :metadata do
   # @param [String] name Provider name, if not provided, uses default
   # @param [Hash] params Additional parameters
   def create_provider(name: nil, **params)
-    name ||= @name
+    name  ||= @name
     email = "#{name}@example.com"
-    args = { username: name, email: email, password: name }.merge(**params)
+    args  = { username: name, email: email, password: name }.merge(**params)
     @client.providers.create(args)
   end
 
@@ -88,11 +88,11 @@ RSpec.shared_context 'Shared initialization', shared_context: :metadata do
   # @param [String] name Active docs name, if not provided, uses default
   # @param [Hash] params Additional parameters
   def create_active_doc(name: nil, **params)
-    name ||= @name
-    args = {
-      name: name,
-      body: '{}',
-      published: false,
+    name      ||= @name
+    args      = {
+      name:                     name,
+      body:                     '{}',
+      published:                false,
       skip_swagger_validations: true,
     }.merge(params)
     @resource = @manager.create(args)
@@ -104,7 +104,7 @@ RSpec.shared_context 'Shared initialization', shared_context: :metadata do
   def clean_resource(resource)
     resource&.delete # if resource exists, delete it
   rescue ThreeScaleApi::HttpClient::NotFoundError => ex
-    @client.http_client.log.warning("Cannot delete #{resource}: #{ex}")
+    @client.rest.log.warning("Cannot delete #{resource}: #{ex}")
   end
 
   # Fixes default account plan
@@ -114,7 +114,7 @@ RSpec.shared_context 'Shared initialization', shared_context: :metadata do
   # This is little workaround, because account plans will be soon removed.
   def fix_default_acc_plan
     acc_plan_manager = @client.account_plans
-    acc_plan_def = acc_plan_manager['Default']
+    acc_plan_def     = acc_plan_manager['Default']
     acc_plan_manager.create(name: 'Default').set_default unless acc_plan_def
   end
 end

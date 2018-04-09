@@ -7,13 +7,18 @@ module ThreeScaleApi
   module Clients
     # Default plan resource manager wrapper
     module DefaultPlanClient
+
+      def collection_name
+        'plans'
+      end
+
       # @api public
       # Lists all plans
       #
       # @return [Array<DefaultPlan>] List of DefaultPlans
       def list_all(path = nil)
         log.info("List all #{resource_name}s")
-        response = @http_client.get(path)
+        response = rest.get(path)
         log_result resource_list(response)
       end
 
@@ -24,7 +29,7 @@ module ThreeScaleApi
       # @return [DefaultPlanResource] DefaultPlan plan instance
       def set_default(id)
         log.debug("Set default #{resource_name}: #{id}")
-        response = @http_client.put("#{base_path}/#{id}/default")
+        response = rest.put("#{url}/#{id}/default")
         log_result resource_instance(response)
       end
 
@@ -47,22 +52,15 @@ module ThreeScaleApi
     class ApplicationPlanClient < DefaultClient
       include DefaultPlanClient
 
-      attr_accessor :service
-      # @api public
-      # Creates instance of the application plan resource manager
-      #
-      # @param [ThreeScaleQE::HttpClient] http_client Instance of http client
-      # @param [ThreeScaleQE::Clients::Service] service Service resource
-      def initialize(http_client, service = nil)
-        super(http_client, entity_name: 'application_plan', collection_name: 'plans')
-        @service = service
+      def entity_name
+        'application_plan'
       end
 
       # Base path for the REST call
       #
       # @return [String] Base URL for the REST call
-      def base_path
-        super.concat "/services/#{@service['id']}/application_plans"
+      def url
+        resource.url + '/application_plans'
       end
 
       # @api public
@@ -77,19 +75,17 @@ module ThreeScaleApi
     # Account plan resource manager wrapper for account plan entity received by REST API
     class AccountPlanClient < DefaultClient
       include DefaultPlanClient
-      # @api public
-      # Creates instance of the Account resource manager
-      #
-      # @param [ThreeScaleQE::TestClient] http_client Instance of http client
-      def initialize(http_client)
-        super(http_client, entity_name: 'account_plan', collection_name: 'plans')
+
+      def entity_name
+        'account_plan'
       end
 
+      # @api public
       # Base path for the REST call
       #
       # @return [String] Base URL for the REST call
-      def base_path
-        super.concat '/account_plans'
+      def url
+        resource.url + '/account_plans'
       end
 
       # @api public
@@ -97,29 +93,24 @@ module ThreeScaleApi
       #
       # @return [Array<ServicePlan>] List of AccountPlans
       def list_all
-        super(base_path)
+        super(url)
       end
     end
 
     # Service plan resource manager wrapper for the service plan entity received by the REST API
     class ServicePlanClient < DefaultClient
       include DefaultPlanClient
-      attr_accessor :service
 
-      # @api public
-      # Creates instance of the Proxy resource manager
-      #
-      # @param [ThreeScaleQE::HttpClient] http_client Instance of http client
-      def initialize(http_client, service = nil)
-        super(http_client, entity_name: 'service_plan', collection_name: 'plans')
-        @service = service
+      def entity_name
+        'service_plan'
       end
 
+      # @api public
       # Base path for the REST call
       #
       # @return [String] Base URL for the REST call
-      def base_path
-        super.concat "/services/#{@service.entity_id}/service_plans"
+      def url
+        resource.url + '/service_plans'
       end
 
       # @api public

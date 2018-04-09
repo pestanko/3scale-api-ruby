@@ -9,22 +9,16 @@ module ThreeScaleApi
     # Application resource manager wrapper for an application entity received by the REST API
     class ApplicationClient < DefaultClient
       include DefaultStateClient
-      attr_accessor :account
-      # @api public
-      # Creates instance of the Service resource manager
-      #
-      # @param [ThreeScaleQE::TestClient] http_client Instance of http client
-      # @param [Account] account Account entity
-      def initialize(http_client, account)
-        super(http_client, entity_name: 'application')
-        @account = account
+
+      def entity_name
+        'application'
       end
 
       # Base path for the REST call
       #
       # @return [String] Base URL for the REST call
-      def base_path
-        super.concat "/accounts/#{@account.entity_id}/applications"
+      def url
+        resource.url + '/applications'
       end
 
       # @api public
@@ -35,7 +29,7 @@ module ThreeScaleApi
       def list_all(service_id: nil)
         log.info("List all #{resource_name}s")
         params = service_id ? { service_id: service_id } : nil
-        response = http_client.get('/admin/api/applications', params: params)
+        response = rest.get('/admin/api/applications', params: params)
         log_result resource_list(response)
       end
 
@@ -67,7 +61,7 @@ module ThreeScaleApi
       def find_by_params(**params)
         params = params.reject { |_, value| value.nil? }
         log.info("Find #{resource_name} by #{params}")
-        response = http_client.get('/admin/api/applications/find', params: params)
+        response = rest.get('/admin/api/applications/find', params: params)
         log_result resource_instance(response)
       end
 

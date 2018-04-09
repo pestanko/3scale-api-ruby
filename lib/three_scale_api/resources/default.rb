@@ -12,23 +12,51 @@ module ThreeScaleApi
     class DefaultResource
       include LoggingSupport
 
-      attr_accessor :http_client,
-                    :manager,
-                    :api,
-                    :entity_id
+      attr_accessor :client
 
       # @api public
       # Constructs the resource
       #
-      # @param [ThreeScaleApi::HttpClient] client Instance of http client
-      # @param [ThreeScaleApi::Clients::DefaultClient] manager Instance of test client
+      # @param [ThreeScaleApi::DefaultClient] client Instance of http client
       # @param [Hash] entity Entity Hash from API client
-      def initialize(client, manager, entity: nil, entity_id: nil)
-        @http_client = client
-        @entity = entity
-        @manager = manager
-        @entity_id = entity_id
-        @entity_id ||= entity['id'] if entity
+      def initialize(client, entity: nil, entity_id: nil)
+        @client      = client
+        @entity      = entity
+        @entity_id   = entity_id
+      end
+
+      def parent
+        client.resource
+      end
+
+      def default_client
+        client.default_client
+      end
+
+      # @api public
+      # Gets an instance of the HTTP Client
+      #
+      # @return [ThreeScaleApi::HttpClient] Http client instance
+      def rest
+        client.rest
+      end
+
+      # @api public
+      # Gets an entity id
+      #
+      # @return [Fixnum] Entity id
+      def entity_id
+        if @entity_id
+          @entity_id
+        else
+          entity['id']
+        end
+      end
+
+      # @api public
+      # Gets an il
+      def url
+        "#{client.url}/#{entity_id}"
       end
 
       # Lazy load entity
@@ -59,8 +87,8 @@ module ThreeScaleApi
       # @api public
       # Deletes Resource if possible (method is implemented in the manager)
       def delete
-        return false unless @entity_id
-        @manager.delete(@entity_id) if @manager.respond_to?(:delete)
+        return false unless entity_id
+        client.delete(entity_id) if client.respond_to?(:delete)
       end
 
       # @api public
@@ -68,7 +96,7 @@ module ThreeScaleApi
       #
       # @return [DefaultEntity] Updated entity
       def update
-        @manager.update(entity) if @manager.respond_to?(:update)
+        client.update(entity) if client.respond_to?(:update)
       end
 
       # @api public
@@ -76,8 +104,8 @@ module ThreeScaleApi
       #
       # @return [DefaultEntity] Entity
       def read
-        return nil unless @manager.respond_to?(:fetch)
-        ent = @manager.fetch(@entity_id)
+        return nil unless client.respond_to?(:fetch)
+        ent     = client.fetch(@entity_id)
         @entity = ent.entity
       end
 
@@ -94,9 +122,9 @@ module ThreeScaleApi
       # @param [Class<DefaultClient>] which Manager which instance will be created
       # @param [Array<Symbol>] args Optional arguments
       # @return [DefaultClient] Instance of the specific manager
-      def manager_instance(which, *args)
+      def client_instance(which, *args)
         manager = Clients.const_get "#{which}Client"
-        manager.new(@http_client, self, *args) if manager.respond_to?(:new)
+        manager.new(self, *args) if manager.respond_to?(:new)
       end
 
       # Respond to method missing
@@ -137,7 +165,7 @@ module ThreeScaleApi
       # @api public
       # Sets plan as default
       def set_default
-        @manager.set_default(@entity_id) if @manager.respond_to?(:set_default)
+        client.set_default(entity_id) if client.respond_to?(:set_default)
       end
     end
 
@@ -148,7 +176,7 @@ module ThreeScaleApi
       #
       # @param [String] state 'approve' or 'reject' or 'make_pending'
       def set_state(state)
-        @manager.set_state(@entity_id, state) if @manager.respond_to?(:set_state)
+        client.set_state(entity_id, state) if client.respond_to?(:set_state)
       end
     end
 

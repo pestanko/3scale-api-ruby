@@ -52,13 +52,13 @@ RSpec.shared_examples :crud_resource do
 
   context 'Read' do
     it 'should not call http_client get' do
-      expect(@manager.http_client).not_to receive(:get)
+      expect(@manager.rest).not_to receive(:get)
       @manager.read(@resource['id'])
     end
 
     it 'should fetch resource and call http_client get' do
       entity_name = @manager.entity_name
-      expect(@manager.http_client).to receive(:get).and_return(
+      expect(@manager.rest).to receive(:get).and_return(
         entity_name.to_s => { base_attr => @name }
       )
       res = @manager.read(@resource['id'])

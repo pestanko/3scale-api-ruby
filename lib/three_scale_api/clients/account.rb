@@ -10,19 +10,17 @@ module ThreeScaleApi
     # Accounts resource manager wrapper for default entity received by REST API
     class AccountClient < DefaultClient
       include DefaultStateClient
-      # @api public
-      # Creates instance of the Accounts resource manager
-      #
-      # @param [ThreeScaleQE::TestClient] http_client Instance of http client
-      def initialize(http_client)
-        super(http_client, entity_name: 'account')
+
+      def entity_name
+        'account'
       end
+
 
       # Base path for the REST call
       #
       # @return [String] Base URL for the REST call
-      def base_path
-        super.concat '/accounts'
+      def url
+        resource.url + '/accounts'
       end
 
       # @api public
@@ -39,7 +37,7 @@ module ThreeScaleApi
       # @option attributes [String] :application_plan_id Application Plan ID
       def sign_up(attributes)
         log.info("Sign UP: #{attributes}")
-        response = http_client.post('/admin/api/signup', body: attributes)
+        response = rest.post('/admin/api/signup', body: attributes)
         log_result resource_instance(response)
       end
 
@@ -59,7 +57,7 @@ module ThreeScaleApi
       def set_plan(id, plan_id)
         log.info("Set #{resource_name}  default (id: #{id}) ")
         body = { plan_id: plan_id }
-        response = http_client.put("#{base_path}/#{id}/change_plan", body: body)
+        response = rest.put("#{url}/#{id}/change_plan", body: body)
         log_result resource_instance(response)
       end
 

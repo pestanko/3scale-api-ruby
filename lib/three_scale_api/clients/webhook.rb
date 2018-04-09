@@ -7,21 +7,15 @@ module ThreeScaleApi
   module Clients
     # WebHook resource manager wrapper for the WebHook entity received by the REST API
     class WebHookClient < DefaultClient
-      attr_accessor :service
-
-      # @api public
-      # Creates instance of the WebHook resource manager
-      #
-      # @param [ThreeScaleQE::TestClient] http_client Instance of http client
-      def initialize(http_client)
-        super(http_client, entity_name: 'webhook')
+      def entity_name
+        'webhook'
       end
 
       # Base path for the REST call
       #
       # @return [String] Base URL for the REST call
-      def base_path
-        super.concat '/webhooks'
+      def url
+        resource.url + '/webhooks'
       end
 
       # @api public
@@ -60,7 +54,7 @@ module ThreeScaleApi
       # @return [WebHook] Webhook resource
       def read
         log.info('Read webhook')
-        response = http_client.patch(base_path, body: {})
+        response = rest.patch(url, body: {})
         log_result resource_instance(response)
       end
     end

@@ -7,22 +7,21 @@ module ThreeScaleApi
   module Clients
     # Proxy resource manager wrapper for the proxy entity received by the REST API
     class ProxyClient < DefaultClient
-      attr_accessor :service
-      # @api public
-      # Creates instance of the Proxy resource manager
-      #
-      # @param [ThreeScaleQE::TestClient] http_client Instance of http client
-      def initialize(http_client, service)
-        super(http_client, entity_name: 'proxy', collection_name: 'proxies')
-        @service = service
+
+      def entity_name
+        'proxy'
+      end
+
+      def collection_name
+        'proxies'
       end
 
       # @api public
       # Base path for the REST call
       #
       # @return [String] Base URL for the REST call
-      def base_path
-        super.concat "/services/#{@service.entity_id}/proxy"
+      def url
+        resource.url + '/proxy'
       end
 
       # @api public
@@ -35,8 +34,8 @@ module ThreeScaleApi
       def promote(version: 1, from: 'sandbox', to: 'production')
         log.info "Promote #{resource_name} [#{version}] from \"#{from}\" to \"#{to}\""
 
-        path = "#{base_path}/configs/#{from}/#{version}/promote"
-        response = @http_client.post(path, params: { to: to }, body: {})
+        path     = "#{url}/configs/#{from}/#{version}/promote"
+        response = rest.post(path, params: { to: to }, body: {})
         log_result resource_instance(response)
       end
 
@@ -47,7 +46,7 @@ module ThreeScaleApi
       # @param [String] env Environment name
       def config_list(env: 'sandbox')
         log.info "Lists #{resource_name} Configs for \"#{env}\""
-        response = http_client.get("#{base_path}/configs/#{env}")
+        response = rest.get("#{url}/configs/#{env}")
         log_result resource_instance(response)
       end
 
@@ -59,7 +58,7 @@ module ThreeScaleApi
       # @return [Proxy] Instance of the proxy resource
       def config_read(id: 1, env: 'sandbox')
         log.info("#{resource_name} config [#{id}] for \"#{env}\"")
-        response = http_client.get("#{base_path}/configs/#{env}/#{id}")
+        response = rest.get("#{url}/configs/#{env}/#{id}")
         log_result resource_instance(response)
       end
 
@@ -70,7 +69,7 @@ module ThreeScaleApi
       # @return [Proxy] Instance of the proxy resource
       def latest(env: 'sandbox')
         log.info("Latest #{resource_name} config for: #{env}")
-        response = http_client.get("#{base_path}/configs/#{env}/latest")
+        response = rest.get("#{url}/configs/#{env}/latest")
         log_result resource_instance(response)
       end
     end

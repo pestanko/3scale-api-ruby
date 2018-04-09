@@ -9,22 +9,13 @@ module ThreeScaleApi
     # Account Resource
     class Account < DefaultResource
       include DefaultStateResource
-      # @api public
-      # Creates instance of the Service resource
-      #
-      # @param [ThreeScaleQE::TestClient] client Instance of the test client
-      # @param [Clients::AccountClient] manager Instance of the manager
-      # @param [Hash] entity Service Hash from API client
-      def initialize(client, manager, entity)
-        super(client, manager, entity)
-      end
 
       # @api public
       # Sets plan for account
       #
       # @param [Fixnum] plan_id Plan ID
       def set_plan(plan_id)
-        @manager.set_plan(@entity_id, plan_id) if @manager.respond_to?(:set_plan)
+        client.set_plan(entity, plan_id) if client.respond_to?(:set_plan)
       end
 
       # @api public
@@ -50,7 +41,7 @@ module ThreeScaleApi
       #
       # @return [AccountUsersManager] Account Users Manager
       def users
-        manager_instance(:AccountUser)
+        Clients::AccountUserClient.new(self)
       end
 
       # @api public
@@ -58,7 +49,7 @@ module ThreeScaleApi
       #
       # @return [ApplicationClient] Account Users Manager
       def applications
-        manager_instance(:Application)
+        Clients::ApplicationClient.new(self)
       end
     end
   end

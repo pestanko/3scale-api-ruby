@@ -6,10 +6,11 @@ require 'three_scale_api/logging_support'
 
 require 'three_scale_api/clients'
 
+# Base module for the 3Scale client API
 module ThreeScaleApi
   # Base class that is supposed to be used for communication with the REST API
   class Client
-    attr_accessor :http_client
+    attr_accessor :rest
 
     APIResponseError = Tools::APIResponseError
 
@@ -22,9 +23,17 @@ module ThreeScaleApi
     # @param [Bool] verify_ssl Default value is true
     def initialize(endpoint:, provider_key:, log_level: 'info', verify_ssl: true)
       LoggingSupport.set_level(log_level)
-      @http_client = HttpClient.new(endpoint: endpoint,
-                                    provider_key: provider_key,
-                                    verify_ssl: verify_ssl)
+      @rest = HttpClient.new(endpoint:     endpoint,
+                             provider_key: provider_key,
+                             verify_ssl:   verify_ssl)
+    end
+
+    def default_client
+      self
+    end
+
+    def url
+      '/admin/api'
     end
 
     # @api public
@@ -32,7 +41,7 @@ module ThreeScaleApi
     #
     # @return [ThreeScaleApi::Clients::ServiceClient] Service manager instance
     def services
-      @services_manager ||= Clients::ServiceClient.new(@http_client)
+      @services ||= Clients::ServiceClient.new(self)
     end
 
     # @api public
@@ -40,7 +49,7 @@ module ThreeScaleApi
     #
     # @return [ThreeScaleApi::Clients::AccountClient] Account manager instance
     def accounts
-      @accounts_manager ||= Clients::AccountClient.new(@http_client)
+      @accounts ||= Clients::AccountClient.new(self)
     end
 
     # @api public
@@ -48,7 +57,7 @@ module ThreeScaleApi
     #
     # @return [ThreeScaleApi::Clients::ProviderClient] Provider manager instance
     def providers
-      @providers_manager ||= Clients::ProviderClient.new(@http_client)
+      @providers ||= Clients::ProviderClient.new(self)
     end
 
     # @api public
@@ -56,7 +65,7 @@ module ThreeScaleApi
     #
     # @return [ThreeScaleApi::Clients::AccountPlanClient] Account plans manager instance
     def account_plans
-      @account_plans_manager ||= Clients::AccountPlanClient.new(@http_client)
+      @account ||= Clients::AccountPlanClient.new(self)
     end
 
     # @api public
@@ -64,7 +73,7 @@ module ThreeScaleApi
     #
     # @return [ThreeScaleApi::Clients::ActiveDocClient] active docs manager instance
     def active_docs
-      @active_docs_manager ||= Clients::ActiveDocClient.new(@http_client)
+      @active ||= Clients::ActiveDocClient.new(self)
     end
 
     # @api public
@@ -72,7 +81,7 @@ module ThreeScaleApi
     #
     # @return [ThreeScaleApi::Clients::WebHookClient] WebHooks manager instance
     def webhooks
-      @webhooks_manager ||= Clients::WebHookClient.new(@http_client)
+      @webhooks ||= Clients::WebHookClient.new(self)
     end
 
     # @api public
@@ -80,7 +89,7 @@ module ThreeScaleApi
     #
     # @return [ThreeScaleApi::Clients::SettingsClient] Settings manager instance
     def settings
-      @settings_manager ||= Clients::SettingsClient.new(@http_client)
+      @settings ||= Clients::SettingsClient.new(self)
     end
 
     # @api public
@@ -88,11 +97,11 @@ module ThreeScaleApi
     #
     # @return [ThreeScaleApi::Clients::AnalyticsClient] Settings manager instance
     def analytics
-      @settings_manager ||= Clients::AnalyticsClient.new(@http_client)
+      @analytics ||= Clients::AnalyticsClient.new(self)
     end
 
     def invoices
-      @invoices ||= Clients::InvoiceClient.new(@http_client)
+      @invoices ||= Clients::InvoiceClient.new(self)
     end
 
     # @api public
@@ -100,7 +109,11 @@ module ThreeScaleApi
     #
     # @return [ThreeScaleApi::Clients::TenantClient] Tenants manager instance
     def tenants
-      @tenants ||= Clients::TenantClient.new(@http_client)
+      @tenants ||= Clients::TenantClient.new(self)
     end
+  end
+
+  def self.new(**params)
+    ThreeScaleApi::Client.new(**params)
   end
 end

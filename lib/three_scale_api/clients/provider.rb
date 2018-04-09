@@ -10,21 +10,17 @@ module ThreeScaleApi
     class ProviderClient < DefaultClient
       include DefaultUserClient
 
-      # @api public
-      # Creates instance of the Provider resource manager
-      #
-      # @param [ThreeScaleQE::TestClient] http_client Instance of http client
-      def initialize(http_client)
-        super(http_client, entity_name: 'user')
+      def entity_name
+        'user'
       end
 
       # Base path for the REST call
       #
       # @return [String] Base URL for the REST call
-      def base_path
-        super.concat '/users'
+      def url
+        resource.url + '/users'
       end
-      
+
       # @api public
       # Sets role as admin
       #

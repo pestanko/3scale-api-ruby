@@ -9,25 +9,18 @@ module ThreeScaleApi
     # Application resource wrapper for an application received by the REST API
     class Application < DefaultResource
       include DefaultStateResource
-      attr_accessor :account
-      # @api public
-      # Creates instance of the Service resource
-      #
-      # @param [ThreeScaleQE::TestClient] client Instance of the test client
-      # @param [ApplicationClient] manager Instance of the manager
-      # @param [Hash] entity Service Hash from API client
-      def initialize(client, manager, entity)
-        super(client, manager, entity)
-        @account = manager.account
-      end
 
       # @api public
       # Gets corresponding service for the application
       #
       # @return [ThreeScaleApi::Resources::Service]
       def service
-        services = ThreeScaleApi::Clients::ServiceClient.new(http_client)
+        services = Clients::ServiceClient.new(client.default_client)
         services[entity['service_id']]
+      end
+
+      def account
+        client.resource
       end
 
       # @api public
@@ -43,7 +36,7 @@ module ThreeScaleApi
       #
       # @return [ApplicationKeysManager] Application keys manager instance
       def keys
-        manager_instance(:ApplicationKey)
+        Clients::ApplicationKeyClient.new(self)
       end
 
       # @api public

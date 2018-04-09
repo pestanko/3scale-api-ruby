@@ -8,19 +8,15 @@ module ThreeScaleApi
   module Clients
     # Service resource manager wrapper for the service entity received by the REST API
     class SettingsClient < DefaultClient
-      # @api public
-      # Creates instance of the Service resource manager
-      #
-      # @param [ThreeScaleQE::TestClient] http_client Instance of http client
-      def initialize(http_client)
-        super(http_client, entity_name: 'settings')
+      def entity_name
+        'settings'
       end
 
       # Base path for the REST call
       #
       # @return [String] Base URL for the REST call
-      def base_path
-        super.concat '/settings'
+      def url
+        resource.url + '/settings'
       end
 
       # @api public

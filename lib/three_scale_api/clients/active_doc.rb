@@ -7,14 +7,15 @@ module ThreeScaleApi
   module Clients
     # Active doc resource manager wrapper for the active doc entity received by the REST API
     class ActiveDocClient < DefaultClient
-      # @api public
-      # Creates instance of the Active doc resource manager
-      #
-      # @param [ThreeScaleQE::TestClient] http_client Instance of http client
-      def initialize(http_client)
-        super(http_client, entity_name: 'api_doc')
+      def entity_name
+        'api_doc'
       end
 
+      # @api public
+      # Fetches the active docs from the admin portal
+      #
+      # @param [Fixnum] id Entity id
+      # @return [ThreeScaleApi::ActiveDocs]
       def fetch(id)
         log.info("Fetch #{resource_name}: #{id}")
         res = _list.find { |doc| doc['id'] == id }
@@ -24,8 +25,8 @@ module ThreeScaleApi
       # Base path for the REST call
       #
       # @return [String] Base URL for the REST call
-      def base_path
-        super.concat '/active_docs'
+      def url
+        resource.url + '/active_docs'
       end
     end
   end

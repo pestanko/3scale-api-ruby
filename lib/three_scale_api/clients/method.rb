@@ -8,24 +8,23 @@ module ThreeScaleApi
   module Clients
     # Method resource manager wrapper for the method entity received by REST API
     class MethodClient < DefaultClient
-      attr_accessor :service, :metric
+      def service
+        metric.parent
+      end
 
-      # @api public
-      # Creates instance of the Method resource manager
-      #
-      # @param [ThreeScaleQE::TestClient] http_client Instance of http client
-      # @param [Metric] metric Instance of the metric resource
-      def initialize(http_client, metric)
-        super(http_client, entity_name: 'method')
-        @service = metric.service
-        @metric = metric
+      def metric
+        client.resource
+      end
+
+      def entity_name
+        'method'
       end
 
       # Base path for the REST call
       #
       # @return [String] Base URL for the REST call
-      def base_path
-        super.concat "/services/#{@service.entity_id}/metrics/#{@metric.entity_id}/methods"
+      def url
+        resource.url + '/methods'
       end
     end
   end

@@ -6,7 +6,7 @@ require 'rspec/autorun'
 RSpec.describe 'ThreeScaleApi Client' do
   let(:endpoint) { 'https://test.3scale.com' }
   let(:provider_key) { 'somerandomkey' }
-  subject(:client) { ThreeScaleApi::Client.new(endpoint: endpoint, provider_key: provider_key) }
+  subject(:resource) { ThreeScaleApi::Client.new(endpoint: endpoint, provider_key: provider_key) }
 
   it 'should create service manager instance' do
     expect(client.services).to be_a_kind_of(ThreeScaleApi::Clients::ServiceClient)

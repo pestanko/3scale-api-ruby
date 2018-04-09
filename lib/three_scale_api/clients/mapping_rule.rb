@@ -11,13 +11,16 @@ module ThreeScaleApi
     class MappingRuleClient < DefaultClient
       attr_accessor :service, :metric
 
+      def entity_name
+        'mapping_rule'
+      end
+
       # @api public
       # Creates instance of the mapping rules resource manager
       #
-      # @param [ThreeScaleQE::TestClient] http_client Instance of http client
-      def initialize(http_client, service, metric: nil)
-        super(http_client, entity_name: 'mapping_rule')
-        @service = service
+      # @param [ThreeScaleQE::Service] client Service client
+      def initialize(client, metric: nil)
+        super(client)
         @metric = metric
       end
 
@@ -32,8 +35,8 @@ module ThreeScaleApi
       # Base path for the REST call
       #
       # @return [String] Base URL for the REST call
-      def base_path
-        super.concat "/services/#{@service.entity_id}/proxy/mapping_rules"
+      def url
+        resource.url + '/proxy/mapping_rules'
       end
 
       # @api public

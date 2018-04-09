@@ -6,22 +6,14 @@ require 'three_scale_api/logging_support'
 module ThreeScaleApi
   # Main module containing implementation of the resources and it's managers
   module Clients
-    class AnalyticsClient
+    # Analytics client implementation
+    class AnalyticsClient < DefaultRestClient
       include LoggingSupport
       # Gets manager name for logging purposes
       #
       # @return [String] Manager name
       def manager_name
         self.class.name.split('::').last
-      end
-
-      attr_accessor :http_client
-      # @api public
-      # Creates instance of the Default resource manager
-      #
-      # @param [ThreeScaleApi::HttpClient] http_client Instance of http client
-      def initialize(http_client)
-        @http_client = http_client
       end
 
       # List analytics by application for given metric
@@ -99,7 +91,7 @@ module ThreeScaleApi
           period: period,
         }.merge(kwargs)
         full_path = "/stats/#{resource_type}/#{resource[:id]}/usage"
-        response  = http_client.get(full_path, params: params)
+        response  = rest.get(full_path, params: params)
         log.info "Response: #{response}"
         response
       end

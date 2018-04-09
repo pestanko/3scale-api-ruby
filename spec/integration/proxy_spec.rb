@@ -18,8 +18,8 @@ RSpec.describe 'Proxy API', type: :integration do
 
   context '#proxy CRUD' do
     it 'has valid references' do
-      expect(@proxy.service).to eq(@service)
-      expect(@proxy.manager).to eq(@manager)
+      expect(@proxy.parent).to eq(@service)
+      expect(@proxy.client).to eq(@manager)
     end
 
     it 'should read proxy' do

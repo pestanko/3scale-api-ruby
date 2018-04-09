@@ -8,17 +8,8 @@ module ThreeScaleApi
   module Resources
     # Metric resource wrapper for the metric entity received by the REST API
     class Metric < DefaultResource
-      attr_accessor :service
-
-      # @api public
-      # Construct the metric resource
-      #
-      # @param [ThreeScaleApi::HttpClient] client Instance of http client
-      # @param [ThreeScaleApi::Clients::MetricClient] manager Metrics manager
-      # @param [Hash] entity Entity Hash from API client of the metric
-      def initialize(client, manager, entity)
-        super(client, manager, entity)
-        @service = manager.service
+      def service
+        client.resource
       end
 
       # @api public
@@ -26,7 +17,7 @@ module ThreeScaleApi
       #
       # @return [ApplicationPlanLimitClient] Instance of the Application plan limits manager
       def application_plan_limits(app_plan)
-        ApplicationPlanLimitClient.new(@http_client, app_plan, metric: self)
+        Clients::ApplicationPlanLimitClient.new(app_plan, metric: self)
       end
 
       # @api public
@@ -34,7 +25,7 @@ module ThreeScaleApi
       #
       # @return [MethodsManager] Instance of the Methods manager
       def methods
-        manager_instance(:Method)
+        Clients::MethodClient.new(self)
       end
     end
   end

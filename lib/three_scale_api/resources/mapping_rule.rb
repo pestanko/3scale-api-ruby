@@ -8,18 +8,12 @@ module ThreeScaleApi
   module Resources
     # MappingRule resource wrapper for the MappingRule entity received by the REST API
     class MappingRule < DefaultResource
-      attr_accessor :service, :metric
+      def service
+        client.resource
+      end
 
-      # @api public
-      # Construct the MappingRule resource
-      #
-      # @param [ThreeScaleApi::HttpClient] client Instance of http client
-      # @param [ThreeScaleApi::Clients::MappingRuleClient] manager Mapping rule manager
-      # @param [Hash] entity Entity Hash from the API client of the MappingRule
-      def initialize(client, manager, entity)
-        super(client, manager, entity)
-        @service = manager.service
-        @metric = manager.metric
+      def metric
+        client.metric
       end
     end
   end

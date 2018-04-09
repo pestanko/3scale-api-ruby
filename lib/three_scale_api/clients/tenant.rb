@@ -6,19 +6,15 @@ module ThreeScaleApi
   module Clients
     # Accounts(tenants) resource manager wrapper for tenant entity received by REST API
     class TenantClient < DefaultClient
-      # @api public
-      # Creates instance of the Accounts resource manager
-      #
-      # @param [ThreeScaleQE::TestClient] http_client Instance of http client
-      def initialize(http_client)
-        super(http_client, entity_name: 'account')
+      def entity_name
+        'account'
       end
 
       # @api public
       # Base path for the REST call
       #
       # @return [String] Base URL for the REST call
-      def base_path
+      def url
         + '/admin/api/accounts'
       end
 
@@ -30,7 +26,7 @@ module ThreeScaleApi
       def create(attributes)
         path = '/master/api/providers'
         log.info("Create [#{path}] #{resource_name}: #{attributes}")
-        response = http_client.post(path, body: attributes)
+        response = rest.post(path, body: attributes)
         log_result resource_instance_create(response)
       end
 

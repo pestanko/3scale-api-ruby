@@ -6,19 +6,16 @@ module ThreeScaleApi
   module Resources
     # Resource that represents Application Plan limit
     class ApplicationPlanLimit < DefaultResource
-      attr_accessor :service, :metric
+      def service
+        metric.parent
+      end
 
-      # @api public
-      # Construct an application plan limit resource
-      #
-      # @param [ThreeScaleApi::HttpClient] client Instance of test client
-      # @param [ApplicationPlanLimitClient] manager Instance of the manager
-      # @param [Hash] entity Entity Hash from API client of the application plan limit
-      def initialize(client, manager, entity)
-        super(client, manager, entity)
-        @service = manager.service
-        @metric = manager.metric
-        @application_plan = manager.application_plan
+      def metric
+        client.metric
+      end
+
+      def application_plan
+        client.resource
       end
     end
   end

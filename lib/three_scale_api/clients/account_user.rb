@@ -9,22 +9,12 @@ module ThreeScaleApi
     class AccountUserClient < DefaultClient
       include DefaultUserClient
 
-      attr_accessor :account
-      # @api public
-      # Creates instance of the Account user resource manager
-      #
-      # @param [ThreeScaleQE::TestClient] http_client Instance of http client
-      # @param [Account] account Account entity
-      def initialize(http_client, account)
-        super(http_client, entity_name: 'user')
-        @account = account
-      end
 
       # Base path for the REST call
       #
       # @return [String] Base URL for the REST call
-      def base_path
-        super.concat "/accounts/#{@account.entity_id}/users"
+      def url
+        resource.url + '/users'
       end
     end
   end

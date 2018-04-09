@@ -7,23 +7,15 @@ module ThreeScaleApi
   module Clients
     # Application key resource manager wrapper for a application key entity received by the REST API
     class ApplicationKeyClient < DefaultClient
-      attr_accessor :account, :application
-      # @api public
-      # Creates instance of the Application Key resource manager
-      #
-      # @param [ThreeScaleQE::TestClient] http_client Instance of http client
-      # @param [Application] application Account entity
-      def initialize(http_client, application)
-        super(http_client, entity_name: 'key')
-        @account = application.account
-        @application = application
+      def entity_name
+        'key'
       end
 
       # Base path for the REST call
       #
       # @return [String] Base URL for the REST call
-      def base_path
-        super.concat "/accounts/#{account.entity_id}/applications/#{application.entity_id}/keys"
+      def url
+        resource.url + '/keys'
       end
 
       # @api public
@@ -53,7 +45,7 @@ module ThreeScaleApi
       # @param [String] key Application key
       def delete(key)
         log.info("Delete #{resource_name}: #{key}")
-        @http_client.delete("#{base_path}/#{key}")
+        rest.delete("#{url}/#{key}")
         true
       end
     end
