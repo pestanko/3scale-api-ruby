@@ -111,6 +111,22 @@ module ThreeScaleApi
     def tenants
       @tenants ||= Clients::TenantClient.new(self)
     end
+
+    # @api public
+    # Gets OAuth Admin portal client instance
+    #
+    # @return [ThreeScaleApi::Clients::OAuthAdminPortalClient] Tenants manager instance
+    def oauth_admin_portal
+      @tenants ||= Clients::OAuthAdminPortalClient.new(self)
+    end
+
+    # @api public
+    # Gets OAuth Admin portal client instance
+    #
+    # @return [ThreeScaleApi::Clients::OAuthDevPortalClient] Tenants manager instance
+    def oauth_dev_portal
+      @tenants ||= Clients::OAuthDevPortalClient.new(self)
+    end
   end
 
   def self.new(**params)

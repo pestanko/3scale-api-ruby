@@ -10,6 +10,8 @@ require 'three_scale_api/clients/invoice'
 require 'three_scale_api/clients/tenant'
 require 'three_scale_api/clients/application_plan_limit'
 require 'three_scale_api/clients/pricing_rule'
+require 'three_scale_api/clients/oauth_admin_portal'
+require 'three_scale_api/clients/oauth_dev_portal'
 
 module ThreeScaleApi
   # Clients of resources
