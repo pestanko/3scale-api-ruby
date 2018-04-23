@@ -1,22 +1,22 @@
 # frozen_string_literal: true
 
 require 'three_scale_api/clients/default'
-require 'three_scale_api/resources/application_plan_limit'
+require 'three_scale_api/resources/pricing_rule'
 
 module ThreeScaleApi
   module Clients
     # Application plan limit resource manager wrapper for an application plan limit entity
     # received by the REST API
-    class ApplicationPlanLimitClient < DefaultClient
+    class PricingRuleClient < DefaultClient
 
       attr_reader :metric
 
       def entity_name
-        'limit'
+        'pricing_rule'
       end
 
       # @api public
-      # Creates instance of the application plan limit client
+      # Creates instance of the pricing rule client
       #
       # @param [ThreeScaleQE::HttpClient] client Instance of metrics client
       def initialize(client, metric: nil)
@@ -28,13 +28,13 @@ module ThreeScaleApi
       #
       # @return [String] Base URL for the REST call
       def url
-        app_id    = resource.entity_id
+        app_id = resource.entity_id
         metric_id = metric.entity_id
-        "/admin/api/application_plans/#{app_id}/metrics/#{metric_id}/limits"
+        "/admin/api/application_plans/#{app_id}/metrics/#{metric_id}/pricing_rules"
       end
 
       # @api public
-      # Binds metric to Application plan limit
+      # Binds metric to the ricing rule
       #
       # @param [Metric] metric Metric resource
       def set_metric(metric)

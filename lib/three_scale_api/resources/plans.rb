@@ -20,6 +20,15 @@ module ThreeScaleApi
       def limits(metric = nil)
         Clients::ApplicationPlanLimitClient.new(self, metric: metric)
       end
+
+      # @api public
+      # Gets instance of the pricing rules client
+      #
+      # @param [Metric] metric Metric resource
+      # @return [ApplicationPlanLimitClient] Pricing rules client
+      def pricing_rules(metric = nil)
+        Clients::PricingRuleClient.new(self, metric: metric)
+      end
     end
 
     # Account resource wrapper for account entity received by REST API
@@ -30,6 +39,7 @@ module ThreeScaleApi
     # Service plan resource wrapper for proxy entity received by REST API
     class ServicePlan < DefaultResource
       include DefaultPlanResource
+
       def service
         client.resource
       end
