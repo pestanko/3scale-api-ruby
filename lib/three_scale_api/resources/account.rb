@@ -60,6 +60,10 @@ module ThreeScaleApi
       def credit_card
         Clients::AccountCreditCardClient.new(self)
       end
+
+      def send_message(body)
+        client.send_message(entity_id, body)
+      end
     end
   end
 end

@@ -56,9 +56,20 @@ module ThreeScaleApi
       # @param [Fixnum] plan_id Plan id
       def set_plan(id, plan_id)
         log.info("Set #{resource_name}  default (id: #{id}) ")
-        body = { plan_id: plan_id }
+        body     = { plan_id: plan_id }
         response = rest.put("#{url}/#{id}/change_plan", body: body)
         log_result resource_instance(response)
+      end
+
+      # @api public
+      # Sends message to account
+      #
+      # @param [Fixnum] id Account ID
+      # @param [Fixnum] body Message body
+      def send_message(id, body)
+        log.info("Sending message to (#{id}): #{body}")
+        response = rest.post("#{url}/#{id}/messages", body: { body: body })
+        log_result response
       end
 
       # @api public
