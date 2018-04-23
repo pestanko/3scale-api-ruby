@@ -3,6 +3,7 @@
 require 'three_scale_api/resources/default'
 require 'three_scale_api/clients/account_user'
 require 'three_scale_api/clients/application'
+require 'three_scale_api/clients/account_credit_card'
 
 module ThreeScaleApi
   module Resources
@@ -45,11 +46,19 @@ module ThreeScaleApi
       end
 
       # @api public
-      # Gets  Application Manager
+      # Gets  Application client
       #
-      # @return [ApplicationClient] Account Users Manager
+      # @return [Clients::ApplicationClient] Account Users client
       def applications
         Clients::ApplicationClient.new(self)
+      end
+
+      # @api public
+      # Gets Credit card client
+      #
+      # @return [Clients::AccountCreditCardClient] Credit Card client
+      def credit_card
+        Clients::AccountCreditCardClient.new(self)
       end
     end
   end
