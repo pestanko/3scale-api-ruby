@@ -38,7 +38,7 @@ module ThreeScaleApi
       # @param [Fixnum] id ID of the Invoice.
       def charge(id)
         log.info "Charge the invoice [#{id}]"
-        response = rest.post("#{url}/#{id}/charge")
+        response = rest.post("#{url}/#{id}/charge", body: { id: id })
         log_result resource_instance(response)
       end
 
