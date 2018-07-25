@@ -3,6 +3,7 @@
 require 'three_scale_api/resources/default'
 require 'three_scale_api/clients/application_key'
 require 'three_scale_api/clients/service'
+require 'three_scale_api/clients/referrer_filter'
 
 module ThreeScaleApi
   module Resources
@@ -32,11 +33,19 @@ module ThreeScaleApi
       end
 
       # @api public
-      # Applications keys manager instance
+      # Applications keys client instance
       #
-      # @return [ApplicationKeysManager] Application keys manager instance
+      # @return [ApplicationKeysClient] Application keys client instance
       def keys
         Clients::ApplicationKeyClient.new(self)
+      end
+
+      # @api public
+      # Referrer filters manager instance
+      #
+      # @return [ReferrerFilterClient] Referrer filter client instance
+      def referrers
+        Clients::ReferrerFilterClient.new(self)
       end
 
       # @api public

@@ -10,15 +10,17 @@ RSpec.describe 'Application Resource', type: :integration do
   end
 
   before(:all) do
-    @service = create_service
-    @app_plan = @service.application_plans.create(name: @name)
+    @service      = create_service
+    @app_plan     = @service.application_plans.create(name: @name)
     @acc_resource = create_account
-    @manager = @acc_resource.applications
-    @resource = create_res_instance(@name)
+    @manager      = @acc_resource.applications
+    @resource     = create_res_instance(@name)
 
-    # Keys initialization
     @keys_manager = @resource.keys
-    @key = @keys_manager.create(key: @name)
+    @key          = @keys_manager.create(key: @name)
+
+    @ref_manager = @resource.referrers
+    @referrer    = @ref_manager.create(referrer_filter: @name)
   end
 
   after(:all) do
@@ -61,19 +63,42 @@ RSpec.describe 'Application Resource', type: :integration do
   end
 
   context 'keys' do
+    let!(:keys_manager) { @keys_manager }
+
     it 'should create key' do
-      expect(@keys_manager.list.any? { |res| res['value'] == @name }).to be(true)
+      expect(keys_manager.list.any? { |res| res['value'] == @name }).to be(true)
     end
 
     it 'should list keys' do
-      expect(@keys_manager.list.any? { |res| res['value'] == @name }).to be(true)
+      expect(keys_manager.list.any? { |res| res['value'] == @name }).to be(true)
     end
 
     it 'should delete key' do
       res_name = SecureRandom.uuid
-      resource = @keys_manager.create(key: res_name)
+      resource = keys_manager.create(key: res_name)
       expect(resource['value']).to eq(res_name)
-      expect(@keys_manager.list.any? { |res| res['value'] == res_name }).to be(true)
+      expect(keys_manager.list.any? { |res| res['value'] == res_name }).to be(true)
+      resource.delete
+      expect(@manager.list.any? { |r| r['value'] == res_name }).to be(false)
+    end
+  end
+
+  context 'referrers' do
+    let(:referrer_manager) { @ref_manager }
+
+    it 'should create referrer' do
+      expect(referrer_manager.list.any? { |res| res['value'] == @name }).to be(true)
+    end
+
+    it 'should list referrer' do
+      expect(referrer_manager.list.any? { |res| res['value'] == @name }).to be(true)
+    end
+
+    it 'should delete referrer' do
+      res_name = SecureRandom.uuid
+      resource = referrer_manager.create(referrer_filter: res_name)
+      expect(resource['value']).to eq(res_name)
+      expect(referrer_manager.list.any? { |res| res['value'] == res_name }).to be(true)
       resource.delete
       expect(@manager.list.any? { |r| r['value'] == res_name }).to be(false)
     end
