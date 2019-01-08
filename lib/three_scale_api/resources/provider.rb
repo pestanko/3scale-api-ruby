@@ -8,6 +8,10 @@ module ThreeScaleApi
     # Provider resource wrapper for the provider entity received by REST API
     class Provider < DefaultResource
       include DefaultUserResource
+
+      def create_token(params)
+        client.create_token(entity_id, params)
+      end
     end
   end
 end

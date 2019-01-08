@@ -37,6 +37,11 @@ module ThreeScaleApi
         set_state(id, state: 'member')
       end
 
+      def create_token(id, params)
+        log.info "Create new token for user [#{id}]: #{params}"
+        response = rest.put("#{url}/#{id}/access_tokens", body: params)
+        log_result resource_instance(response)
+      end
     end
   end
 end

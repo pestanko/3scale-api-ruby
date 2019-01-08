@@ -46,11 +46,7 @@ module ThreeScaleApi
       #
       # @return [Fixnum] Entity id
       def entity_id
-        if @entity_id
-          @entity_id
-        else
-          entity['id']
-        end
+        @entity_id ? @entity_id : entity['id']
       end
 
       # @api public
