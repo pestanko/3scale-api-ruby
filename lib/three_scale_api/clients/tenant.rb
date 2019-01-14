@@ -30,6 +30,52 @@ module ThreeScaleApi
         log_result resource_instance_create(response)
       end
 
+      # @api public
+      # Updates existing tenant
+      #
+      # @param [Hash, DefaultResource] attributes Attributes that will be updated
+      # @return [DefaultResource] Updated tenant
+      def update(attributes, id: nil, method: :put)
+        id ||= attributes[:id]
+        path = "/master/api/providers/#{id}"
+        log.info("Update [#{path}] #{resource_name}: #{attributes}")
+        response = rest.method(method).call(path, body: attributes)
+        log_result resource_instance(response)
+      end
+
+      # Deletes tenant
+      def delete(id, params: {})
+        path = '/master/api/providers'
+        log.info("Delete #{resource_name}: #{id} [#{path}/#{id}]")
+        rest.delete("#{path}/#{id}", params: params)
+        true
+      end
+
+      # @api public
+      # Triggers billing process for all developer accounts.
+      #
+      # @param [Hash] attributes Attributes
+      def trigger_billing(attributes, provider_id: nil)
+        provider_id ||= attributes[:provider_id]
+        log.info("Triggering billing for tenant #{resource_name}")
+        path = "/master/api/providers/#{provider_id}/billing_jobs"
+        response = rest.post(path, body: attributes)
+        log_result response
+      end
+
+      # @api public
+      # Triggers billing process for a specific developer account
+      #
+      # @param [Hash] attributes Attributes
+      def trigger_billing_by_account(attributes, provider_id: nil, account_id: nil)
+        account_id ||= attributes[:account_id]
+        provider_id ||= attributes[:provider_id]
+        log.info("Triggering billing for account id: #{account_id} of tenant #{resource_name}")
+        path = "/master/api/providers/#{provider_id}/accounts/#{account_id}/billing_jobs"
+        response = rest.post(path, body: attributes)
+        log_result response
+      end
+
       # Gets resource name for specific manager
       #
       # @return [String] Manager name
