@@ -336,7 +336,7 @@ module ThreeScaleApi
       #
       # @param [Fixnum] id User ID
       def set_as_member(id)
-        set_state(id, state: 'admin')
+        set_state(id, state: 'member')
       end
     end
   end

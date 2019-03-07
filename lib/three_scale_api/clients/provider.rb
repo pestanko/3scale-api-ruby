@@ -21,21 +21,6 @@ module ThreeScaleApi
         resource.url + '/users'
       end
 
-      # @api public
-      # Sets role as admin
-      #
-      # @param [Fixnum] id User ID
-      def set_as_admin(id)
-        set_state(id, state: 'admin')
-      end
-
-      # @api public
-      # Sets role as member
-      #
-      # @param [Fixnum] id User ID
-      def set_as_member(id)
-        set_state(id, state: 'member')
-      end
 
       def create_token(id, params)
         log.info "Create new token for user [#{id}]: #{params}"
