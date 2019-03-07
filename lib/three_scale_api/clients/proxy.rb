@@ -93,7 +93,7 @@ module ThreeScaleApi
       # @option params [Bool] direct_access_grants_enabled Enable Direct Access Grant Flow
       def oicd_config_update(params)
         log.info("[OICD] Config update: #{params}")
-        response = rest.put("#{url}/oicd_configuration", body: params)
+        response = rest.patch("#{url}/oicd_configuration", body: params)
         Tools.extract(entity: entity_name, from: response)
       end
     end
