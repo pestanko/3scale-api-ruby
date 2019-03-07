@@ -217,12 +217,12 @@ module ThreeScaleApi
       #
       # @param [Hash] entity Entity received from REST call using API
       # @return [DefaultResource] Specific instance of the resource
-      def instance(entity: nil, selector: nil)
+      def instance(entity: nil, selector: nil, klass: nil)
         inst     = {}
-        res_inst = resource_class
+        klass ||= resource_class
 
-        if res_inst.respond_to?(:new)
-          inst = res_inst.new(self,
+        if klass.respond_to?(:new)
+          inst = klass.new(self,
                               entity:    entity,
                               entity_id: selector)
         end
