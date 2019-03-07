@@ -57,7 +57,7 @@ module ThreeScaleApi
       # @param [String] env Environment name
       # @return [Proxy] Instance of the proxy resource
       def config_read(id: 1, env: 'sandbox')
-        log.info("#{resource_name} config [#{id}] for \"#{env}\"")
+        log.info("[PROXY] #{resource_name} config [#{id}] for \"#{env}\"")
         response = rest.get("#{url}/configs/#{env}/#{id}")
         log_result resource_instance(response)
       end
@@ -68,9 +68,33 @@ module ThreeScaleApi
       # @param [String] env Environment name
       # @return [Proxy] Instance of the proxy resource
       def latest(env: 'sandbox')
-        log.info("Latest #{resource_name} config for: #{env}")
+        log.info("[PROXY] Latest #{resource_name} config for: #{env}")
         response = rest.get("#{url}/configs/#{env}/latest")
         log_result resource_instance(response)
+      end
+
+      # @api public
+      # Gets OICD config
+      #
+      # @return [Hash] OICD config
+      def oicd_config_show
+        log.debug("[OICD] Config read: #{params}")
+        response = rest.get("#{url}/oicd_configuration")
+        Tools.extract(entity: entity_name, from: response)
+      end
+
+      # @api public
+      # Update OICD config for the proxy
+      #
+      # @param [Hash] params Params to update OICD
+      # @option params [Bool] standard_flow_enabled Enable Authorization Code Flow (Standard Flow)
+      # @option params [Bool] implicit_flow_enabled Enable Implicit Flow
+      # @option params [Bool] service_accounts_enabled Enable Service Account Flow (Standard Flow)
+      # @option params [Bool] direct_access_grants_enabled Enable Direct Access Grant Flow
+      def oicd_config_update(params)
+        log.info("[OICD] Config update: #{params}")
+        response = rest.put("#{url}/oicd_configuration", body: params)
+        Tools.extract(entity: entity_name, from: response)
       end
     end
   end
