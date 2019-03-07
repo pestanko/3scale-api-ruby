@@ -20,6 +20,14 @@ module ThreeScaleApi
       end
 
       # @api public
+      # Gets invoices for account
+      #
+      # @param [Hash] params Params
+      def invoice_list(params = {})
+        client.invoice_list(entity_id, params)
+      end
+
+      # @api public
       # Approves account
       def approve
         set_state('approve')
@@ -63,6 +71,24 @@ module ThreeScaleApi
 
       def send_message(body)
         client.send_message(entity_id, body)
+      end
+
+      # @api public
+      # Triggers billing process for all developer accounts.
+      #
+      # @param [Hash] attributes Attributes
+      def trigger_billing(attributes)
+        return unless client.is_a?(ThreeScaleApi::Clients::TenantClient)
+        client.trigger_billing(attributes, provider_id: entity_id)
+      end
+
+      # @api public
+      # Triggers billing process for a specific developer account
+      #
+      # @param [Hash] attributes Attributes
+      def trigger_billing_by_account(attributes)
+        return unless client.is_a?(ThreeScaleApi::Clients::TenantClient)
+        client.trigger_billing_by_account(attributes, provider_id: entity_id)
       end
     end
   end

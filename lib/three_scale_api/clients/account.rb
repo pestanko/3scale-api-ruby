@@ -62,6 +62,18 @@ module ThreeScaleApi
       end
 
       # @api public
+      # Gets invoice list for account
+      #
+      # @param [Fixnum] id Account id
+      # @param [Hash] params Params
+      def invoice_list(id, params)
+        log.info("Get invoice list for account (id: #{id})")
+        params[:account_id] ||= id
+        response =  rest.get("/api/accounts/#{id}/invoices", params: params)
+        log_result(response)
+      end
+
+      # @api public
       # Sends message to account
       #
       # @param [Fixnum] id Account ID
