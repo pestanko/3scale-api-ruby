@@ -77,9 +77,9 @@ module ThreeScaleApi
       # Gets OICD config
       #
       # @return [Hash] OICD config
-      def oicd_config_show
+      def oidc_config_show
         log.debug("[OICD] Config read: #{params}")
-        response = rest.get("#{url}/oicd_configuration")
+        response = rest.get("#{url}/oidc_configuration")
         Tools.extract(entity: entity_name, from: response)
       end
 
@@ -91,9 +91,9 @@ module ThreeScaleApi
       # @option params [Bool] implicit_flow_enabled Enable Implicit Flow
       # @option params [Bool] service_accounts_enabled Enable Service Account Flow (Standard Flow)
       # @option params [Bool] direct_access_grants_enabled Enable Direct Access Grant Flow
-      def oicd_config_update(params)
+      def oidc_config_update(params)
         log.info("[OICD] Config update: #{params}")
-        response = rest.patch("#{url}/oicd_configuration", body: params)
+        response = rest.patch("#{url}/oidc_configuration", body: params)
         Tools.extract(entity: entity_name, from: response)
       end
     end
