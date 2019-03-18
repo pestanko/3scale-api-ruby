@@ -9,7 +9,7 @@ module ThreeScaleApi
     class PolicyRegistryClient < DefaultClient
       include DefaultStateClient
       def entity_name
-        nil
+        'policy'
       end
 
       def collection_name
