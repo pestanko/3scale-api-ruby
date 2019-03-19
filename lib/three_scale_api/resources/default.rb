@@ -101,9 +101,13 @@ module ThreeScaleApi
       # @return [DefaultEntity] Entity
       def read
         return nil unless client.respond_to?(:fetch)
-        ent     = client.fetch(entity_id)
+        eid     = @entity_id
+        if !eid && @entity
+          eid = @entity['id']
+        end
+        ent     = client.fetch(eid)
         @entity = ent.entity
-        @entity_id ||= @entity[:id]
+        @entity_id ||= @entity['id']
       end
 
       # @api public
