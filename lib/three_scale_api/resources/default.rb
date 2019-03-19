@@ -46,7 +46,7 @@ module ThreeScaleApi
       #
       # @return [Fixnum] Entity id
       def entity_id
-        @entity_id ? @entity_id : entity['id']
+        @entity_id ||= entity['id']
       end
 
       # @api public
@@ -101,8 +101,9 @@ module ThreeScaleApi
       # @return [DefaultEntity] Entity
       def read
         return nil unless client.respond_to?(:fetch)
-        ent     = client.fetch(@entity_id)
+        ent     = client.fetch(entity_id)
         @entity = ent.entity
+        @entity_id ||= @entity[:id]
       end
 
       # @api public
