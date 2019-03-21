@@ -29,8 +29,12 @@ module ThreeScaleApi
       # @return [String] Base URL for the REST call
       def url
         app_id = resource.entity_id
-        metric_id = metric.entity_id
-        "/admin/api/application_plans/#{app_id}/metrics/#{metric_id}/pricing_rules"
+        if metric
+          metric_id = metric.entity_id
+          "/admin/api/application_plans/#{app_id}/metrics/#{metric_id}/pricing_rules"
+        else
+          "/admin/api/application_plans/#{app_id}/pricing_rules"
+        end
       end
 
       # @api public
