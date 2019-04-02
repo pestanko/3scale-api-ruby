@@ -74,6 +74,24 @@ module ThreeScaleApi
       end
 
       # @api public
+      # Finds the account by specified attributes
+      #
+      # @param [Hash] params
+      # @option params [Fixnum] :id Id of the account
+      # @option params [String] :username User name for the account
+      # @option params [String] :email User's email
+      # @option params [Fixnum] :user_id User's id
+      # @option params [Fixnum] :buyer_provider_key Provider key (only master)
+      # @option params [Fixnum] :buyer_service_token Service token (only master)
+      # @return [Account] Account instance
+      def find_by_params(**params)
+        params = params.reject { |_, value| value.nil? }
+        log.info("Find #{resource_name} by #{params}")
+        response = rest.get("#{url}/find", params: params)
+        log_result resource_instance(response)
+      end
+
+      # @api public
       # Sends message to account
       #
       # @param [Fixnum] id Account ID
