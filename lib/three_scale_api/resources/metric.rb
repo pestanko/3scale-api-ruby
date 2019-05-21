@@ -24,7 +24,7 @@ module ThreeScaleApi
       # Gets methods manager
       #
       # @return [MethodsManager] Instance of the Methods manager
-      def methods
+      def api_methods
         Clients::MethodClient.new(self)
       end
     end

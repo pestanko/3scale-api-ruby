@@ -80,9 +80,9 @@ module ThreeScaleApi
       # @option params [Fixnum] :id Id of the account
       # @option params [String] :username User name for the account
       # @option params [String] :email User's email
-      # @option params [Fixnum] :user_id User's id
-      # @option params [Fixnum] :buyer_provider_key Provider key (only master)
-      # @option params [Fixnum] :buyer_service_token Service token (only master)
+      # @option params [String] :user_id User's id
+      # @option params [String] :buyer_provider_key Provider key (only master)
+      # @option params [String] :buyer_service_token Service token (only master)
       # @return [Account] Account instance
       def find_by_params(**params)
         params = params.reject { |_, value| value.nil? }
