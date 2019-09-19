@@ -13,6 +13,8 @@ require 'three_scale_api/clients/pricing_rule'
 require 'three_scale_api/clients/oauth_admin_portal'
 require 'three_scale_api/clients/oauth_dev_portal'
 require 'three_scale_api/clients/policy_registry'
+require 'three_scale_api/clients/backendapi'
+require 'three_scale_api/clients/metricbackednapi'
 
 module ThreeScaleApi
   # Clients of resources
