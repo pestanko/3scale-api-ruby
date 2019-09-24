@@ -135,6 +135,14 @@ module ThreeScaleApi
     def policy_registry
       @policy_registry ||= Clients::PolicyRegistryClient.new(self)
     end
+    
+    # @api public
+    # Gets backend manager instance
+    #
+    # @return [ThreeScaleApi::Clients::BackendClient] Backend manager instance
+    def backends
+      @backends ||= Clients::BackendApiClient.new(self)
+    end
   end
 
   def self.new(**params)

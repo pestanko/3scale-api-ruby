@@ -14,7 +14,8 @@ require 'three_scale_api/clients/oauth_admin_portal'
 require 'three_scale_api/clients/oauth_dev_portal'
 require 'three_scale_api/clients/policy_registry'
 require 'three_scale_api/clients/backendapi'
-require 'three_scale_api/clients/metricbackednapi'
+require 'three_scale_api/clients/metricbackendapi'
+require 'three_scale_api/clients/servicebackendapi'
 
 module ThreeScaleApi
   # Clients of resources

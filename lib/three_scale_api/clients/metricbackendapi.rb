@@ -1,17 +1,16 @@
 # frozen_string_literal: true
 
 require 'three_scale_api/clients/default'
-require 'three_scale_api/clients/application_plan_limit'
-require 'three_scale_api/clients/method'
-require 'three_scale_api/resources/metric'
+require 'three_scale_api/clients/metric'
+require 'three_scale_api/resources/metricbackend'
 
 module ThreeScaleApi
   module Clients
-    # Metric resource manager wrapper for the metric entity received by REST API
-    class MetricBackendApiClient < DefaultClient
+    # Metric resource manager wrapper for the metric entity received by REST API for backend
+    class MetricBackendApiClient < MetricClient
 
       def entity_name
-        'metricbackendapi'
+        'metric'
       end
 
       # Base path for the REST call
