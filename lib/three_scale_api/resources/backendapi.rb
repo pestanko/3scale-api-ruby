@@ -3,7 +3,7 @@
 require 'three_scale_api/tools'
 require 'three_scale_api/resources/default'
 require 'three_scale_api/clients/metricbackendapi'
-require 'three_scale_api/clients/servicebackendapi'
+require 'three_scale_api/clients/mapping_rulebackendapi'
 
 module ThreeScaleApi
   module Resources
@@ -16,13 +16,13 @@ module ThreeScaleApi
       def metrics
         Clients::MetricBackendApiClient.new(self)
       end
-      
+
       # @api public
-      # Gets the services manager that has bind this backend api resource
+      # Gets the mapping rule manager that has bind this backend api resource
       #
-      # @return [ServicesManager] Instance of the services manager
-      def services
-        Clients::ServiceBackendApiClient.new(self)
+      # @return [MappingRulesManager] Instance of the mapping rule manager
+      def mapping_rules 
+        Clients::MappingRuleBackendClient.new(self)
       end
     end
   end

@@ -8,7 +8,6 @@ module ThreeScaleApi
   module Clients
     # Metric resource manager wrapper for the metric entity received by REST API for backend
     class MetricBackendApiClient < MetricClient
-
       def entity_name
         'metric'
       end

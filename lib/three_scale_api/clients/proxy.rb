@@ -40,6 +40,18 @@ module ThreeScaleApi
       end
 
       # @api public
+      # Deployes proxy configuration to Staging
+      #
+      # @return [Proxy] Instance of the proxy resource
+      def deploy
+        log.info "Deploy #{resource_name}"
+
+        path     = "#{url}/deploy"
+        response = rest.post(path, body: {})
+        log_result resource_instance(response)
+      end
+
+      # @api public
       # Gets list of the proxy configs for spec. environment
       #
       # @return [Array<Proxy>] Array of the instances of the proxy resource

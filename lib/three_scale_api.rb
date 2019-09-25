@@ -23,9 +23,9 @@ module ThreeScaleApi
     # @param [Bool] verify_ssl Default value is true
     def initialize(endpoint:, provider_key:, log_level: 'info', verify_ssl: true)
       LoggingSupport.set_level(log_level)
-      @rest = HttpClient.new(endpoint:     endpoint,
+      @rest = HttpClient.new(endpoint: endpoint,
                              provider_key: provider_key,
-                             verify_ssl:   verify_ssl)
+                             verify_ssl: verify_ssl)
     end
 
     def default_client
@@ -65,7 +65,8 @@ module ThreeScaleApi
     #
     # @return [ThreeScaleApi::Clients::AccountPlanClient] Account plans manager instance
     def account_plans
-      @account ||= Clients::AccountPlanClient.new(self)
+      @account_plans = @account
+      @account_plans ||= Clients::AccountPlanClient.new(self)
     end
 
     # @api public
@@ -73,7 +74,8 @@ module ThreeScaleApi
     #
     # @return [ThreeScaleApi::Clients::ActiveDocClient] active docs manager instance
     def active_docs
-      @active ||= Clients::ActiveDocClient.new(self)
+      @active_docs = @active
+      @active_docs ||= Clients::ActiveDocClient.new(self)
     end
 
     # @api public
@@ -117,7 +119,8 @@ module ThreeScaleApi
     #
     # @return [ThreeScaleApi::Clients::OAuthAdminPortalClient] Tenants manager instance
     def oauth_admin_portal
-      @tenants ||= Clients::OAuthAdminPortalClient.new(self)
+      @oauth_admin_portal = @tenants
+      @oauth_admin_portal ||= Clients::OAuthAdminPortalClient.new(self)
     end
 
     # @api public
@@ -125,7 +128,8 @@ module ThreeScaleApi
     #
     # @return [ThreeScaleApi::Clients::OAuthDevPortalClient] Tenants manager instance
     def oauth_dev_portal
-      @tenants ||= Clients::OAuthDevPortalClient.new(self)
+      @oauth_dev_portal = @tenants
+      @oauth_dev_portal ||= Clients::OAuthDevPortalClient.new(self)
     end
 
     # @api public
@@ -135,7 +139,7 @@ module ThreeScaleApi
     def policy_registry
       @policy_registry ||= Clients::PolicyRegistryClient.new(self)
     end
-    
+
     # @api public
     # Gets backend manager instance
     #
