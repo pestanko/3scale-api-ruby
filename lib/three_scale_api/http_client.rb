@@ -106,7 +106,7 @@ module ThreeScaleApi
       when Net::HTTPUnprocessableEntity, Net::HTTPSuccess then parser.decode(response.body)
       when Net::HTTPForbidden then forbidden!(response)
       when Net::HTTPNotFound then not_found!(response)
-      else "Can't handle #{response.inspect}"
+      else cannot_handle!(response)
       end
     end
 
@@ -132,6 +132,18 @@ module ThreeScaleApi
     # @raise [ForbiddenError] Access to required resource has been denied
     def forbidden!(response)
       raise ForbiddenError, response
+    end
+
+    # @api public
+    # Custom exception class that is thrown when the request can't be handled
+    class CannotHandleError < StandardError; end
+
+    # Can not handle - Wrapper to throw CannotHandleError
+    #
+    # @param [::Net::HTTPResponse] response Response received using some of the request methods
+    # @raise [CannotHandleError] Can not handle the response
+    def cannot_handle!(response)
+      raise CannotHandleError, response
     end
 
     # Takes request body and serializes it to JSON
