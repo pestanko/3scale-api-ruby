@@ -18,7 +18,7 @@ require 'three_scale_api/clients/policy_registry'
 require 'three_scale_api/clients/backendapi'
 require 'three_scale_api/clients/metricbackendapi'
 require 'three_scale_api/clients/mapping_rulebackendapi'
-require 'three_scale_api/clients/backendapiservice'
+require 'three_scale_api/clients/backendapiusage'
 
 module ThreeScaleApi
   # Clients of resources

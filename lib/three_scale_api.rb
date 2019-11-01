@@ -23,9 +23,9 @@ module ThreeScaleApi
     # @param [Bool] verify_ssl Default value is true
     def initialize(endpoint:, provider_key:, log_level: 'info', verify_ssl: true)
       LoggingSupport.set_level(log_level)
-      @rest = HttpClient.new(endpoint: endpoint,
+      @rest = HttpClient.new(endpoint:     endpoint,
                              provider_key: provider_key,
-                             verify_ssl: verify_ssl)
+                             verify_ssl:   verify_ssl)
     end
 
     def default_client

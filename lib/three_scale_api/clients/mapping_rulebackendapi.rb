@@ -18,7 +18,6 @@ module ThreeScaleApi
       def url
         resource.url + '/mapping_rules'
       end
-
     end
   end
 end

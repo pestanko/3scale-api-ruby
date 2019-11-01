@@ -7,7 +7,6 @@ module ThreeScaleApi
   module Clients
     # Proxy resource manager wrapper for the proxy entity received by the REST API
     class ProxyClient < DefaultClient
-
       def entity_name
         'proxy'
       end

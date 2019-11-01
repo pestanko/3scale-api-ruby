@@ -21,7 +21,7 @@ module ThreeScaleApi
       # Gets the mapping rule manager that has bind this backend api resource
       #
       # @return [MappingRulesManager] Instance of the mapping rule manager
-      def mapping_rules 
+      def mapping_rules
         Clients::MappingRuleBackendClient.new(self)
       end
     end
