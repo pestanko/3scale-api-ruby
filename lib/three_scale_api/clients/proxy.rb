@@ -7,7 +7,6 @@ module ThreeScaleApi
   module Clients
     # Proxy resource manager wrapper for the proxy entity received by the REST API
     class ProxyClient < DefaultClient
-
       def entity_name
         'proxy'
       end
@@ -36,6 +35,18 @@ module ThreeScaleApi
 
         path     = "#{url}/configs/#{from}/#{version}/promote"
         response = rest.post(path, params: { to: to }, body: {})
+        log_result resource_instance(response)
+      end
+
+      # @api public
+      # Deployes proxy configuration to Staging
+      #
+      # @return [Proxy] Instance of the proxy resource
+      def deploy
+        log.info "Deploy #{resource_name}"
+
+        path     = "#{url}/deploy"
+        response = rest.post(path, body: {})
         log_result resource_instance(response)
       end
 

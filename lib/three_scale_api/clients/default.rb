@@ -10,9 +10,7 @@ module ThreeScaleApi
     # Client mixin
     class DefaultRestClient
       # @return [ThreeScaleApi::DefaultResource] Instance of the 3Scale resource
-      def resource
-        @resource
-      end
+      attr_reader :resource
 
       # @api public
       # Creates instance of the Default resource manager
@@ -134,12 +132,14 @@ module ThreeScaleApi
       def read_by_name(name)
         name = name.to_s
         find do |ent|
-          ent['system_name'] == name || \
-            ent['name'] == name || \
-            ent['org_name'] == name || \
-            ent['friendly_name'] == name || \
-            ent['username'] == name || \
-            ent['pattern'] == name
+          [
+            ent['system_name'],
+            ent['name'],
+            ent['org_name'],
+            ent['friendly_name'],
+            ent['username'],
+            ent['pattern'],
+          ].include?(name)
         end
       end
 
@@ -218,13 +218,13 @@ module ThreeScaleApi
       # @param [Hash] entity Entity received from REST call using API
       # @return [DefaultResource] Specific instance of the resource
       def instance(entity: nil, selector: nil, klass: nil)
-        inst     = {}
+        inst = {}
         klass ||= resource_class
 
         if klass.respond_to?(:new)
           inst = klass.new(self,
-                              entity:    entity,
-                              entity_id: selector)
+                           entity:    entity,
+                           entity_id: selector)
         end
 
         instance_name = inst.class.name.split('::').last
@@ -299,6 +299,7 @@ module ThreeScaleApi
       def entity_name
         'user'
       end
+
       # @api public
       # Suspends the user
       #

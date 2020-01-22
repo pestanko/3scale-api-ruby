@@ -51,8 +51,21 @@ module ThreeScaleApi
         Clients::ApplicationPlanClient.new(self)
       end
 
+      # @api public
+      # Gets the policies manager that has bind this service api resource
+      #
+      # @return [PoliciesManager] Instance of the policies service manager
+
       def policies
         Clients::PolicyClient.new(self)
+      end
+
+      # @api public
+      # Gets the backends manager that has bind this service api resource
+      #
+      # @return [BackendUsagesManager] Instance of the backend service manager
+      def backends
+        Clients::BackendApiUsageClient.new(self)
       end
     end
   end

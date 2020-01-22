@@ -27,14 +27,18 @@ Style/WordArray:
 Style/SymbolArray:
   EnforcedStyle: brackets
 
-Style/TrailingCommaInLiteral:
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+
+Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: consistent_comma
 
 Style/ClassAndModuleChildren:
   Enabled: false
 
-Style/AccessorMethodName:
-  Enabled: false
+Style/RegexpLiteral:
+  EnforcedStyle: slashes
+  AllowInnerSlashes: true
 
 Metrics/LineLength:
   Enabled: true
@@ -49,10 +53,20 @@ Metrics/MethodLength:
   Max: 20
 
 Metrics/ModuleLength:
-  Max: 150
+  Enabled: false
 
 Metrics/ClassLength:
-  Max: 150
+  Enabled: false
 
 Metrics/ParameterLists:
   CountKeywordArgs: false
+
+Naming/UncommunicativeMethodParamName:
+  Enabled: false
+
+Naming/AccessorMethodName:
+  Enabled: false
+
+
+Layout/AlignHash:
+  EnforcedColonStyle: table
